@@ -18,7 +18,6 @@ class Echo:
     default_distance = 0
 
     def __init__(self, on_echo):
-        """Initialize class's data here"""
         print("Init  echo on ", py.config.CONFIG)
         self.is_run = False
         self.gpio_trigger = 23
