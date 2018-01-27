@@ -40,6 +40,7 @@ class Controller:
 
 # Quit application
 def quit_main(robocar_controller):
+    print("Quit main")
     robocar_controller.stop()
     root.destroy()
 
