@@ -17,14 +17,14 @@ class Echo:
 
     default_distance = 0
 
-    def __init__(self, distance_prompt):
+    def __init__(self, on_echo):
         """Initialize class's data here"""
         print("Init  echo on ", py.config.CONFIG)
         self.is_run = False
         self.gpio_trigger = 23
         self.gpio_echo = 24
         self.thread = None
-        self.distance_prompt = distance_prompt
+        self.on_echo = on_echo
 
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.setmode(GPIO.BCM)
@@ -51,15 +51,14 @@ class Echo:
         print("Stop  echo")
         self.is_run = False
         self.thread = None
-        self.distance_prompt.set("Distance: %.1f cm" % Echo.default_distance)
+        self.on_echo(Echo.default_distance)
 
     def runnable(self):
         while self.is_run:
             distance = Echo.default_distance
             if py.config.CONFIG is py.config.Platform.PI:
                 distance = self.distance()
-            print(" -- echo: %s" % distance)
-            self.distance_prompt.set("Distance: %.1f cm" % distance)
+            self.on_echo(distance)
             sleep(0.1)
 
     def distance(self):

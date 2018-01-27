@@ -17,7 +17,8 @@ class Controller:
         """Initialize class's data here"""
         print("Init  controller")
         self.is_run = False
-        self.echo = Echo(distance_prompt)
+        self.distance_prompt = distance_prompt
+        self.echo = Echo(self.on_echo)
 
     # Start controller.
     def start(self):
@@ -36,6 +37,11 @@ class Controller:
         print("Stop  controller")
         self.echo.stop()
         self.is_run = False
+
+    # Callback function to echo class
+    def on_echo(self, distance):
+        print(" -- echo: %s" % distance)
+        self.distance_prompt.set("Distance: %.1f cm" % distance)
 
 
 # Quit application
