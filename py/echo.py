@@ -46,6 +46,7 @@ class Echo:
         print("Stop  echo")
         self.is_run = False
         self.thread = None
+        self.on_echo(self.default_distance)
 
     # Handle distance measurement.
     def runnable(self):
