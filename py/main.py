@@ -45,17 +45,17 @@ class Controller:
             return
 
         print("Stop  controller")
+        self.is_run = False
         self.motors.stop()
         self.echo.stop()
-        self.is_run = False
 
     # Callback function to echo class
     def on_echo(self, distance):
         print(" -- echo: %.1f" % distance)
         self.distance = distance
+        self.motors.on_echo(self.distance)
         if config.COMMANDER is Commander.UI:
             self.distance_prompt_ref.set("Distance: %.1f cm" % self.distance)
-        self.motors.on_echo(self.distance)
         if self.distance_origin > 0:
             self.distance_drove = self.distance_origin - self.distance
 

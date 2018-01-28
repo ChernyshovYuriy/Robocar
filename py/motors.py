@@ -35,9 +35,11 @@ class Motors:
 
     def start(self):
         self.is_run = True
+        print("Start motors")
 
     def stop(self):
         self.is_run = False
+        print("Stop  motors")
 
     def on_echo(self, distance):
         # print("Distance: %d" % distance)
