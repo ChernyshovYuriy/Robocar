@@ -1,11 +1,11 @@
 import sys
-from enum import Enum
 from os.path import dirname, abspath
-from time import sleep
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
+from enum import Enum
+from time import sleep
 from py.gpio_manager import GPIOManager
 
 if py.config.CONFIG is py.config.Platform.PI:
