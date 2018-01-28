@@ -55,6 +55,10 @@ class Controller:
         print(" -- motors started")
         self.motors_prompt_ref.set("Motors started")
 
+    def on_motors_turning(self):
+        print(" -- motors turning")
+        self.motors_prompt_ref.set("Motors Turning")
+
 
 # Quit application
 def quit_main(robocar_controller):

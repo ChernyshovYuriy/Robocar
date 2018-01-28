@@ -24,6 +24,10 @@ class GPIOManager:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(GPIOManager.TRIGGER, GPIO.OUT)
             GPIO.setup(GPIOManager.ECHO, GPIO.IN)
+            GPIO.setup(GPIOManager.MOTOR_R_F, GPIO.OUT)
+            GPIO.setup(GPIOManager.MOTOR_R_B, GPIO.OUT)
+            GPIO.setup(GPIOManager.MOTOR_L_F, GPIO.OUT)
+            GPIO.setup(GPIOManager.MOTOR_L_B, GPIO.OUT)
 
     @staticmethod
     def cleanup():
