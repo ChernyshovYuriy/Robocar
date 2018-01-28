@@ -1,13 +1,13 @@
 import sys
 from os.path import dirname, abspath
-from time import sleep
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import time
-from threading import Thread
-
 import py.config
+from py.gpio_manager import GPIOManager
+from threading import Thread
+from time import sleep
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
@@ -15,21 +15,12 @@ if py.config.CONFIG is py.config.Platform.PI:
 
 class Echo:
 
-    default_distance = 0
-
     def __init__(self, on_echo):
         print("Init  echo on ", py.config.CONFIG)
         self.is_run = False
-        self.gpio_trigger = 23
-        self.gpio_echo = 24
+        self.default_distance = 0
         self.thread = None
         self.on_echo = on_echo
-
-        if py.config.CONFIG is py.config.Platform.PI:
-            GPIO.setmode(GPIO.BCM)
-            # Set GPIO direction (IN / OUT)
-            GPIO.setup(self.gpio_trigger, GPIO.OUT)
-            GPIO.setup(self.gpio_echo, GPIO.IN)
 
     # Start echo location.
     def start(self):
@@ -50,11 +41,11 @@ class Echo:
         print("Stop  echo")
         self.is_run = False
         self.thread = None
-        self.on_echo(Echo.default_distance)
+        self.on_echo(self.default_distance)
 
     def runnable(self):
         while self.is_run:
-            distance = Echo.default_distance
+            distance = self.default_distance
             if py.config.CONFIG is py.config.Platform.PI:
                 distance = self.distance()
             self.on_echo(distance)
@@ -62,21 +53,21 @@ class Echo:
 
     def distance(self):
         # Set trigger to HIGH
-        GPIO.output(self.gpio_trigger, True)
+        GPIO.output(GPIOManager.TRIGGER, True)
 
         # Set trigger after 0.01ms to LOW
         time.sleep(0.00001)
-        GPIO.output(self.gpio_trigger, False)
+        GPIO.output(GPIOManager.TRIGGER, False)
 
         start_time = time.time()
         stop_time = time.time()
 
         # Save start time
-        while GPIO.input(self.gpio_echo) == 0:
+        while GPIO.input(GPIOManager.ECHO) == 0:
             start_time = time.time()
 
         # Save time of arrival
-        while GPIO.input(self.gpio_echo) == 1:
+        while GPIO.input(GPIOManager.ECHO) == 1:
             stop_time = time.time()
 
         # time difference between start and arrival

@@ -8,6 +8,7 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 import py.config
 from py.echo import Echo
 from py.motors import Motors
+from py.gpio_manager import GPIOManager
 
 root = Tk()
 
@@ -64,6 +65,8 @@ def quit_main(robocar_controller):
 
 if __name__ == "__main__":
     print("Robocar started on %s" % py.config.CONFIG)
+    GPIOManager.init()
+
     distance_prompt = StringVar()
     motors_prompt = StringVar()
 
@@ -85,5 +88,7 @@ if __name__ == "__main__":
 
     root.protocol("WM_DELETE_WINDOW", lambda: quit_main(controller))
     root.mainloop()
+
+    GPIOManager.cleanup()
 
     print("Robocar stopped")
