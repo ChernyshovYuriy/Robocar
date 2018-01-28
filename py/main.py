@@ -22,7 +22,7 @@ class Controller:
         self.motors_prompt_ref = motors_prompt_in
         self.echo = Echo(self.on_echo)
         self.motors = Motors(
-            self.on_motors_stopped, self.on_motors_started, self.on_motors_turning()
+            self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
 
     # Start controller.
