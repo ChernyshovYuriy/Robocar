@@ -73,15 +73,17 @@ if __name__ == "__main__":
     print("Robocar started on %s" % py.config.CONFIG)
     GPIOManager.init()
 
-    root = Tk()
-    distance_prompt = StringVar()
-    motors_prompt = StringVar()
+    distance_prompt = None
+    motors_prompt = None
 
     controller = Controller(distance_prompt, motors_prompt)
 
     if config.COMMANDER is Commander.CMD:
         commander = CmdCommander(controller)
     elif config.COMMANDER is Commander.UI:
+        root = Tk()
+        distance_prompt = StringVar()
+        motors_prompt = StringVar()
         commander = UiCommander(controller, root, distance_prompt, motors_prompt)
 
     GPIOManager.cleanup()
