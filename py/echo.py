@@ -58,7 +58,7 @@ class Echo:
             if py.config.CONFIG is py.config.Platform.PI:
                 distance = self.distance()
             self.on_echo(distance)
-            sleep(0.5)
+            sleep(0.1)
 
     def distance(self):
         # Set trigger to HIGH

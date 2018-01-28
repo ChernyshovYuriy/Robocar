@@ -8,7 +8,8 @@ import py.config
 
 class Motors:
 
-    distance_min = 10
+    min_stop_distance = 10
+    min_start_distance = 50
 
     def __init__(self, on_motors_stopped_in, on_motors_started_in):
         print("Init  motors on %s" % py.config.CONFIG)
@@ -17,7 +18,7 @@ class Motors:
 
     def on_echo(self, distance):
         print("Distance: %d" % distance)
-        if distance < Motors.distance_min:
+        if distance < Motors.min_stop_distance:
             print("Motor -> stop")
             self.on_motors_stopped_ref()
         else:
