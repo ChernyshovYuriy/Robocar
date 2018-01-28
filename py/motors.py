@@ -44,19 +44,19 @@ class Motors:
     def on_echo(self, distance):
         # print("Distance: %d" % distance)
         if not self.is_run:
-            self.stop()
+            self.stop_motors()
             return
 
         if distance < self.min_stop_distance:
             if self.state is MotorsState.STOPPED:
                 return
-            self.stop()
+            self.stop_motors()
             sleep(self.action_sleep)
             self.turn()
         else:
             if self.state is MotorsState.TURNING:
                 if distance > self.min_start_distance:
-                    self.stop()
+                    self.stop_motors()
                     sleep(self.action_sleep)
                     self.forward()
                 return
@@ -76,7 +76,7 @@ class Motors:
             GPIO.output(GPIOManager.MOTOR_R_B, GPIO.HIGH)
             GPIO.output(GPIOManager.MOTOR_L_B, GPIO.HIGH)
 
-    def stop(self):
+    def stop_motors(self):
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.output(GPIOManager.MOTOR_R_F, GPIO.LOW)
             GPIO.output(GPIOManager.MOTOR_L_F, GPIO.LOW)
