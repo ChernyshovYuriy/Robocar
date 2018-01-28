@@ -18,7 +18,7 @@ class CmdCommander:
             try:
                 while True:
                     ch = sys.stdin.read(1)
-                    # print('%s' % ord(ch))
+                    print('%s' % ord(ch))
                     # 119 - w
                     # 115 - s
                     # 113 - q
