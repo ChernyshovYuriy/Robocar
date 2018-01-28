@@ -20,6 +20,7 @@ class GPIOManager:
 
     @staticmethod
     def init():
+        GPIOManager.cleanup()
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(GPIOManager.TRIGGER, GPIO.OUT)
