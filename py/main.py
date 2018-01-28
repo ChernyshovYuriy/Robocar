@@ -51,7 +51,7 @@ class Controller:
 
     # Callback function to echo class
     def on_echo(self, distance):
-        print(" -- echo: %s" % distance)
+        print(" -- echo: %.1f" % distance)
         self.distance = distance
         if config.COMMANDER is Commander.UI:
             self.distance_prompt_ref.set("Distance: %.1f cm" % self.distance)
@@ -60,13 +60,13 @@ class Controller:
             self.distance_drove = self.distance_origin - self.distance
 
     def on_motors_stopped(self):
-        print(" -- motors stopped, drove %s sm" % self.distance_drove)
+        print(" -- motors stopped, drove %.1f sm" % self.distance_drove)
         self.distance_origin = 0
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors stopped")
 
     def on_motors_started(self):
-        print(" -- motors started, distance origin %s sm", self.distance)
+        print(" -- motors started, distance origin %.1f sm", self.distance)
         self.distance_origin = self.distance
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors started")
