@@ -32,6 +32,7 @@ class Controller:
 
         print("Start controller")
         self.echo.start()
+        self.motors.start()
         self.is_run = True
 
     # Stop controller
@@ -40,6 +41,7 @@ class Controller:
             return
 
         print("Stop  controller")
+        self.motors.stop()
         self.echo.stop()
         self.is_run = False
 

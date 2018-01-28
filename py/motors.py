@@ -26,12 +26,23 @@ class Motors:
         self.min_start_distance = 50
         self.action_sleep = 2
         self.state = MotorsState.STOPPED
+        self.is_run = False
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
 
+    def start(self):
+        self.is_run = True
+
+    def stop(self):
+        self.is_run = False
+
     def on_echo(self, distance):
         # print("Distance: %d" % distance)
+        if not self.is_run:
+            self.stop()
+            return 
+
         if distance < self.min_stop_distance:
             if self.state is MotorsState.STOPPED:
                 return
