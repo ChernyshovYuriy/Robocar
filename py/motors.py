@@ -52,7 +52,8 @@ class Motors:
                 return
             self.stop_motors()
             sleep(self.action_sleep)
-            self.turn()
+            if self.is_run:
+                self.turn()
         else:
             if self.state is MotorsState.TURNING:
                 if distance > self.min_start_distance:
