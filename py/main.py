@@ -62,11 +62,13 @@ class Controller:
     def on_motors_stopped(self):
         print(" -- motors stopped, drove %.1f sm" % self.distance_drove)
         self.distance_origin = 0
+        """ Reset drove distance here, any reference must be obtained prior to this line """
+        self.distance_drove = 0
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors stopped")
 
     def on_motors_started(self):
-        print(" -- motors started, distance origin %.1f sm", self.distance)
+        print(" -- motors started, distance origin %.1f sm" % self.distance)
         self.distance_origin = self.distance
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors started")
