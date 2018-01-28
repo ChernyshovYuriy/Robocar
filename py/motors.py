@@ -41,7 +41,7 @@ class Motors:
         # print("Distance: %d" % distance)
         if not self.is_run:
             self.stop()
-            return 
+            return
 
         if distance < self.min_stop_distance:
             if self.state is MotorsState.STOPPED:

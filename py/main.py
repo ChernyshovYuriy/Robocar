@@ -1,16 +1,17 @@
-# Main class to control robocar.
 import sys
 from os.path import dirname, abspath
-from tkinter import Tk, Button, Label, StringVar
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
+from py import config
+from py.config import Commander
+from py.ui_commander import UiCommander
+from py.cmd_commander import CmdCommander
+from tkinter import StringVar, Tk
 from py.echo import Echo
 from py.motors import Motors
 from py.gpio_manager import GPIOManager
-
-root = Tk()
 
 
 class Controller:
@@ -48,54 +49,40 @@ class Controller:
     # Callback function to echo class
     def on_echo(self, distance):
         print(" -- echo: %s" % distance)
-        self.distance_prompt_ref.set("Distance: %.1f cm" % distance)
+        if config.COMMANDER is Commander.UI:
+            self.distance_prompt_ref.set("Distance: %.1f cm" % distance)
         self.motors.on_echo(distance)
 
     def on_motors_stopped(self):
         print(" -- motors stopped")
-        self.motors_prompt_ref.set("Motors stopped")
+        if config.COMMANDER is Commander.UI:
+            self.motors_prompt_ref.set("Motors stopped")
 
     def on_motors_started(self):
         print(" -- motors started")
-        self.motors_prompt_ref.set("Motors started")
+        if config.COMMANDER is Commander.UI:
+            self.motors_prompt_ref.set("Motors started")
 
     def on_motors_turning(self):
         print(" -- motors turning")
-        self.motors_prompt_ref.set("Motors Turning")
-
-
-# Quit application
-def quit_main(robocar_controller):
-    print("Quit main")
-    robocar_controller.stop()
-    root.destroy()
+        if config.COMMANDER is Commander.UI:
+            self.motors_prompt_ref.set("Motors Turning")
 
 
 if __name__ == "__main__":
     print("Robocar started on %s" % py.config.CONFIG)
     GPIOManager.init()
 
+    root = Tk()
     distance_prompt = StringVar()
     motors_prompt = StringVar()
 
     controller = Controller(distance_prompt, motors_prompt)
 
-    root.title("Robocar")
-    root.geometry('{}x{}'.format(400, 200))
-    root.grid()
-
-    start_button = Button(root, text="Start", command=controller.start, width=22)
-    stop_button = Button(root, text="Stop", command=controller.stop, width=22)
-    distance_label = Label(root, textvariable=distance_prompt)
-    motors_label = Label(root, textvariable=motors_prompt)
-
-    start_button.grid(column=0, row=0)
-    stop_button.grid(column=1, row=0)
-    distance_label.grid(column=0, row=1)
-    motors_label.grid(column=1, row=1)
-
-    root.protocol("WM_DELETE_WINDOW", lambda: quit_main(controller))
-    root.mainloop()
+    if config.COMMANDER is Commander.CMD:
+        commander = CmdCommander(controller)
+    elif config.COMMANDER is Commander.UI:
+        commander = UiCommander(controller, root, distance_prompt, motors_prompt)
 
     GPIOManager.cleanup()
 

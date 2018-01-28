@@ -11,5 +11,12 @@ class Platform(Enum):
     PI = 2
 
 
+class Commander(Enum):
+    UI = 1
+    CMD = 2
+
+
 # Platform configuration (Linux or Raspberry Pi)
 CONFIG = Platform.LINUX
+# Commander configuration (UI or Command Line(CMD))
+COMMANDER = Commander.CMD
