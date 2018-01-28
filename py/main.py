@@ -56,16 +56,17 @@ class Controller:
         if config.COMMANDER is Commander.UI:
             self.distance_prompt_ref.set("Distance: %.1f cm" % self.distance)
         self.motors.on_echo(self.distance)
-        self.distance_drove = self.distance_origin - self.distance
+        if self.distance_origin > 0:
+            self.distance_drove = self.distance_origin - self.distance
 
     def on_motors_stopped(self):
-        print(" -- motors stopped, drove %d sm" % self.distance_drove)
+        print(" -- motors stopped, drove %s sm" % self.distance_drove)
         self.distance_origin = 0
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors stopped")
 
     def on_motors_started(self):
-        print(" -- motors started, distance origin %d sm", self.distance)
+        print(" -- motors started, distance origin %s sm", self.distance)
         self.distance_origin = self.distance
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors started")
