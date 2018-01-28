@@ -4,9 +4,10 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
-from tkinter import Tk, Button, Label
+from tkinter import Button, Label
 
 
+# Implementation of the commander based on the UI framework - TKinter.
 class UiCommander:
 
     def __init__(self, controller_in, root_in, distance_prompt_in, motors_prompt_in):

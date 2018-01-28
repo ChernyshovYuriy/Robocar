@@ -9,6 +9,7 @@ if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
 
 
+# Manager of the GPIO and its pins.
 class GPIOManager:
 
     TRIGGER = 23
@@ -20,7 +21,6 @@ class GPIOManager:
 
     @staticmethod
     def init():
-        GPIOManager.cleanup()
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(GPIOManager.TRIGGER, GPIO.OUT)

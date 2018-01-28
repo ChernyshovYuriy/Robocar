@@ -8,6 +8,7 @@ import termios
 import py.config
 
 
+# Implementation of the commander based on the command line - events from the keyboard.
 class CmdCommander:
 
     def __init__(self, controller_in):

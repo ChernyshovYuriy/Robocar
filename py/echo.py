@@ -13,7 +13,11 @@ if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
 
 
+# Ultra sonic locator.
 class Echo:
+
+    # Speed of sound, im cm/sec
+    SOUND_SPEED = 34300
 
     def __init__(self, on_echo):
         print("Init  echo on ", py.config.CONFIG)
@@ -29,6 +33,7 @@ class Echo:
 
         print("Start echo")
         self.is_run = True
+        """Run echo in separate thread"""
         if self.thread is None:
             self.thread = Thread(target=self.runnable)
         self.thread.start()
@@ -43,37 +48,37 @@ class Echo:
         self.thread = None
         self.on_echo(self.default_distance)
 
+    # Handle distance measurement.
     def runnable(self):
         while self.is_run:
             distance = self.default_distance
             if py.config.CONFIG is py.config.Platform.PI:
-                distance = self.distance()
+                distance = Echo.distance()
             self.on_echo(distance)
             sleep(0.1)
 
-    def distance(self):
-        # Set trigger to HIGH
+    # Get distance from sensor.
+    @staticmethod
+    def distance():
         GPIO.output(GPIOManager.TRIGGER, True)
 
-        # Set trigger after 0.01ms to LOW
         time.sleep(0.00001)
         GPIO.output(GPIOManager.TRIGGER, False)
 
         start_time = time.time()
         stop_time = time.time()
 
-        # Save start time
+        """ Save the time of signal emitted """
         while GPIO.input(GPIOManager.ECHO) == 0:
             start_time = time.time()
 
-        # Save time of arrival
+        """ Save the time of signal received """
         while GPIO.input(GPIOManager.ECHO) == 1:
             stop_time = time.time()
 
-        # time difference between start and arrival
+        """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
-        # multiply with the sonic speed (34300 cm/s)
-        # and divide by 2, because there and back
-        distance = (time_elapsed * 34300) / 2
+        """ Multiply with the speed of sound and divide by two (distance to and from object) """
+        distance = (time_elapsed * Echo.SOUND_SPEED) / 2
 
         return distance

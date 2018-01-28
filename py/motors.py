@@ -12,12 +12,14 @@ if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
 
 
+# Enumeration of the motors states.
 class MotorsState(Enum):
     STOPPED = 1
     STARTED = 2
     TURNING = 3
 
 
+# Manager of the motors.
 class Motors:
 
     def __init__(self, on_motors_stopped_in, on_motors_started_in, on_motors_turning_in):
