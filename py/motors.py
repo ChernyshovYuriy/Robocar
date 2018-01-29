@@ -25,7 +25,7 @@ class Motors:
     def __init__(self, on_motors_stopped_in, on_motors_started_in, on_motors_turning_in):
         print("Init  motors on %s" % py.config.CONFIG)
         self.min_stop_distance = 10
-        self.min_start_distance = 20
+        self.min_start_distance = 10
         self.action_sleep = 2
         self.state = MotorsState.STOPPED
         self.is_run = False
