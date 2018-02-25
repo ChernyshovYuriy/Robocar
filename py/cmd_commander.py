@@ -7,6 +7,19 @@ import contextlib
 import termios
 import py.config
 
+# 101 - e
+ENG_FWD = 101
+# 100 - c
+ENG_BWD = 99
+# 100 - d
+ENG_OFF = 100
+# 119 - w
+START = 119
+# 115 - s
+STOP = 115
+# 113 - q
+QUIT = 113
+
 
 # Implementation of the commander based on the command line - events from the keyboard.
 class CmdCommander:
@@ -20,14 +33,17 @@ class CmdCommander:
                 while True:
                     ch = sys.stdin.read(1)
                     print('%s' % ord(ch))
-                    # 119 - w
-                    # 115 - s
-                    # 113 - q
-                    if not ch or ord(ch) == 119:
+                    if not ch or ord(ch) == START:
                         self.controller_ref.start()
-                    if not ch or ord(ch) == 115:
+                    if not ch or ord(ch) == STOP:
                         self.controller_ref.stop()
-                    if not ch or ord(ch) == 113:
+                    if not ch or ord(ch) == QUIT:
+                        self.controller_ref.stop()
+                    if not ch or ord(ch) == ENG_FWD:
+                        self.controller_ref.eng_fwd()
+                    if not ch or ord(ch) == ENG_BWD:
+                        self.controller_ref.eng_bwd()
+                    if not ch or ord(ch) == ENG_OFF:
                         self.controller_ref.stop()
                         break
             except (KeyboardInterrupt, EOFError):
