@@ -59,6 +59,11 @@ class Controller:
         print("Engine backward")
         self.motors.backward()
 
+    # Run engine stop
+    def eng_stop(self):
+        print("Engine stop")
+        self.motors.stop()
+
     # Callback function to echo class
     def on_echo(self, distance):
         print(" -- echo: %.1f" % distance)

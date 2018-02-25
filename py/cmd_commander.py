@@ -44,7 +44,7 @@ class CmdCommander:
                     if not ch or ord(ch) == ENG_BWD:
                         self.controller_ref.eng_bwd()
                     if not ch or ord(ch) == ENG_OFF:
-                        self.controller_ref.stop()
+                        self.controller_ref.eng_stop()
                         break
             except (KeyboardInterrupt, EOFError):
                 self.controller_ref.stop()
