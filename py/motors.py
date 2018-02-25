@@ -72,14 +72,14 @@ class Motors:
             GPIO.output(GPIOManager.MOTOR_R_F, GPIO.HIGH)
             GPIO.output(GPIOManager.MOTOR_L_F, GPIO.HIGH)
         self.state = MotorsState.STARTED_FWD
-        self.on_motors_started_ref(self.state)
+        self.on_motors_started_ref()
 
     def backward(self):
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.output(GPIOManager.MOTOR_R_B, GPIO.HIGH)
             GPIO.output(GPIOManager.MOTOR_L_B, GPIO.HIGH)
         self.state = MotorsState.STARTED_BWD
-        self.on_motors_started_ref(self.state)
+        self.on_motors_started_ref()
 
     def stop_motors(self):
         if py.config.CONFIG is py.config.Platform.PI:
