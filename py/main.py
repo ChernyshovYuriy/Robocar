@@ -41,6 +41,7 @@ class Controller:
 
     # Stop controller
     def stop(self):
+        print("Stop  controller")
         if self.is_run is False:
             return
 
