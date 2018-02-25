@@ -53,7 +53,7 @@ class Controller:
     def on_echo(self, distance):
         print(" -- echo: %.1f" % distance)
         self.distance = distance
-        # self.motors.on_echo(self.distance)
+        self.motors.on_echo(self.distance)
         if config.COMMANDER is Commander.UI:
             self.distance_prompt_ref.set("Distance: %.1f cm" % self.distance)
         if self.distance_origin > 0:
