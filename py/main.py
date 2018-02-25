@@ -80,7 +80,7 @@ class Controller:
 
 
 if __name__ == "__main__":
-    print("Robocar started on %s" % py.config.CONFIG)
+    print("Robocar started on %s, commander is %s" % (py.config.CONFIG, config.COMMANDER))
     GPIOManager.init()
 
     distance_prompt = None
