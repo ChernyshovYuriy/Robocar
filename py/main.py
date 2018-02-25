@@ -83,7 +83,7 @@ class Controller:
             self.motors_prompt_ref.set("Motors stopped")
 
     def on_motors_started(self, state):
-        print(" -- motors started %s, distance origin %.1f sm" % (self.distance, state))
+        print(" -- motors started %s, distance origin %.1f sm" % (state, self.distance))
         self.distance_origin = self.distance
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors started")
