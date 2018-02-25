@@ -14,8 +14,8 @@ class GPIOManager:
 
     TRIGGER = 23
     ECHO = 24
-    MOTOR_R_F = 11
-    MOTOR_R_B = 15
+    MOTOR_R_F = 17
+    MOTOR_R_B = 22
     MOTOR_L_F = 16
     MOTOR_L_B = 18
 
