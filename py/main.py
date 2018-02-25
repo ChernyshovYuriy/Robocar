@@ -62,7 +62,7 @@ class Controller:
     # Run engine stop
     def eng_stop(self):
         print("Engine stop")
-        self.motors.stop()
+        self.motors.stop_motors()
 
     # Callback function to echo class
     def on_echo(self, distance):
