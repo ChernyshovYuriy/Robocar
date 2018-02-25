@@ -47,6 +47,7 @@ class CmdCommander:
                         self.controller_ref.eng_stop()
                         break
             except (KeyboardInterrupt, EOFError):
+                print("KeyboardInterrupt error, %s" % EOFError)
                 self.controller_ref.stop()
                 pass
 
