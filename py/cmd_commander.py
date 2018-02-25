@@ -37,14 +37,14 @@ class CmdCommander:
                         self.controller_ref.start()
                     if not ch or ord(ch) == STOP:
                         self.controller_ref.stop()
-                    if not ch or ord(ch) == QUIT:
-                        self.controller_ref.stop()
                     if not ch or ord(ch) == ENG_FWD:
                         self.controller_ref.eng_fwd()
                     if not ch or ord(ch) == ENG_BWD:
                         self.controller_ref.eng_bwd()
                     if not ch or ord(ch) == ENG_OFF:
                         self.controller_ref.eng_stop()
+                    if not ch or ord(ch) == QUIT:
+                        self.controller_ref.stop()
                         break
             except (KeyboardInterrupt, EOFError):
                 print("KeyboardInterrupt error, %s" % EOFError)
