@@ -15,8 +15,9 @@ if py.config.CONFIG is py.config.Platform.PI:
 # Enumeration of the motors states.
 class MotorsState(Enum):
     STOPPED = 1
-    STARTED = 2
-    TURNING = 3
+    STARTED_FWD = 2
+    STARTED_BWD = 3
+    TURNING = 4
 
 
 # Manager of the motors.
@@ -62,7 +63,7 @@ class Motors:
                     if self.is_run:
                         self.forward()
                 return
-            if self.state is MotorsState.STARTED:
+            if self.state is MotorsState.STARTED_FWD or self.state is MotorsState.STARTED_BWD:
                 return
             self.forward()
 
@@ -70,13 +71,15 @@ class Motors:
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.output(GPIOManager.MOTOR_R_F, GPIO.HIGH)
             GPIO.output(GPIOManager.MOTOR_L_F, GPIO.HIGH)
-        self.state = MotorsState.STARTED
-        self.on_motors_started_ref()
+        self.state = MotorsState.STARTED_FWD
+        self.on_motors_started_ref(self.state)
 
     def backward(self):
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.output(GPIOManager.MOTOR_R_B, GPIO.HIGH)
             GPIO.output(GPIOManager.MOTOR_L_B, GPIO.HIGH)
+        self.state = MotorsState.STARTED_BWD
+        self.on_motors_started_ref(self.state)
 
     def stop_motors(self):
         if py.config.CONFIG is py.config.Platform.PI:
