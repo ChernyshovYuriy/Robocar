@@ -14,10 +14,10 @@ class GPIOManager:
 
     TRIGGER = 23
     ECHO = 24
-    MOTOR_R_F = 11
-    MOTOR_R_B = 15
-    MOTOR_L_F = 16
-    MOTOR_L_B = 18
+    MOTOR_R_F = 16
+    MOTOR_R_B = 17
+    MOTOR_L_F = 5
+    MOTOR_L_B = 6
 
     @staticmethod
     def init():
