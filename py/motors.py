@@ -69,6 +69,7 @@ class Motors:
 
     def forward(self):
         if py.config.CONFIG is py.config.Platform.PI:
+            print("Forward ->")
             GPIO.output(GPIOManager.MOTOR_R_F, GPIO.HIGH)
             GPIO.output(GPIOManager.MOTOR_L_F, GPIO.HIGH)
         self.state = MotorsState.STARTED_FWD
@@ -76,6 +77,7 @@ class Motors:
 
     def backward(self):
         if py.config.CONFIG is py.config.Platform.PI:
+            print("Backward ->")
             GPIO.output(GPIOManager.MOTOR_R_B, GPIO.HIGH)
             GPIO.output(GPIOManager.MOTOR_L_B, GPIO.HIGH)
         self.state = MotorsState.STARTED_BWD
@@ -83,6 +85,7 @@ class Motors:
 
     def stop_motors(self):
         if py.config.CONFIG is py.config.Platform.PI:
+            print("Stop ->")
             GPIO.output(GPIOManager.MOTOR_R_F, GPIO.LOW)
             GPIO.output(GPIOManager.MOTOR_L_F, GPIO.LOW)
             GPIO.output(GPIOManager.MOTOR_R_B, GPIO.LOW)
