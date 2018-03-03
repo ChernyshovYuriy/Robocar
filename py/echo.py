@@ -62,14 +62,14 @@ class Echo:
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(5):
                     distance = Echo.distance()
-                    if distance is not 0:
+                    if distance != 0:
                         sample.append(distance)
                     print("   TRACE :: %d" % distance)
                 sample = sorted(sample)
             res = sample[0]
             print("TRACE %d" % res)
             self.on_echo(res)
-            sleep(0.1)
+            sleep(0.15)
 
     # Get distance from sensor.
     @staticmethod
