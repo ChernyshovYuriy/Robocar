@@ -89,7 +89,8 @@ class Echo:
 
         """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
+        print("TIME %d %d %d" % (start_time, stop_time, time_elapsed))
         """ Multiply with the speed of sound and divide by two (distance to and from object) """
         distance = (time_elapsed * Echo.SOUND_SPEED) / 2
-        print("Distance: %.1f" % distance)
+
         return distance
