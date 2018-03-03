@@ -7,19 +7,19 @@ import contextlib
 import termios
 import py.config
 
-# 101 - w
+# w
 ENG_FWD = 119
-# 100 - x
+# x
 ENG_BWD = 120
-# 115 - s
-ENG_TURN = 115
-# 100 - d
-ENG_OFF = 100
-# 119 - Enter
+# a
+ENG_TURN = 97
+# s
+ENG_OFF = 115
+# Enter
 START = 10
-# 115 - Space
+# Space
 STOP = 32
-# 113 - q
+# q
 QUIT = 27
 
 
