@@ -7,18 +7,20 @@ import contextlib
 import termios
 import py.config
 
-# 101 - e
-ENG_FWD = 101
-# 100 - c
-ENG_BWD = 99
+# 101 - w
+ENG_FWD = 119
+# 100 - x
+ENG_BWD = 120
+# 115 - s
+ENG_TURN = 115
 # 100 - d
 ENG_OFF = 100
-# 119 - w
-START = 119
-# 115 - s
-STOP = 115
+# 119 - Enter
+START = 10
+# 115 - Space
+STOP = 32
 # 113 - q
-QUIT = 113
+QUIT = 27
 
 
 # Implementation of the commander based on the command line - events from the keyboard.
@@ -41,6 +43,8 @@ class CmdCommander:
                         self.controller_ref.eng_fwd()
                     if not ch or ord(ch) == ENG_BWD:
                         self.controller_ref.eng_bwd()
+                    if not ch or ord(ch) == ENG_TURN:
+                        self.controller_ref.eng_turn()
                     if not ch or ord(ch) == ENG_OFF:
                         self.controller_ref.eng_stop()
                     if not ch or ord(ch) == QUIT:
