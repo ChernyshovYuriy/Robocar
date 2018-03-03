@@ -17,9 +17,9 @@ if py.config.CONFIG is py.config.Platform.PI:
 class Echo:
 
     # Speed of sound, im cm/sec
-    # tempAir = 20.0;
-    # soundSpeed = 331.3 + 0.06 * tempAir; is 332.5 m / s
-    SOUND_SPEED = 33250
+    # tempAir = 24.0;
+    # soundSpeed = 331.3 + 0.06 * tempAir; is 332.74 m / s
+    SOUND_SPEED = 33274
     # 2 microseconds
     TWO_MICROSEC = 0.000002
     # 12 microseconds
