@@ -58,9 +58,15 @@ class Echo:
     def runnable(self):
         while self.is_run:
             distance = self.default_distance
+            sample = []
             if py.config.CONFIG is py.config.Platform.PI:
-                distance = Echo.distance()
-            self.on_echo(distance)
+                for i in range(5):
+                    distance = Echo.distance()
+                    sample.append(distance)
+                sample = sorted(sample)
+            res = sample[5 // 2]
+            print("TRACE %f" % res)
+            self.on_echo(res)
             sleep(0.1)
 
     # Get distance from sensor.
@@ -70,11 +76,11 @@ class Echo:
         The PING is triggered by a HIGH pulse of 10 or more microseconds.
         Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
         """
-        GPIO.output(GPIOManager.TRIGGER, False)
+        GPIO.output(GPIOManager.TRIGGER, GPIO.LOW)
         time.sleep(Echo.TWO_MICROSEC)
-        GPIO.output(GPIOManager.TRIGGER, True)
+        GPIO.output(GPIOManager.TRIGGER, GPIO.HIGH)
         time.sleep(Echo.TWELVE_MICROSEC)
-        GPIO.output(GPIOManager.TRIGGER, False)
+        GPIO.output(GPIOManager.TRIGGER, GPIO.LOW)
 
         start_time = time.time()
         stop_time = time.time()
@@ -89,7 +95,6 @@ class Echo:
 
         """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
-        print("TIME %f %f %f" % (start_time, stop_time, time_elapsed))
         """ Multiply with the speed of sound and divide by two (distance to and from object) """
         distance = (time_elapsed * Echo.SOUND_SPEED) / 2
 
