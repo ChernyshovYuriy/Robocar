@@ -65,10 +65,10 @@ class Echo:
                     sample.append(distance)
                     print("   TRACE :: %d" % distance)
                 sample = sorted(sample)
-            res = sample[5 // 2]
+            res = sample[0]
             print("TRACE %d" % res)
             self.on_echo(res)
-            sleep(0.1)
+            sleep(0.05)
 
     # Get distance from sensor.
     @staticmethod
