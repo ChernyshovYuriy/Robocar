@@ -64,7 +64,7 @@ class Echo:
                     distance = Echo.distance()
                     if distance != 0:
                         sample.append(distance)
-                    print("   TRACE :: %d" % distance)
+                        print("   TRACE :: %d" % distance)
                 sample = sorted(sample)
             res = sample[0]
             print("TRACE %d" % res)
