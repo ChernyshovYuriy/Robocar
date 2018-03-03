@@ -63,9 +63,10 @@ class Echo:
                 for i in range(5):
                     distance = Echo.distance()
                     sample.append(distance)
+                    print("   TRACE :: %d" % distance)
                 sample = sorted(sample)
             res = sample[5 // 2]
-            print("TRACE %f %d" % (res, sample))
+            print("TRACE %d" % res)
             self.on_echo(res)
             sleep(0.1)
 
