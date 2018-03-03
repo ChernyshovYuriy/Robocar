@@ -68,7 +68,7 @@ class Echo:
             res = sample[0]
             print("TRACE %d" % res)
             self.on_echo(res)
-            sleep(0.05)
+            sleep(0.1)
 
     # Get distance from sensor.
     @staticmethod
