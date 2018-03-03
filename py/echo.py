@@ -61,7 +61,7 @@ class Echo:
             if py.config.CONFIG is py.config.Platform.PI:
                 distance = Echo.distance()
             self.on_echo(distance)
-            sleep(0.2)
+            sleep(0.1)
 
     # Get distance from sensor.
     @staticmethod
@@ -89,7 +89,7 @@ class Echo:
 
         """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
-        print("TIME %d %d %d" % (start_time, stop_time, time_elapsed))
+        print("TIME %f %f %f" % (start_time, stop_time, time_elapsed))
         """ Multiply with the speed of sound and divide by two (distance to and from object) """
         distance = (time_elapsed * Echo.SOUND_SPEED) / 2
 
