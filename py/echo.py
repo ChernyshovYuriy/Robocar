@@ -17,7 +17,13 @@ if py.config.CONFIG is py.config.Platform.PI:
 class Echo:
 
     # Speed of sound, im cm/sec
-    SOUND_SPEED = 34300
+    # tempAir = 20.0;
+    # soundSpeed = 331.3 + 0.06 * tempAir; is 332.5 m / s
+    SOUND_SPEED = 33250
+    # 2 microseconds
+    TWO_MICROSEC = 0.000002
+    # 12 microseconds
+    TWELVE_MICROSEC = 0.000012
 
     def __init__(self, on_echo):
         print("Init  echo on ", py.config.CONFIG)
@@ -60,9 +66,14 @@ class Echo:
     # Get distance from sensor.
     @staticmethod
     def distance():
+        """
+        The PING is triggered by a HIGH pulse of 10 or more microseconds.
+        Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
+        """
+        GPIO.output(GPIOManager.TRIGGER, False)
+        time.sleep(Echo.TWO_MICROSEC)
         GPIO.output(GPIOManager.TRIGGER, True)
-
-        time.sleep(0.00001)
+        time.sleep(Echo.TWELVE_MICROSEC)
         GPIO.output(GPIOManager.TRIGGER, False)
 
         start_time = time.time()
