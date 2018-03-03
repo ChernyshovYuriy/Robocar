@@ -62,7 +62,8 @@ class Echo:
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(5):
                     distance = Echo.distance()
-                    sample.append(distance)
+                    if distance is not 0:
+                        sample.append(distance)
                     print("   TRACE :: %d" % distance)
                 sample = sorted(sample)
             res = sample[0]
