@@ -60,7 +60,7 @@ class Echo:
             distance = self.default_distance
             sample = []
             if py.config.CONFIG is py.config.Platform.PI:
-                for i in range(10):
+                for i in range(5):
                     distance = Echo.distance()
                     if distance > 0:
                         sample.append(distance)
