@@ -98,8 +98,8 @@ class Controller:
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors started")
 
-    def on_motors_turning(self):
-        print(" -- motors turning")
+    def on_motors_turning(self, state):
+        print(" -- motors turning %s" % state)
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors Turning")
 
