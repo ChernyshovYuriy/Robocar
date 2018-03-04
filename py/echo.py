@@ -58,18 +58,18 @@ class Echo:
     def runnable(self):
         while self.is_run:
             distance = self.default_distance
-            sample = []
+            # sample = []
             if py.config.CONFIG is py.config.Platform.PI:
-                for i in range(5):
+                # for i in range(5):
                     distance = Echo.distance()
-                    if distance > 0:
-                        sample.append(distance)
-                        print("   TRACE :: %d" % distance)
-                    sleep(0.1)
-                sample = sorted(sample)
-            res = sample[0]
-            print("TRACE %d" % res)
-            self.on_echo(res)
+                    # if distance > 0:
+                    #     sample.append(distance)
+                    #     print("   TRACE :: %d" % distance)
+                    # sleep(0.1)
+                # sample = sorted(sample)
+            # res = sample[0]
+            # print("TRACE %d" % res)
+            self.on_echo(distance)
             sleep(0.1)
 
     # Get distance from sensor.
