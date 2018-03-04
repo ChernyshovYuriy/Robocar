@@ -17,7 +17,8 @@ class MotorsState(Enum):
     STOPPED = 1
     STARTED_FWD = 2
     STARTED_BWD = 3
-    TURNING = 4
+    TURNING_L = 4
+    TURNING_R = 5
 
 
 # Manager of the motors.
@@ -52,13 +53,16 @@ class Motors:
         if distance < self.min_stop_distance:
             if self.state is MotorsState.STOPPED:
                 return
-            if self.state is not MotorsState.TURNING:
+            if self.state is not MotorsState.TURNING_L or MotorsState.TURNING_R:
                 self.stop_motors()
                 sleep(self.action_sleep)
             if self.is_run:
-                self.turn()
+                """
+                Lets turn left
+                """
+                self.turn_l()
         else:
-            if self.state is MotorsState.TURNING:
+            if self.state is MotorsState.TURNING_L or MotorsState.TURNING_R:
                 if distance > self.min_start_distance:
                     self.stop_motors()
                     sleep(self.action_sleep)
@@ -92,9 +96,16 @@ class Motors:
         self.state = MotorsState.STOPPED
         self.on_motors_stopped_ref()
 
-    def turn(self):
+    def turn_l(self):
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.output(GPIOManager.MOTOR_R_F, GPIO.HIGH)
             GPIO.output(GPIOManager.MOTOR_L_B, GPIO.HIGH)
-        self.state = MotorsState.TURNING
-        self.on_motors_turning_ref()
+        self.state = MotorsState.TURNING_L
+        self.on_motors_turning_ref(self.state)
+
+    def turn_r(self):
+        if py.config.CONFIG is py.config.Platform.PI:
+            GPIO.output(GPIOManager.MOTOR_L_F, GPIO.HIGH)
+            GPIO.output(GPIOManager.MOTOR_R_B, GPIO.HIGH)
+        self.state = MotorsState.TURNING_R
+        self.on_motors_turning_ref(self.state)

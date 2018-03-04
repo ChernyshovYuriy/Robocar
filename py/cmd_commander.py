@@ -12,7 +12,9 @@ ENG_FWD = 119
 # x
 ENG_BWD = 120
 # a
-ENG_TURN = 97
+ENG_TURN_L = 97
+# d
+ENG_TURN_R = 100
 # s
 ENG_OFF = 115
 # Enter
@@ -43,8 +45,10 @@ class CmdCommander:
                         self.controller_ref.eng_fwd()
                     if not ch or ord(ch) == ENG_BWD:
                         self.controller_ref.eng_bwd()
-                    if not ch or ord(ch) == ENG_TURN:
-                        self.controller_ref.eng_turn()
+                    if not ch or ord(ch) == ENG_TURN_L:
+                        self.controller_ref.eng_turn_l()
+                    if not ch or ord(ch) == ENG_TURN_R:
+                        self.controller_ref.eng_turn_r()
                     if not ch or ord(ch) == ENG_OFF:
                         self.controller_ref.eng_stop()
                     if not ch or ord(ch) == QUIT:

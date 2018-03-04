@@ -59,10 +59,15 @@ class Controller:
         print("Engine backward")
         self.motors.backward()
 
-    # Run engines turn
-    def eng_turn(self):
-        print("Engines turn")
-        self.motors.turn()
+    # Run engines turn left
+    def eng_turn_l(self):
+        print("Engines turn left")
+        self.motors.turn_l()
+
+    # Run engines turn right
+    def eng_turn_r(self):
+        print("Engines turn right")
+        self.motors.turn_r()
 
     # Run engine stop
     def eng_stop(self):
