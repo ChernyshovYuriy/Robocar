@@ -17,7 +17,7 @@ if py.config.CONFIG is py.config.Platform.PI:
 class I2CManager:
 
     TRIGGER_2 = 0
-    ECHO_2 = 8
+    ECHO_2 = 1
 
     @staticmethod
     def init():
