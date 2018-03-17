@@ -21,7 +21,7 @@ ENG_OFF = 115
 START = 10
 # Space
 STOP = 32
-# q
+# Esc
 QUIT = 27
 
 

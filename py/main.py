@@ -1,6 +1,8 @@
 import sys
 from os.path import dirname, abspath
 
+from py.Adafruit_MCP230xx import Adafruit_MCP230XX
+
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
@@ -28,6 +30,20 @@ class Controller:
         self.motors = Motors(
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
+
+        mcp = Adafruit_MCP230XX(address=0x20, num_gpios=16)
+        # Set pins 0, 1 and 2 to output (you can set pins 0..15 this way)
+        mcp.config(0, mcp.OUTPUT)
+        mcp.config(1, mcp.OUTPUT)
+        mcp.config(2, mcp.OUTPUT)
+
+        # Set pin 3 to input with the pullup resistor enabled
+        mcp.config(3, mcp.INPUT)
+        mcp.pullup(3, 1)
+
+        # Read input pin and display the results
+        print("Pin 3 = %d" % (mcp.input(3) >> 3))
+
 
     # Start controller.
     def start(self):
