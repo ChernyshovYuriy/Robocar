@@ -1,11 +1,12 @@
 import sys
 from os.path import dirname, abspath
 
+from py.i2c_manager import I2CManager
+
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import time
 import py.config
-from py.gpio_manager import GPIOManager
 from threading import Thread
 from time import sleep
 
@@ -79,21 +80,21 @@ class Echo:
         The PING is triggered by a HIGH pulse of 10 or more microseconds.
         Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
         """
-        GPIO.output(GPIOManager.TRIGGER, GPIO.LOW)
+        I2CManager.output(I2CManager.TRIGGER_2, GPIO.LOW)
         time.sleep(Echo.TWO_MICROSEC)
-        GPIO.output(GPIOManager.TRIGGER, GPIO.HIGH)
+        I2CManager.output(I2CManager.TRIGGER_2, GPIO.HIGH)
         time.sleep(Echo.TWELVE_MICROSEC)
-        GPIO.output(GPIOManager.TRIGGER, GPIO.LOW)
+        I2CManager.output(I2CManager.TRIGGER_2, GPIO.LOW)
 
         start_time = time.time()
         stop_time = time.time()
 
         """ Save the time of signal emitted """
-        while GPIO.input(GPIOManager.ECHO) == 0:
+        while I2CManager.input(I2CManager.ECHO_2) == 0:
             start_time = time.time()
 
         """ Save the time of signal received """
-        while GPIO.input(GPIOManager.ECHO) == 1:
+        while I2CManager.input(I2CManager.ECHO_2) == 1:
             stop_time = time.time()
 
         """ Time difference between emitted and received signal """

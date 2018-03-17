@@ -4,7 +4,6 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
-from time import sleep
 from py import config
 from py.config import Commander
 from py.ui_commander import UiCommander
@@ -13,7 +12,7 @@ from tkinter import StringVar, Tk
 from py.echo import Echo
 from py.motors import Motors
 from py.gpio_manager import GPIOManager
-from py.Adafruit_MCP230xx import Adafruit_MCP230XX
+from py.i2c_manager import I2CManager
 
 
 class Controller:
@@ -30,27 +29,6 @@ class Controller:
         self.motors = Motors(
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
-
-        mcp = Adafruit_MCP230XX(address=0x20, num_gpios=16)
-        # Set pins 0, 1 and 2 to output (you can set pins 0..15 this way)
-        mcp.config(0, mcp.OUTPUT)
-        mcp.config(1, mcp.OUTPUT)
-        mcp.config(2, mcp.OUTPUT)
-
-        # Set pin 3 to input with the pullup resistor enabled
-        mcp.config(3, mcp.INPUT)
-        mcp.pullup(3, 1)
-
-        # Read input pin and display the results
-        print("Pin 3 = %d" % (mcp.input(3) >> 3))
-
-        # Python speed test on output 0 toggling at max speed
-        print("Starting blinky on pin 0 (CTRL+C to quit)")
-        while (True):
-            mcp.output(0, 1)  # Pin 0 High
-            sleep(5)
-            mcp.output(0, 0)  # Pin 0 Low
-            sleep(5)
 
 
     # Start controller.
@@ -131,6 +109,7 @@ class Controller:
 if __name__ == "__main__":
     print("Robocar started on %s, commander is %s" % (py.config.CONFIG, config.COMMANDER))
     GPIOManager.init()
+    I2CManager.init()
 
     distance_prompt = None
     motors_prompt = None
@@ -146,5 +125,6 @@ if __name__ == "__main__":
         commander = UiCommander(controller, root, distance_prompt, motors_prompt)
 
     GPIOManager.cleanup()
+    I2CManager.cleanup()
 
     print("Robocar stopped")

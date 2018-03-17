@@ -12,8 +12,8 @@ if py.config.CONFIG is py.config.Platform.PI:
 # Manager of the GPIO and its pins.
 class GPIOManager:
 
-    TRIGGER = 23
-    ECHO = 24
+    TRIGGER_1 = 23
+    ECHO_1 = 24
     MOTOR_R_F = 5
     MOTOR_R_B = 6
     MOTOR_L_F = 17
@@ -23,8 +23,8 @@ class GPIOManager:
     def init():
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.setmode(GPIO.BCM)
-            GPIO.setup(GPIOManager.TRIGGER, GPIO.OUT)
-            GPIO.setup(GPIOManager.ECHO, GPIO.IN)
+            GPIO.setup(GPIOManager.TRIGGER_1, GPIO.OUT)
+            GPIO.setup(GPIOManager.ECHO_1, GPIO.IN)
             GPIO.setup(GPIOManager.MOTOR_R_F, GPIO.OUT)
             GPIO.setup(GPIOManager.MOTOR_R_B, GPIO.OUT)
             GPIO.setup(GPIOManager.MOTOR_L_F, GPIO.OUT)
