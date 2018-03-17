@@ -1,8 +1,6 @@
 import sys
 from os.path import dirname, abspath
 
-from py.Adafruit_MCP230xx import Adafruit_MCP230XX
-
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
@@ -14,6 +12,7 @@ from tkinter import StringVar, Tk
 from py.echo import Echo
 from py.motors import Motors
 from py.gpio_manager import GPIOManager
+from py.Adafruit_MCP230xx import Adafruit_MCP230XX
 
 
 class Controller:
