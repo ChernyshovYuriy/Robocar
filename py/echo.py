@@ -35,7 +35,7 @@ class Echo:
         self.on_echo = on_echo
         # Connect to local Pi.
         self.pi = pigpio.pi()
-        self.sonar_sensor = SonarSensor(self.pi, addr=0x27, INTA_GPIO=None, max_range_cms=200)
+        self.sonar_sensor = SonarSensor(self.pi)
 
     # Start echo location.
     def start(self):
@@ -83,8 +83,8 @@ class Echo:
     @staticmethod
     def distance_i2c(sonar_sensor):
         # 0 is ranger 0 (connected to A0/B0).
-        value = sonar_sensor.read(0)
-        return value
+        # value = sonar_sensor.read(0)
+        return 0
 
     # Get distance from sensor.
     @staticmethod
