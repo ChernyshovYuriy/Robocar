@@ -9,9 +9,7 @@ import py.config
 
 if py.config.CONFIG is py.config.Platform.PI:
     from py.Adafruit_MCP230xx import Adafruit_MCP230XX
-
-
-if py.config.CONFIG is py.config.Platform.PI:
+    import RPi.GPIO as GPIO
     mcp = MCP23017()
 
 
@@ -25,8 +23,8 @@ class I2CManager:
     def init():
         if py.config.CONFIG is py.config.Platform.PI:
             # Set pins 0, 1 and 2 to output (you can set pins 0..15 this way)
-            mcp.setup(I2CManager.TRIGGER_2, mcp.OUTPUT)
-            mcp.setup(I2CManager.ECHO_2, mcp.INPUT)
+            mcp.setup(I2CManager.TRIGGER_2, GPIO.OUT)
+            mcp.setup(I2CManager.ECHO_2, GPIO.IN)
             mcp.pullup(I2CManager.ECHO_2, 1)
 
     @staticmethod
