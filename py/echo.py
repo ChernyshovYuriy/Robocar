@@ -1,17 +1,18 @@
 import sys
 from os.path import dirname, abspath
 
-from py.i2c_manager import I2CManager
-
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import time
 import py.config
 from threading import Thread
 from time import sleep
+from py.i2c_manager import I2CManager
+from py.i2c_sonar import SonarSensor
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
+    import pigpio
 
 
 # Ultra sonic locator.
@@ -32,6 +33,9 @@ class Echo:
         self.default_distance = 0
         self.thread = None
         self.on_echo = on_echo
+        # Connect to local Pi.
+        self.pi = pigpio.pi()
+        self.sonar_sensor = SonarSensor(self.pi, addr=0x27, INTA_GPIO=None, max_range_cms=200)
 
     # Start echo location.
     def start(self):
@@ -54,6 +58,8 @@ class Echo:
         self.is_run = False
         self.thread = None
         self.on_echo(self.default_distance)
+        self.sonar_sensor.cancel()
+        self.pi.stop()
 
     # Handle distance measurement.
     def runnable(self):
@@ -62,7 +68,7 @@ class Echo:
             # sample = []
             if py.config.CONFIG is py.config.Platform.PI:
                 # for i in range(5):
-                    distance = Echo.distance()
+                    distance = Echo.distance_i2c(self.sonar_sensor)
                     # if distance > 0:
                     #     sample.append(distance)
                     #     print("   TRACE :: %d" % distance)
@@ -72,6 +78,13 @@ class Echo:
             print("TRACE %f" % distance)
             # self.on_echo(distance)
             sleep(0.1)
+
+    # Get distance from sensor.
+    @staticmethod
+    def distance_i2c(sonar_sensor):
+        # 0 is ranger 0 (connected to A0/B0).
+        value = sonar_sensor.read(0)
+        return value
 
     # Get distance from sensor.
     @staticmethod
@@ -92,12 +105,10 @@ class Echo:
         """ Save the time of signal emitted """
         while I2CManager.input(I2CManager.ECHO_2) == 0:
             start_time = time.time()
-            sleep(0.001)
 
         """ Save the time of signal received """
         while I2CManager.input(I2CManager.ECHO_2) == 1:
             stop_time = time.time()
-            sleep(0.001)
 
         """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
