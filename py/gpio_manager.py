@@ -16,8 +16,6 @@ class GPIOManager:
     ECHO_1 = 24
     TRIGGER_2 = 17
     ECHO_2 = 18
-    # MOTOR_R_F = 5
-    # MOTOR_R_B = 6
 
     @staticmethod
     def init():
