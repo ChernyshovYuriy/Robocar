@@ -1,16 +1,16 @@
 import sys
 from os.path import dirname, abspath
 
-from py.Adafruit_GPIO.MCP230xx import MCP23017
-
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
 
 if py.config.CONFIG is py.config.Platform.PI:
     from py.Adafruit_MCP230xx import Adafruit_MCP230XX
-    import RPi.GPIO as GPIO
-    mcp = MCP23017()
+
+
+if py.config.CONFIG is py.config.Platform.PI:
+    mcp = Adafruit_MCP230XX(address=0x20, num_gpios=16)
 
 
 # Manager of the I2C channel.
@@ -23,8 +23,8 @@ class I2CManager:
     def init():
         if py.config.CONFIG is py.config.Platform.PI:
             # Set pins 0, 1 and 2 to output (you can set pins 0..15 this way)
-            mcp.setup(I2CManager.TRIGGER_2, GPIO.OUT)
-            mcp.setup(I2CManager.ECHO_2, GPIO.IN)
+            mcp.config(I2CManager.TRIGGER_2, mcp.OUTPUT)
+            mcp.config(I2CManager.ECHO_2, mcp.INPUT)
             mcp.pullup(I2CManager.ECHO_2, 1)
 
     @staticmethod

@@ -68,7 +68,7 @@ class Echo:
             # sample = []
             if py.config.CONFIG is py.config.Platform.PI:
                 # for i in range(5):
-                    distance = Echo.distance()
+                    distance = Echo.distance_i2c(self.sonar_sensor)
                     # if distance > 0:
                     #     sample.append(distance)
                     #     print("   TRACE :: %d" % distance)
