@@ -111,5 +111,5 @@ class Echo:
         time_elapsed = stop_time - start_time
         """ Multiply with the speed of sound and divide by two (distance to and from object) """
         distance = (time_elapsed * Echo.SOUND_SPEED) / 2
-
+        print("DIST:%f" % distance)
         return distance
