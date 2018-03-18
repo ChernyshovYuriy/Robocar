@@ -16,8 +16,8 @@ if py.config.CONFIG is py.config.Platform.PI:
 # Manager of the I2C channel.
 class I2CManager:
 
-    TRIGGER_2 = 0
-    ECHO_2 = 1
+    TRIGGER_2 = 8
+    ECHO_2 = 0
 
     @staticmethod
     def init():
