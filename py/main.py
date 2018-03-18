@@ -20,8 +20,8 @@ class Controller:
     def __init__(self, distance_prompt_in, motors_prompt_in):
         print("Init  controller on %s" % py.config.CONFIG)
         self.is_run = False
-        self.distance = 0
-        self.distance_origin = 0
+        self.distance = [0, 0]
+        self.distance_origin = [0, 0]
         self.distance_drove = 0
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
@@ -78,24 +78,24 @@ class Controller:
 
     # Callback function to echo class
     def on_echo(self, distance):
-        print(" -- echo: %.1f" % distance)
+        print(" -- echo: %s" % distance)
         self.distance = distance
         self.motors.on_echo(self.distance)
         if config.COMMANDER is Commander.UI:
-            self.distance_prompt_ref.set("Distance: %.1f cm" % self.distance)
-        if self.distance_origin > 0:
-            self.distance_drove = self.distance_origin - self.distance
+            self.distance_prompt_ref.set("Distance: %s cm" % self.distance)
+        # if self.distance_origin > 0:
+            # self.distance_drove = self.distance_origin - self.distance
 
     def on_motors_stopped(self):
         print(" -- motors stopped, drove %.1f sm" % self.distance_drove)
-        self.distance_origin = 0
+        self.distance_origin = [0, 0]
         """ Reset drove distance here, any reference must be obtained prior to this line """
-        self.distance_drove = 0
+        # self.distance_drove = 0
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors stopped")
 
     def on_motors_started(self, state):
-        print(" -- motors started %s, distance origin %.1f sm" % (state, self.distance))
+        print(" -- motors started %s, distance origin %s sm" % (state, self.distance))
         self.distance_origin = self.distance
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors started")
