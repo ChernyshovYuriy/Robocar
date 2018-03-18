@@ -85,21 +85,21 @@ class Echo:
         The PING is triggered by a HIGH pulse of 10 or more microseconds.
         Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
         """
-        GPIO.output(GPIOManager.TRIGGER, GPIO.LOW)
+        GPIO.output(GPIOManager.TRIGGER_1, GPIO.LOW)
         time.sleep(Echo.TWO_MICROSEC)
-        GPIO.output(GPIOManager.TRIGGER, GPIO.HIGH)
+        GPIO.output(GPIOManager.TRIGGER_1, GPIO.HIGH)
         time.sleep(Echo.TWELVE_MICROSEC)
-        GPIO.output(GPIOManager.TRIGGER, GPIO.LOW)
+        GPIO.output(GPIOManager.TRIGGER_1, GPIO.LOW)
 
         start_time = time.time()
         stop_time = time.time()
 
         """ Save the time of signal emitted """
-        while GPIO.input(GPIOManager.ECHO) == 0:
+        while GPIO.input(GPIOManager.ECHO_1) == 0:
             start_time = time.time()
 
         """ Save the time of signal received """
-        while GPIO.input(GPIOManager.ECHO) == 1:
+        while GPIO.input(GPIOManager.ECHO_1) == 1:
             stop_time = time.time()
 
         """ Time difference between emitted and received signal """
