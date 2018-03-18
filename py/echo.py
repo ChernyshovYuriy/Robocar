@@ -11,7 +11,7 @@ from time import sleep
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
     from py.gpio_manager import GPIOManager
-    from py.i2c_sonar import SonarSensor
+    # from py.i2c_sonar import SonarSensor
 
 
 # Ultra sonic locator.
@@ -25,6 +25,9 @@ class Echo:
     TWO_MICROSEC = 0.000002
     # 12 microseconds
     TWELVE_MICROSEC = 0.000012
+
+    SENSORS = [(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1),
+               (GPIOManager.TRIGGER_2, GPIOManager.ECHO_2)]
 
     def __init__(self, on_echo):
         print("Init  echo on ", py.config.CONFIG)
@@ -66,8 +69,10 @@ class Echo:
             distance = self.default_distance
             # sample = []
             if py.config.CONFIG is py.config.Platform.PI:
+                for i in range(len(Echo.SENSORS)):
+                    distance = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
                 # for i in range(5):
-                    distance = Echo.distance()
+                #     distance = Echo.distance(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1)
                     # if distance > 0:
                     #     sample.append(distance)
                     #     print("   TRACE :: %d" % distance)
@@ -79,26 +84,26 @@ class Echo:
 
     # Get distance from sensor.
     @staticmethod
-    def distance():
+    def distance(trigger, echo):
         """
         The PING is triggered by a HIGH pulse of 10 or more microseconds.
         Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
         """
-        GPIO.output(GPIOManager.TRIGGER_1, GPIO.LOW)
+        GPIO.output(trigger, GPIO.LOW)
         time.sleep(Echo.TWO_MICROSEC)
-        GPIO.output(GPIOManager.TRIGGER_1, GPIO.HIGH)
+        GPIO.output(trigger, GPIO.HIGH)
         time.sleep(Echo.TWELVE_MICROSEC)
-        GPIO.output(GPIOManager.TRIGGER_1, GPIO.LOW)
+        GPIO.output(trigger, GPIO.LOW)
 
         start_time = time.time()
         stop_time = time.time()
 
         """ Save the time of signal emitted """
-        while GPIO.input(GPIOManager.ECHO_1) == 0:
+        while GPIO.input(echo) == 0:
             start_time = time.time()
 
         """ Save the time of signal received """
-        while GPIO.input(GPIOManager.ECHO_1) == 1:
+        while GPIO.input(echo) == 1:
             stop_time = time.time()
 
         """ Time difference between emitted and received signal """
