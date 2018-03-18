@@ -16,16 +16,19 @@ if py.config.CONFIG is py.config.Platform.PI:
 # Manager of the I2C channel.
 class I2CManager:
 
-    TRIGGER_2 = 8
-    ECHO_2 = 0
+    MOTOR_R_F = 0
+    MOTOR_R_B = 1
+    MOTOR_L_F = 2
+    MOTOR_L_B = 3
 
     @staticmethod
     def init():
         if py.config.CONFIG is py.config.Platform.PI:
             # Set pins 0, 1 and 2 to output (you can set pins 0..15 this way)
-            mcp.config(I2CManager.TRIGGER_2, mcp.OUTPUT)
-            mcp.config(I2CManager.ECHO_2, mcp.INPUT)
-            mcp.pullup(I2CManager.ECHO_2, 1)
+            mcp.config(I2CManager.MOTOR_R_F, mcp.OUTPUT)
+            mcp.config(I2CManager.MOTOR_R_B, mcp.OUTPUT)
+            mcp.config(I2CManager.MOTOR_L_F, mcp.OUTPUT)
+            mcp.config(I2CManager.MOTOR_L_B, mcp.OUTPUT)
 
     @staticmethod
     def cleanup():
@@ -39,5 +42,4 @@ class I2CManager:
     @staticmethod
     def input(pin):
         val = (mcp.input(pin) >> pin)
-        print("VAL:%f" % val)
         return val

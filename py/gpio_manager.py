@@ -14,10 +14,10 @@ class GPIOManager:
 
     TRIGGER_1 = 23
     ECHO_1 = 24
-    MOTOR_R_F = 5
-    MOTOR_R_B = 6
-    MOTOR_L_F = 17
-    MOTOR_L_B = 16
+    # MOTOR_R_F = 5
+    # MOTOR_R_B = 6
+    # MOTOR_L_F = 17
+    # MOTOR_L_B = 16
 
     @staticmethod
     def init():
@@ -25,10 +25,6 @@ class GPIOManager:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(GPIOManager.TRIGGER_1, GPIO.OUT)
             GPIO.setup(GPIOManager.ECHO_1, GPIO.IN)
-            GPIO.setup(GPIOManager.MOTOR_R_F, GPIO.OUT)
-            GPIO.setup(GPIOManager.MOTOR_R_B, GPIO.OUT)
-            GPIO.setup(GPIOManager.MOTOR_L_F, GPIO.OUT)
-            GPIO.setup(GPIOManager.MOTOR_L_B, GPIO.OUT)
 
     @staticmethod
     def cleanup():
