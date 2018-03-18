@@ -48,15 +48,13 @@ class Motors:
     def on_echo(self, distance):
         print("Distance: %d, state: %s, is run %r" % (distance, self.state, self.is_run))
         if not self.is_run:
-            print("TRACE1")
             self.stop_motors()
             return
 
         if distance < self.min_stop_distance:
             if self.state is MotorsState.STOPPED:
                 return
-            if self.state is not MotorsState.TURNING_L or MotorsState.TURNING_R:
-                print("TRACE2")
+            if self.state is not (MotorsState.TURNING_L or MotorsState.TURNING_R):
                 self.stop_motors()
                 sleep(self.action_sleep)
             if self.is_run:
@@ -67,13 +65,12 @@ class Motors:
         else:
             if self.state is (MotorsState.TURNING_L or MotorsState.TURNING_R):
                 if distance > self.min_start_distance:
-                    print("TRACE3")
                     self.stop_motors()
                     sleep(self.action_sleep)
                     if self.is_run:
                         self.forward()
                 return
-            if self.state is MotorsState.STARTED_FWD or self.state is MotorsState.STARTED_BWD:
+            if self.state is (MotorsState.STARTED_FWD or self.state is MotorsState.STARTED_BWD):
                 return
             self.forward()
 
