@@ -90,6 +90,7 @@ class Echo:
         The PING is triggered by a HIGH pulse of 10 or more microseconds.
         Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
         """
+        print("DIST->:%d %d" % (trigger, echo))
         GPIO.output(trigger, GPIO.LOW)
         time.sleep(Echo.TWO_MICROSEC)
         GPIO.output(trigger, GPIO.HIGH)
@@ -111,5 +112,5 @@ class Echo:
         time_elapsed = stop_time - start_time
         """ Multiply with the speed of sound and divide by two (distance to and from object) """
         distance = (time_elapsed * Echo.SOUND_SPEED) / 2
-        print("DIST:%f" % distance)
+        print("DIST:<-%f" % distance)
         return distance
