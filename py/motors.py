@@ -31,6 +31,7 @@ class Motors:
         self.action_sleep = 2
         self.state = MotorsState.STOPPED
         self.is_run = False
+        self.on_motors_stopped_ref = None
         self.stop_motors()
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
