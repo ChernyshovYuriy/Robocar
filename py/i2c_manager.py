@@ -16,10 +16,10 @@ if py.config.CONFIG is py.config.Platform.PI:
 # Manager of the I2C channel.
 class I2CManager:
 
-    MOTOR_R_F = 8
-    MOTOR_R_B = 9
-    MOTOR_L_F = 10
-    MOTOR_L_B = 11
+    MOTOR_R_F = 0
+    MOTOR_R_B = 1
+    MOTOR_L_F = 2
+    MOTOR_L_B = 3
 
     @staticmethod
     def init():
