@@ -94,7 +94,8 @@ class Motors:
             I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
             I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
         self.state = MotorsState.STOPPED
-        self.on_motors_stopped_ref()
+        if self.on_motors_stopped_ref is not None:
+            self.on_motors_stopped_ref()
 
     def turn_l(self):
         if py.config.CONFIG is py.config.Platform.PI:
