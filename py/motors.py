@@ -84,30 +84,30 @@ class Motors:
 
     def backward(self):
         if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(GPIOManager.MOTOR_R_B, GPIO.HIGH)
-            I2CManager.output(GPIOManager.MOTOR_L_B, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
         self.state = MotorsState.STARTED_BWD
         self.on_motors_started_ref(self.state)
 
     def stop_motors(self):
         if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(GPIOManager.MOTOR_R_F, GPIO.LOW)
-            I2CManager.output(GPIOManager.MOTOR_L_F, GPIO.LOW)
-            I2CManager.output(GPIOManager.MOTOR_R_B, GPIO.LOW)
-            I2CManager.output(GPIOManager.MOTOR_L_B, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
         self.state = MotorsState.STOPPED
         self.on_motors_stopped_ref()
 
     def turn_l(self):
         if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(GPIOManager.MOTOR_R_F, GPIO.HIGH)
-            I2CManager.output(GPIOManager.MOTOR_L_B, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
         self.state = MotorsState.TURNING_L
         self.on_motors_turning_ref(self.state)
 
     def turn_r(self):
         if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(GPIOManager.MOTOR_L_F, GPIO.HIGH)
-            I2CManager.output(GPIOManager.MOTOR_R_B, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
         self.state = MotorsState.TURNING_R
         self.on_motors_turning_ref(self.state)
