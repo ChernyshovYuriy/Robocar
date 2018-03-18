@@ -1,8 +1,5 @@
 import sys
 from os.path import dirname, abspath
-from time import sleep
-
-from py.Adafruit_MCP230xx import Adafruit_MCP230XX
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
@@ -16,7 +13,9 @@ from py.echo import Echo
 from py.motors import Motors
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
+from time import sleep
 
+from py.Adafruit_MCP230xx import Adafruit_MCP230XX
 
 class Controller:
 
