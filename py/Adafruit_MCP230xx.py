@@ -163,31 +163,3 @@ class Adafruit_MCP230XX(object):
         assert self.num_gpios >= 16, "16bits required"
         self.i2c.write8(MCP23017_OLATA, value & 0xFF)
         self.i2c.write8(MCP23017_OLATB, (value >> 8) & 0xFF)
-
-
-# RPi.GPIO compatible interface for MCP23017 and MCP23008
-
-class MCP230XX_GPIO(object):
-    OUT = 0
-    IN = 1
-    BCM = 0
-    BOARD = 0
-
-    def __init__(self, busnum, address, num_gpios):
-        self.chip = Adafruit_MCP230XX(address, num_gpios, busnum)
-
-    def setmode(self, mode):
-        # do nothing
-        pass
-
-    def setup(self, pin, mode):
-        self.chip.config(pin, mode)
-
-    def input(self, pin):
-        return self.chip.input(pin)
-
-    def output(self, pin, value):
-        self.chip.output(pin, value)
-
-    def pullup(self, pin, value):
-        self.chip.pullup(pin, value)
