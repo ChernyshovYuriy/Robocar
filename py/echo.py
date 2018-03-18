@@ -7,12 +7,11 @@ import time
 import py.config
 from threading import Thread
 from time import sleep
-from py.i2c_manager import I2CManager
-from py.i2c_sonar import SonarSensor
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
-    import pigpio
+    from py.gpio_manager import GPIOManager
+    from py.i2c_sonar import SonarSensor
 
 
 # Ultra sonic locator.
@@ -34,8 +33,8 @@ class Echo:
         self.thread = None
         self.on_echo = on_echo
         # Connect to local Pi.
-        self.pi = pigpio.pi()
-        self.sonar_sensor = SonarSensor(self.pi)
+        # self.pi = pigpio.pi()
+        # self.sonar_sensor = SonarSensor(self.pi)
 
     # Start echo location.
     def start(self):
@@ -58,8 +57,8 @@ class Echo:
         self.is_run = False
         self.thread = None
         self.on_echo(self.default_distance)
-        self.sonar_sensor.cancel()
-        self.pi.stop()
+        # self.sonar_sensor.cancel()
+        # self.pi.stop()
 
     # Handle distance measurement.
     def runnable(self):
@@ -81,33 +80,26 @@ class Echo:
 
     # Get distance from sensor.
     @staticmethod
-    def distance_i2c(sonar_sensor):
-        # 0 is ranger 0 (connected to A0/B0).
-        value = sonar_sensor.read(0)
-        return value
-
-    # Get distance from sensor.
-    @staticmethod
     def distance():
         """
         The PING is triggered by a HIGH pulse of 10 or more microseconds.
         Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
         """
-        I2CManager.output(I2CManager.TRIGGER_2, GPIO.LOW)
+        GPIO.output(GPIOManager.TRIGGER, GPIO.LOW)
         time.sleep(Echo.TWO_MICROSEC)
-        I2CManager.output(I2CManager.TRIGGER_2, GPIO.HIGH)
+        GPIO.output(GPIOManager.TRIGGER, GPIO.HIGH)
         time.sleep(Echo.TWELVE_MICROSEC)
-        I2CManager.output(I2CManager.TRIGGER_2, GPIO.LOW)
+        GPIO.output(GPIOManager.TRIGGER, GPIO.LOW)
 
         start_time = time.time()
         stop_time = time.time()
 
         """ Save the time of signal emitted """
-        while I2CManager.input(I2CManager.ECHO_2) == 0:
+        while GPIO.input(GPIOManager.ECHO) == 0:
             start_time = time.time()
 
         """ Save the time of signal received """
-        while I2CManager.input(I2CManager.ECHO_2) == 1:
+        while GPIO.input(GPIOManager.ECHO) == 1:
             stop_time = time.time()
 
         """ Time difference between emitted and received signal """
