@@ -10,7 +10,7 @@ if py.config.CONFIG is py.config.Platform.PI:
 
 
 if py.config.CONFIG is py.config.Platform.PI:
-    mcp = Adafruit_MCP230XX(address=0x20, num_gpios=16)
+    mcp = Adafruit_MCP230XX(address=0x20, num_gpios=8)
 
 
 # Manager of the I2C channel.
