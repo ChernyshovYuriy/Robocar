@@ -1,17 +1,15 @@
 import sys
 from os.path import dirname, abspath
 
-from py.i2c_manager import I2CManager
-
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
 from enum import Enum
 from time import sleep
-from py.gpio_manager import GPIOManager
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
+    from py.i2c_manager import I2CManager
 
 
 # Enumeration of the motors states.

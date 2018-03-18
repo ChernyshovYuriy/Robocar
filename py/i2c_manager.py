@@ -37,8 +37,8 @@ class I2CManager:
 
     @staticmethod
     def output(pin, direction):
-        print("I2C Manager -> out %d %d" % (pin, direction))
-        mcp.output(pin, direction)
+        val = mcp.output(pin, direction)
+        print("I2C Manager -> out %d %d %d" % (pin, direction, val))
 
     @staticmethod
     def input(pin):
