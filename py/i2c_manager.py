@@ -1,6 +1,8 @@
 import sys
 from os.path import dirname, abspath
 
+from py.Adafruit_GPIO.MCP230xx import MCP23017
+
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
@@ -10,7 +12,7 @@ if py.config.CONFIG is py.config.Platform.PI:
 
 
 if py.config.CONFIG is py.config.Platform.PI:
-    mcp = Adafruit_MCP230XX(address=0x20, num_gpios=16)
+    mcp = MCP23017()
 
 
 # Manager of the I2C channel.
