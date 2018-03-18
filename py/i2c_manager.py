@@ -25,7 +25,7 @@ class I2CManager:
             # Set pins 0, 1 and 2 to output (you can set pins 0..15 this way)
             mcp.config(I2CManager.TRIGGER_2, mcp.OUTPUT)
             mcp.config(I2CManager.ECHO_2, mcp.INPUT)
-            mcp.pullup(I2CManager.ECHO_2, 1)
+            # mcp.pullup(I2CManager.ECHO_2, 1)
 
     @staticmethod
     def cleanup():
@@ -38,6 +38,6 @@ class I2CManager:
 
     @staticmethod
     def input(pin):
-        val = (mcp.input(pin) >> pin)
+        val = (mcp.input(pin))
         print("VAL:%f" % val)
         return val
