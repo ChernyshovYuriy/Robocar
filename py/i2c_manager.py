@@ -25,8 +25,8 @@ class I2CManager:
     def init():
         if py.config.CONFIG is py.config.Platform.PI:
             # Set pins 0, 1 and 2 to output (you can set pins 0..15 this way)
-            mcp.config(I2CManager.TRIGGER_2, mcp.OUTPUT)
-            mcp.config(I2CManager.ECHO_2, mcp.INPUT)
+            mcp.setup(I2CManager.TRIGGER_2, mcp.OUTPUT)
+            mcp.setup(I2CManager.ECHO_2, mcp.INPUT)
             mcp.pullup(I2CManager.ECHO_2, 1)
 
     @staticmethod
