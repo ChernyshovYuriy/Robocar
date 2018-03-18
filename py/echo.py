@@ -83,8 +83,8 @@ class Echo:
     @staticmethod
     def distance_i2c(sonar_sensor):
         # 0 is ranger 0 (connected to A0/B0).
-        # value = sonar_sensor.read(0)
-        return 0
+        value = sonar_sensor.read(0)
+        return value
 
     # Get distance from sensor.
     @staticmethod
