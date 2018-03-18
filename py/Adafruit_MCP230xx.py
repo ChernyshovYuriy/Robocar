@@ -87,7 +87,7 @@ class Adafruit_MCP230XX(object):
         if self.num_gpios <= 8:
             return self._readandchangepin(MCP23008_GPPUA, pin, value)
         if self.num_gpios <= 16:
-            lvalue = self._readandchangepin(MCP23017_GPPUA, pin, value)
+            # lvalue = self._readandchangepin(MCP23017_GPPUA, pin, value)
             if (pin < 8):
                 return
             else:
@@ -119,9 +119,8 @@ class Adafruit_MCP230XX(object):
                                                           self.i2c.readU8(MCP23017_OLATB)) << 8
 
         return self.outputvalue
-
-        self.outputvalue = self._readandchangepin(MCP23017_IODIRA, pin, value, self.outputvalue)
-        return self.outputvalue
+        # self.outputvalue = self._readandchangepin(MCP23017_IODIRA, pin, value, self.outputvalue)
+        # return self.outputvalue
 
     def input(self, pin):
         assert pin >= 0 and pin < self.num_gpios, "Pin number %s is invalid, only 0-%s are valid" % (

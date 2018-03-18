@@ -37,4 +37,6 @@ class I2CManager:
 
     @staticmethod
     def input(pin):
-        return mcp.input(pin)
+        val = mcp.input(pin)
+        print("VAL:%f" % val)
+        return val
