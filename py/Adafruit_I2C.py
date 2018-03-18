@@ -32,7 +32,7 @@ class Adafruit_I2C(object):
                         return 2
                 # Couldn't find the revision, assume revision 0 like older code for compatibility.
                 return 0
-        except:
+        except Exception as e:
             return 0
 
     @staticmethod
@@ -161,9 +161,9 @@ class Adafruit_I2C(object):
             return self.errMsg()
 
 
-if __name__ == '__main__':
-    try:
-        bus = Adafruit_I2C(address=0)
-        print("Default I2C bus is accessible")
-    except:
-        print("Error accessing default I2C bus")
+# if __name__ == '__main__':
+#     try:
+#         bus = Adafruit_I2C(address=0)
+#         print("Default I2C bus is accessible")
+#     except:
+#         print("Error accessing default I2C bus")

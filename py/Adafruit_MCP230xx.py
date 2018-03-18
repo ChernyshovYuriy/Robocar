@@ -4,6 +4,8 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 
+from py.Adafruit_I2C import Adafruit_I2C
+
 #!/usr/bin/python
 
 # Copyright 2012 Daniel Berlin (with some changes by Adafruit Industries/Limor Fried)
@@ -26,9 +28,6 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-import time
-
-from Adafruit_I2C import Adafruit_I2C
 
 MCP23017_IODIRA = 0x00
 MCP23017_IODIRB = 0x01
@@ -48,7 +47,7 @@ class Adafruit_MCP230XX(object):
     INPUT = 1
 
     def __init__(self, address, num_gpios, busnum=-1):
-        assert num_gpios >= 0 and num_gpios <= 16, "Number of GPIOs must be between 0 and 16"
+        assert 0 <= num_gpios <= 16, "Number of GPIOs must be between 0 and 16"
         self.i2c = Adafruit_I2C(address=address, busnum=busnum)
         self.address = address
         self.num_gpios = num_gpios
@@ -58,7 +57,7 @@ class Adafruit_MCP230XX(object):
             self.i2c.write8(MCP23017_IODIRA, 0xFF)  # all inputs on port A
             self.direction = self.i2c.readU8(MCP23017_IODIRA)
             self.i2c.write8(MCP23008_GPPUA, 0x00)
-        elif num_gpios > 8 and num_gpios <= 16:
+        elif 8 < num_gpios <= 16:
             self.i2c.write8(MCP23017_IODIRA, 0xFF)  # all inputs on port A
             self.i2c.write8(MCP23017_IODIRB, 0xFF)  # all inputs on port B
             self.direction = self.i2c.readU8(MCP23017_IODIRA)
@@ -74,7 +73,7 @@ class Adafruit_MCP230XX(object):
             return bitmap | (1 << bit)
 
     def _readandchangepin(self, port, pin, value, currvalue=None):
-        assert pin >= 0 and pin < self.num_gpios, "Pin number %s is invalid, only 0-%s are valid" % (
+        assert 0 <= pin < self.num_gpios, "Pin number %s is invalid, only 0-%s are valid" % (
         pin, self.num_gpios)
         # assert self.direction & (1 << pin) == 0, "Pin %s not set to output" % pin
         if not currvalue:
@@ -88,7 +87,7 @@ class Adafruit_MCP230XX(object):
             return self._readandchangepin(MCP23008_GPPUA, pin, value)
         if self.num_gpios <= 16:
             # lvalue = self._readandchangepin(MCP23017_GPPUA, pin, value)
-            if (pin < 8):
+            if pin < 8:
                 return
             else:
                 return self._readandchangepin(MCP23017_GPPUB, pin - 8, value) << 8
@@ -98,7 +97,7 @@ class Adafruit_MCP230XX(object):
         if self.num_gpios <= 8:
             self.direction = self._readandchangepin(MCP23017_IODIRA, pin, mode)
         if self.num_gpios <= 16:
-            if (pin < 8):
+            if pin < 8:
                 self.direction = self._readandchangepin(MCP23017_IODIRA, pin, mode)
             else:
                 self.direction |= self._readandchangepin(MCP23017_IODIRB, pin - 8, mode) << 8
@@ -107,53 +106,55 @@ class Adafruit_MCP230XX(object):
 
     def output(self, pin, value):
         # assert self.direction & (1 << pin) == 0, "Pin %s not set to output" % pin
+        output_value = 0
         if self.num_gpios <= 8:
-            self.outputvalue = self._readandchangepin(MCP23008_GPIOA, pin, value,
+            output_value = self._readandchangepin(MCP23008_GPIOA, pin, value,
                                                       self.i2c.readU8(MCP23008_OLATA))
         if self.num_gpios <= 16:
-            if (pin < 8):
-                self.outputvalue = self._readandchangepin(MCP23017_GPIOA, pin, value,
+            if pin < 8:
+                output_value = self._readandchangepin(MCP23017_GPIOA, pin, value,
                                                           self.i2c.readU8(MCP23017_OLATA))
             else:
-                self.outputvalue = self._readandchangepin(MCP23017_GPIOB, pin - 8, value,
+                output_value = self._readandchangepin(MCP23017_GPIOB, pin - 8, value,
                                                           self.i2c.readU8(MCP23017_OLATB)) << 8
 
-        return self.outputvalue
-        # self.outputvalue = self._readandchangepin(MCP23017_IODIRA, pin, value, self.outputvalue)
-        # return self.outputvalue
+        return output_value
+        # self.output_value = self._readandchangepin(MCP23017_IODIRA, pin, value, self.output_value)
+        # return self.output_value
 
     def input(self, pin):
-        assert pin >= 0 and pin < self.num_gpios, "Pin number %s is invalid, only 0-%s are valid" % (
+        assert 0 <= pin < self.num_gpios, "Pin number %s is invalid, only 0-%s are valid" % (
         pin, self.num_gpios)
         assert self.direction & (1 << pin) != 0, "Pin %s not set to input" % pin
+        value = 0
         if self.num_gpios <= 8:
             value = self.i2c.readU8(MCP23008_GPIOA)
-        elif self.num_gpios > 8 and self.num_gpios <= 16:
+        elif 8 < self.num_gpios <= 16:
             value = self.i2c.readU8(MCP23017_GPIOA)
             value |= self.i2c.readU8(MCP23017_GPIOB) << 8
         return value & (1 << pin)
 
     def readU8(self):
         result = self.i2c.readU8(MCP23008_OLATA)
-        return (result)
+        return result
 
     def readS8(self):
         result = self.i2c.readU8(MCP23008_OLATA)
-        if (result > 127): result -= 256
+        if result > 127: result -= 256
         return result
 
     def readU16(self):
         assert self.num_gpios >= 16, "16bits required"
         lo = self.i2c.readU8(MCP23017_OLATA)
         hi = self.i2c.readU8(MCP23017_OLATB)
-        return ((hi << 8) | lo)
+        return (hi << 8) | lo
 
     def readS16(self):
         assert self.num_gpios >= 16, "16bits required"
         lo = self.i2c.readU8(MCP23017_OLATA)
         hi = self.i2c.readU8(MCP23017_OLATB)
-        if (hi > 127): hi -= 256
-        return ((hi << 8) | lo)
+        if hi > 127: hi -= 256
+        return (hi << 8) | lo
 
     def write8(self, value):
         self.i2c.write8(MCP23008_OLATA, value)
