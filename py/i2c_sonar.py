@@ -173,10 +173,8 @@ class SonarSensor:
         connected to A1/B1 etc.
         """
         if self._INTA_GPIO is not None:
-
             self._edge = 1
             self._reading = False
-
             count, data = self.pi.i2c_zip(self._h,
                                           [7, 2, SonarSensor.GPINTENA, 1 << ranger,
                                            # Interrupt on ranger.
@@ -185,28 +183,26 @@ class SonarSensor:
                                            7, 3, SonarSensor.GPIOB, 1 << ranger, 0,  # Send trigger.
                                            7, 1, SonarSensor.GPIOA,  # Consume interrupt.
                                            6, self._trigger_gap])
-
             timeout = time.time() + self._timeout
             while not self._reading:
                 if time.time() > timeout:
                     return SonarSensor.INVALID_READING
                 time.sleep(0.01)
-
             return self._micros * SonarSensor.MICS2CMS
-
         else:
-
             # Send trigger on B then do multiple sequential reads of A.
-
             count, data = self.pi.i2c_zip(self._h,
                                           [7, 3, SonarSensor.GPIOB, 1 << ranger, 0,
                                            7, 1, SonarSensor.GPIOA,
                                            1,
                                            6, self._bytes_lsb, self._bytes_msb])
-            print("TRACE:", data[0])
-            if data is None:
-                return SonarSensor.INVALID_READING
-            if (data[0] & (1 << ranger)) == 0:  # Ignore data if trigger start missed.
+            a = 0
+            try:
+                a = data[0]
+            except Exception as e:
+                print("Exception:", e)
+
+            if (a & (1 << ranger)) == 0:  # Ignore data if trigger start missed.
                 f = False
                 for i in range(count):
                     v = data[i] & (1 << ranger)  # Mask off all but echo bit.
