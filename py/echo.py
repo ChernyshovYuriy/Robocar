@@ -74,8 +74,7 @@ class Echo:
                     # sleep(0.1)
                 # sample = sorted(sample)
             # res = sample[0]
-            print("TRACE %f" % distance)
-            # self.on_echo(distance)
+            self.on_echo(distance)
             sleep(0.1)
 
     # Get distance from sensor.

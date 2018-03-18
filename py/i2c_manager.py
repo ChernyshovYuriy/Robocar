@@ -10,6 +10,9 @@ if py.config.CONFIG is py.config.Platform.PI:
 
 
 if py.config.CONFIG is py.config.Platform.PI:
+    """
+    Use it now as 8 output pins
+    """
     mcp = Adafruit_MCP230XX(address=0x20, num_gpios=8)
 
 
@@ -37,8 +40,7 @@ class I2CManager:
 
     @staticmethod
     def output(pin, direction):
-        val = mcp.output(pin, direction)
-        print("I2C Manager -> out %d %d %d" % (pin, direction, val))
+        mcp.output(pin, direction)
 
     @staticmethod
     def input(pin):
