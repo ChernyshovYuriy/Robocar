@@ -65,7 +65,7 @@ class Motors:
                 """
                 self.turn_l()
         else:
-            if self.state is MotorsState.TURNING_L or MotorsState.TURNING_R:
+            if self.state is (MotorsState.TURNING_L or MotorsState.TURNING_R):
                 if distance > self.min_start_distance:
                     print("TRACE3")
                     self.stop_motors()
