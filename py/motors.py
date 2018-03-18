@@ -31,10 +31,10 @@ class Motors:
         self.action_sleep = 2
         self.state = MotorsState.STOPPED
         self.is_run = False
+        self.stop_motors()
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
-        self.stop_motors()
 
     def start(self):
         self.is_run = True
