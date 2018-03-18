@@ -92,10 +92,12 @@ class Echo:
         """ Save the time of signal emitted """
         while I2CManager.input(I2CManager.ECHO_2) == 0:
             start_time = time.time()
+            sleep(0.01)
 
         """ Save the time of signal received """
         while I2CManager.input(I2CManager.ECHO_2) == 1:
             stop_time = time.time()
+            sleep(0.01)
 
         """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
