@@ -77,7 +77,7 @@ class SonarSensor:
 
     INVALID_READING = 9999.0
 
-    def __init__(self, pi, addr=0x20, i2c_bus=1, INTA_GPIO=None,
+    def __init__(self, pi, addr=0x20, i2c_bus=1, INTA_GPIO=23,
                  i2c_kbps=100.0, max_range_cms=400):
         """
         Instantiate with the Pi and the I2C address of the
