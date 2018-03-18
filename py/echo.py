@@ -79,6 +79,7 @@ class Echo:
                     # sleep(0.1)
                 # sample = sorted(sample)
             # res = sample[0]
+            print("DIST:%s" % distance)
             self.on_echo(distance)
             sleep(0.1)
 
