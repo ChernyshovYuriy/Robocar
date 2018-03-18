@@ -37,4 +37,4 @@ class I2CManager:
 
     @staticmethod
     def input(pin):
-        mcp.input(pin)
+        return mcp.input(pin)
