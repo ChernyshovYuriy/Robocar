@@ -147,9 +147,9 @@ class SonarSensor:
 
         else:
 
-            bytes = int(self._timeout * 1000000.0 / self._bus_byte_micros)
-            self._bytes_lsb = bytes & 0xFF
-            self._bytes_msb = (bytes >> 8) & 0xFF
+            value = int(self._timeout * 1000000.0 / self._bus_byte_micros)
+            self._bytes_lsb = value & 0xFF
+            self._bytes_msb = (value >> 8) & 0xFF
 
     def _cbf(self, gpio, level, tick):
         """
