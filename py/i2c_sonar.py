@@ -203,7 +203,8 @@ class SonarSensor:
                                            7, 1, SonarSensor.GPIOA,
                                            1,
                                            6, self._bytes_lsb, self._bytes_msb])
-
+            if data is None:
+                return SonarSensor.INVALID_READING
             if (data[0] & (1 << ranger)) == 0:  # Ignore data if trigger start missed.
                 f = False
                 for i in range(count):
