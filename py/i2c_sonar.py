@@ -186,6 +186,7 @@ class SonarSensor:
             timeout = time.time() + self._timeout
             while not self._reading:
                 if time.time() > timeout:
+                    print("INVALID_READING1")
                     return SonarSensor.INVALID_READING
                 time.sleep(0.01)
             return self._micros * SonarSensor.MICS2CMS
@@ -212,6 +213,7 @@ class SonarSensor:
                     else:
                         if v:
                             f = True
+            print("INVALID_READING2")
             return SonarSensor.INVALID_READING
 
     def cancel(self):
