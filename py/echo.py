@@ -74,6 +74,7 @@ class Echo:
                         distance[i] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
                     except Exception as e:
                         print("Exception %s" % e)
+                    sleep(0.1)
                 # for i in range(5):
                 #     distance = Echo.distance(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1)
                     # if distance > 0:
