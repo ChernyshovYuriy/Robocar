@@ -70,7 +70,7 @@ class Echo:
             # sample = []
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(Echo.SENSORS)):
-                    distance[i] = Echo.distance(Echo.SENSORS[0][0], Echo.SENSORS[0][1])
+                    distance[i] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
                 # for i in range(5):
                 #     distance = Echo.distance(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1)
                     # if distance > 0:
