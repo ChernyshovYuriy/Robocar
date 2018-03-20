@@ -1,8 +1,6 @@
 import sys
 from os.path import dirname, abspath
 
-from py.step_motor import run
-
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
@@ -15,6 +13,7 @@ from py.echo import Echo
 from py.motors import Motors
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
+from py.step_motor import run
 
 
 class Controller:
