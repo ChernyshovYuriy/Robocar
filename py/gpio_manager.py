@@ -16,8 +16,8 @@ class GPIOManager:
     ECHO_1 = 24
     TRIGGER_2 = 17
     ECHO_2 = 18
-    TRIGGER_3 = 5
-    ECHO_3 = 6
+    # TRIGGER_3 = 5
+    # ECHO_3 = 6
 
     @staticmethod
     def init():
@@ -25,10 +25,10 @@ class GPIOManager:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(GPIOManager.TRIGGER_1, GPIO.OUT)
             GPIO.setup(GPIOManager.TRIGGER_2, GPIO.OUT)
-            GPIO.setup(GPIOManager.TRIGGER_3, GPIO.OUT)
+            # GPIO.setup(GPIOManager.TRIGGER_3, GPIO.OUT)
             GPIO.setup(GPIOManager.ECHO_1, GPIO.IN)
             GPIO.setup(GPIOManager.ECHO_2, GPIO.IN)
-            GPIO.setup(GPIOManager.ECHO_3, GPIO.IN)
+            # GPIO.setup(GPIOManager.ECHO_3, GPIO.IN)
 
     @staticmethod
     def cleanup():
