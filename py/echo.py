@@ -28,7 +28,7 @@ class Echo:
 
     SENSORS = [(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1),
                (GPIOManager.TRIGGER_2, GPIOManager.ECHO_2),
-               (GPIOManager.TRIGGER_3, GPIOManager.ECHO_3)]
+               (GPIOManager.TRIGGER_2, GPIOManager.ECHO_2)]
 
     def __init__(self, on_echo):
         print("Init  echo on ", py.config.CONFIG)
