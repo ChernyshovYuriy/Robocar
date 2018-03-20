@@ -1,6 +1,8 @@
 import sys
 from os.path import dirname, abspath
 
+from py.step_motor import run
+
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
@@ -75,6 +77,11 @@ class Controller:
     def eng_stop(self):
         print("Engine stop")
         self.motors.stop_motors()
+
+    # Run debug action
+    def run_debug(self):
+        print("Run debug")
+        run()
 
     # Callback function to echo class
     def on_echo(self, distance):

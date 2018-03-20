@@ -24,6 +24,11 @@ class I2CManager:
     MOTOR_L_F = 2
     MOTOR_L_B = 3
 
+    coil_A_1_pin = 4
+    coil_A_2_pin = 17
+    coil_B_1_pin = 23
+    coil_B_2_pin = 24
+
     @staticmethod
     def init():
         if py.config.CONFIG is py.config.Platform.PI:
@@ -32,6 +37,11 @@ class I2CManager:
             mcp.config(I2CManager.MOTOR_R_B, mcp.OUTPUT)
             mcp.config(I2CManager.MOTOR_L_F, mcp.OUTPUT)
             mcp.config(I2CManager.MOTOR_L_B, mcp.OUTPUT)
+
+            mcp.config(I2CManager.coil_A_1_pin, mcp.OUTPUT)
+            mcp.config(I2CManager.coil_A_2_pin, mcp.OUTPUT)
+            mcp.config(I2CManager.coil_B_1_pin, mcp.OUTPUT)
+            mcp.config(I2CManager.coil_B_2_pin, mcp.OUTPUT)
 
     @staticmethod
     def cleanup():

@@ -27,7 +27,8 @@ class Echo:
     TWELVE_MICROSEC = 0.000012
 
     SENSORS = [(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1),
-               (GPIOManager.TRIGGER_2, GPIOManager.ECHO_2)]
+               (GPIOManager.TRIGGER_2, GPIOManager.ECHO_2),
+               (GPIOManager.TRIGGER_3, GPIOManager.ECHO_3)]
 
     def __init__(self, on_echo):
         print("Init  echo on ", py.config.CONFIG)
@@ -66,7 +67,7 @@ class Echo:
     # Handle distance measurement.
     def runnable(self):
         while self.is_run:
-            distance = [self.default_distance, self.default_distance]
+            distance = [self.default_distance, self.default_distance, self.default_distance]
             # sample = []
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(Echo.SENSORS)):
@@ -74,7 +75,6 @@ class Echo:
                         distance[i] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
                     except Exception as e:
                         print("Exception %s" % e)
-                    sleep(0.1)
                 # for i in range(5):
                 #     distance = Echo.distance(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1)
                     # if distance > 0:
