@@ -9,14 +9,14 @@ from time import sleep
 # adjust if different
 step_count = 8
 seq = [[None for y in range(4)] for x in range(step_count)]
-seq[0] = [0, 1, 0, 0]
-seq[1] = [0, 1, 0, 1]
-seq[2] = [0, 0, 0, 1]
-seq[3] = [1, 0, 0, 1]
-seq[4] = [1, 0, 0, 0]
-seq[5] = [1, 0, 1, 0]
-seq[6] = [0, 0, 1, 0]
-seq[7] = [0, 1, 1, 0]
+seq[0] = [1, 0, 0, 0]
+seq[1] = [1, 1, 0, 0]
+seq[2] = [0, 1, 0, 0]
+seq[3] = [0, 1, 1, 0]
+seq[4] = [0, 0, 1, 0]
+seq[5] = [0, 0, 1, 1]
+seq[6] = [0, 0, 0, 1]
+seq[7] = [1, 0, 0, 1]
 
 
 def setStep(w1, w2, w3, w4):
