@@ -27,7 +27,8 @@ class Echo:
     TWELVE_MICROSEC = 0.000012
 
     SENSORS = [(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1),
-               (GPIOManager.TRIGGER_2, GPIOManager.ECHO_2)]
+               (GPIOManager.TRIGGER_2, GPIOManager.ECHO_2),
+               (GPIOManager.TRIGGER_3, GPIOManager.ECHO_3)]
 
     def __init__(self, on_echo):
         print("Init  echo on ", py.config.CONFIG)

@@ -20,8 +20,8 @@ class Controller:
     def __init__(self, distance_prompt_in, motors_prompt_in):
         print("Init  controller on %s" % py.config.CONFIG)
         self.is_run = False
-        self.distance = [0, 0]
-        self.distance_origin = [0, 0]
+        self.distance = [0, 0, 0]
+        self.distance_origin = [0, 0, 0]
         self.distance_drove = 0
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
@@ -88,7 +88,7 @@ class Controller:
 
     def on_motors_stopped(self):
         print(" -- motors stopped, drove %.1f sm" % self.distance_drove)
-        self.distance_origin = [0, 0]
+        self.distance_origin = [0, 0, 0]
         """ Reset drove distance here, any reference must be obtained prior to this line """
         # self.distance_drove = 0
         if config.COMMANDER is Commander.UI:
