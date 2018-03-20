@@ -25,9 +25,9 @@ class I2CManager:
     MOTOR_L_B = 3
 
     coil_A_1_pin = 4
-    coil_A_2_pin = 17
-    coil_B_1_pin = 23
-    coil_B_2_pin = 24
+    coil_A_2_pin = 5
+    coil_B_1_pin = 6
+    coil_B_2_pin = 7
 
     @staticmethod
     def init():
