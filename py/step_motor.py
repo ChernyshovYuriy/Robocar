@@ -57,6 +57,7 @@ def run():
     Rot_Spd = 0.001
     Rotate = int(RotateF * 4096)
     for x in range(0, Rotate + 1):
+        print("Run %d" % x)
         for pin in range(0, 4):
             PatternPin = RPiPins[pin]
             if seq[Step_Seq_Num][pin] == 1:
