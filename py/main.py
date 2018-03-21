@@ -13,7 +13,6 @@ from py.echo import Echo
 from py.motors import Motors
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
-from py.step_motor import run
 
 
 class Controller:
@@ -80,7 +79,6 @@ class Controller:
     # Run debug action
     def run_debug(self):
         print("Run debug")
-        run()
 
     # Callback function to echo class
     def on_echo(self, distance):
