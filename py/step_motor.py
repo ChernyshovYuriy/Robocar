@@ -45,6 +45,7 @@ RPiPins = [4, 5, 6, 7]
 
 
 def run():
+    global seq, RPiPins
     # delay = 0
     # steps = 200
     # while True:
