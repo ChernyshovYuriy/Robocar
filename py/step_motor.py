@@ -59,7 +59,7 @@ def run():
     for x in range(0, Rotate + 1):
         for pin in range(0, 4):
             PatternPin = RPiPins[pin]
-            print("Run %d" % PatternPin)
+            print("Run %d" % seq[Step_Seq_Num][pin])
             if seq[Step_Seq_Num][pin] == 1:
                 I2CManager.output(PatternPin, 1)
             else:
