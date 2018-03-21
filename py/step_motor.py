@@ -44,7 +44,7 @@ def backwards(delay, steps):
 
 def run():
     delay = 0
-    steps = 100
+    steps = 200
     while True:
-        forward(int(delay) / 1000.0, int(steps))
-        backwards(int(delay) / 1000.0, int(steps))
+        forward(int(delay) / 1000.0, steps)
+        backwards(int(delay) / 1000.0, steps)
