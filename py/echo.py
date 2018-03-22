@@ -7,6 +7,7 @@ import time
 import py.config
 from threading import Thread
 from time import sleep
+import statistics as stat
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
@@ -67,19 +68,15 @@ class Echo:
     # Handle distance measurement.
     def runnable(self):
         while self.is_run:
-            distance = [self.default_distance, self.default_distance, self.default_distance]
-            # sample = []
+            distance = [[self.default_distance, self.default_distance, self.default_distance],
+                        [self.default_distance, self.default_distance, self.default_distance],
+                        [self.default_distance, self.default_distance, self.default_distance]]
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(Echo.SENSORS)):
-                    distance[i] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
-                # for i in range(5):
-                #     distance = Echo.distance(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1)
-                    # if distance > 0:
-                    #     sample.append(distance)
-                    #     print("   TRACE :: %d" % distance)
-                    # sleep(0.1)
-                # sample = sorted(sample)
-            # res = sample[0]
+                    # distance[i] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
+                    for j in range(3):
+                        distance[i][j] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
+                    distance[i] = stat.mean(distance[i])
             print("ECHO %s" % distance)
             # self.on_echo(distance)
             sleep(0.1)
