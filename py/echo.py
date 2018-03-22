@@ -76,7 +76,7 @@ class Echo:
                     # distance[i] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
                     for j in range(3):
                         distance[i][j] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
-                    distance[i] = stat.mean(distance[i])
+                    distance[i] = round(stat.mean(distance[i]), 0)
             print("ECHO %s" % distance)
             # self.on_echo(distance)
             sleep(0.1)
@@ -108,5 +108,4 @@ class Echo:
         """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
         """ Multiply with the speed of sound and divide by two (distance to and from object) """
-        distance = (time_elapsed * Echo.SOUND_SPEED) / 2
-        return round(distance, 0)
+        return (time_elapsed * Echo.SOUND_SPEED) >> 1
