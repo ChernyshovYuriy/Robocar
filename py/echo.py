@@ -71,10 +71,7 @@ class Echo:
             # sample = []
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(Echo.SENSORS)):
-                    try:
-                        distance[i] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
-                    except Exception as e:
-                        print("Exception %s" % e)
+                    distance[i] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
                 # for i in range(5):
                 #     distance = Echo.distance(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1)
                     # if distance > 0:
@@ -83,8 +80,7 @@ class Echo:
                     # sleep(0.1)
                 # sample = sorted(sample)
             # res = sample[0]
-            print("ECHO %s" % distance)
-            # self.on_echo(distance)
+            self.on_echo(distance)
             sleep(0.1)
 
     # Get distance from sensor.
