@@ -14,6 +14,9 @@ from py.motors import Motors
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
 
+import RPi.GPIO as GPIO
+from time import sleep
+
 
 class Controller:
 
@@ -79,6 +82,11 @@ class Controller:
     # Run debug action
     def run_debug(self):
         print("Run debug")
+        pwm = GPIO.PWM(GPIOManager.SERVO, 50)
+        sleep(2)
+        pwm.start(5)
+        sleep(2)
+        pwm.ChangeDutyCycle(7.5)
 
     # Callback function to echo class
     def on_echo(self, distance):

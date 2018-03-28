@@ -18,11 +18,13 @@ class GPIOManager:
     ECHO_2 = 18
     TRIGGER_3 = 5
     ECHO_3 = 6
+    SERVO = 4
 
     @staticmethod
     def init():
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.setmode(GPIO.BCM)
+            GPIO.setup(GPIOManager.SERVO, GPIO.OUT)
             GPIO.setup(GPIOManager.TRIGGER_1, GPIO.OUT)
             GPIO.setup(GPIOManager.TRIGGER_2, GPIO.OUT)
             GPIO.setup(GPIOManager.TRIGGER_3, GPIO.OUT)
