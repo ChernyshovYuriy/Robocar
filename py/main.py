@@ -84,9 +84,16 @@ class Controller:
         print("Run debug")
         pwm = GPIO.PWM(GPIOManager.SERVO, 50)
         sleep(2)
+        print("Run debug 2")
         pwm.start(5)
         sleep(2)
+        print("Run debug 3")
         pwm.ChangeDutyCycle(7.5)
+        sleep(2)
+        print("Run debug 4")
+        pwm.ChangeDutyCycle(10)
+        print("Run debug 5")
+
 
     # Callback function to echo class
     def on_echo(self, distance):
