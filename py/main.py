@@ -94,6 +94,8 @@ class Controller:
             pwm.ChangeDutyCycle(0)
 
         SetAngle(90)
+        sleep(1)
+        SetAngle(0)
         pwm.stop()
 
     # Callback function to echo class
