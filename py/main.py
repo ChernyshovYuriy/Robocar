@@ -85,7 +85,8 @@ class Controller:
         print("Run debug")
         if self.pwm is None:
             self.pwm = GPIO.PWM(GPIOManager.SERVO, 50)
-        self.pwm.start(7.5)
+            print("PWM Initialized")
+        self.pwm.start(0)
 
         self.SetAngle(90)
         sleep(1)
