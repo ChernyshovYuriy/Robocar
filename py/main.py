@@ -32,7 +32,6 @@ class Controller:
         self.motors = Motors(
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
-        self.pwm = None
 
 
     # Start controller.
@@ -83,23 +82,20 @@ class Controller:
     # Run debug action
     def run_debug(self):
         print("Run debug")
-        if self.pwm is None:
-            self.pwm = GPIO.PWM(GPIOManager.SERVO, 50)
-            self.pwm.start(0)
-            print("PWM Initialized")
-
-        self.SetAngle(90)
-        sleep(1)
-        self.SetAngle(0)
-        # self.pwm.stop()
-
-    def SetAngle(self, angle):
-        duty = angle / 18 + 2
-        GPIO.output(GPIOManager.SERVO, 1)
-        self.pwm.ChangeDutyCycle(duty)
-        sleep(1)
-        GPIO.output(GPIOManager.SERVO, 0)
-        self.pwm.ChangeDutyCycle(0)
+        p = GPIO.PWM(4, 50)
+        p.start(7.5)
+        try:
+            for i in range(0, 5):
+                p.ChangeDutyCycle(7.5)  # turn towards 90 degree
+                sleep(1)  # sleep 1 second
+                p.ChangeDutyCycle(2.5)  # turn towards 0 degree
+                sleep(1)  # sleep 1 second
+                p.ChangeDutyCycle(12.5)  # turn towards 180 degree
+                sleep(1)  # sleep 1 second
+        except Exception as e:
+            p.stop()
+            print("Exception %s" % e)
+        p.stop()
 
     # Callback function to echo class
     def on_echo(self, distance):
