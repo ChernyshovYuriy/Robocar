@@ -31,8 +31,10 @@ class GPIOManager:
             GPIO.setup(GPIOManager.ECHO_1, GPIO.IN)
             GPIO.setup(GPIOManager.ECHO_2, GPIO.IN)
             GPIO.setup(GPIOManager.ECHO_3, GPIO.IN)
+            print("GPIO Manager initialized")
 
     @staticmethod
     def cleanup():
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.cleanup()
+            print("GPIO Manager cleaned up")
