@@ -83,13 +83,18 @@ class Controller:
     def run_debug(self):
         print("Run debug")
         pwm = GPIO.PWM(GPIOManager.SERVO, 50)
-        pwm.start(7.5)
-        while True:
-            pwm.ChangeDutyCycle(7.5)
+        pwm.start(0)
+
+        def SetAngle(angle):
+            duty = angle / 18 + 2
+            GPIO.output(GPIOManager.SERVO, 1)
+            pwm.ChangeDutyCycle(duty)
             sleep(1)
-            pwm.ChangeDutyCycle(12.6)
-            sleep(1)
-            pwm.ChangeDutyCycle(2.5)
+            GPIO.output(GPIOManager.SERVO, 0)
+            pwm.ChangeDutyCycle(0)
+
+        SetAngle(90)
+        pwm.stop()
 
     # Callback function to echo class
     def on_echo(self, distance):
