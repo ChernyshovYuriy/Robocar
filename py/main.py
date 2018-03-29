@@ -83,7 +83,7 @@ class Controller:
     def run_debug(self):
         print("Run debug")
         pwm = GPIO.PWM(GPIOManager.SERVO, 50)
-        pwm.start(0)
+        pwm.start(7.5)
 
         def SetAngle(angle):
             duty = angle / 18 + 2
