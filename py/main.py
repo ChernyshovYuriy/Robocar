@@ -14,10 +14,6 @@ from py.motors import Motors
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
 
-import RPi.GPIO as GPIO
-from time import sleep
-from RPIO import PWM
-
 
 class Controller:
 
@@ -84,20 +80,6 @@ class Controller:
     # Run debug action
     def run_debug(self):
         print("Run debug")
-        if self.p is None:
-            self.p = PWM.Servo()
-        try:
-            while True:
-                # Add servo pulse for GPIO 17 with 1200µs (1.2ms)
-                self.p.set_servo(4, 1200)
-                sleep(1)
-                # Add servo pulse for GPIO 17 with 2000µs (2.0ms)
-                self.p.set_servo(4, 2000)
-                sleep(1)
-        except KeyboardInterrupt:
-            self.p.stop_servo(4)
-            self.p = None
-            print("stop")
 
     # Callback function to echo class
     def on_echo(self, distance):
