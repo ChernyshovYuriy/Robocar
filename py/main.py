@@ -85,16 +85,15 @@ class Controller:
         print("Run debug")
         if self.p is None:
             self.p = GPIO.PWM(4, 50)
-            self.p.start(7.5)
+            self.p.start(2.5)
         try:
-            angle = 2.5
             while True:
-                print("turn towards 90 degree %f" % angle)
-                self.p.ChangeDutyCycle(angle)  # turn towards 90 degree
+                print("turn towards 90 degree")
+                self.p.ChangeDutyCycle(7.5)  # turn towards 90 degree
                 sleep(1)  # sleep 1 second
-                angle += 2.5
-                if angle > 100:
-                    angle = 0
+                print("turn towards 0 degree")
+                self.p.ChangeDutyCycle(2.5)  # turn towards 0 degree
+                sleep(1)  # sleep 1 second
         except KeyboardInterrupt:
             self.p.stop()
             self.p = None
