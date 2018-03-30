@@ -21,18 +21,18 @@ pi.set_servo_pulsewidth(PIN, 1500)
 time.sleep(sleep_time)
 
 while True:
-
     try:
-        pi.set_servo_pulsewidth(PIN, 1000)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1500)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 2000)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1500)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1000)
-        time.sleep(sleep_time)
+        print("Loop")
+    #     pi.set_servo_pulsewidth(PIN, 1000)
+    #     time.sleep(sleep_time)
+    #     pi.set_servo_pulsewidth(PIN, 1500)
+    #     time.sleep(sleep_time)
+    #     pi.set_servo_pulsewidth(PIN, 2000)
+    #     time.sleep(sleep_time)
+    #     pi.set_servo_pulsewidth(PIN, 1500)
+    #     time.sleep(sleep_time)
+    #     pi.set_servo_pulsewidth(PIN, 1000)
+    #     time.sleep(sleep_time)
     except KeyboardInterrupt:
         break
 
