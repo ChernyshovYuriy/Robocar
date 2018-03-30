@@ -22,10 +22,10 @@ time.sleep(1)
 
 while True:
     try:
-        pi.set_servo_pulsewidth(PIN, 3000)
+        pi.set_servo_pulsewidth(PIN, 500)
         time.sleep(sleep_time)
-    #     pi.set_servo_pulsewidth(PIN, 1000)
-    #     time.sleep(sleep_time)
+        pi.set_servo_pulsewidth(PIN, 2500)
+        time.sleep(sleep_time)
     #     pi.set_servo_pulsewidth(PIN, 1500)
     #     time.sleep(sleep_time)
     #     pi.set_servo_pulsewidth(PIN, 2000)
