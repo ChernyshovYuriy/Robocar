@@ -92,7 +92,9 @@ class Controller:
                 print("turn towards 90 degree %f" % angle)
                 self.p.ChangeDutyCycle(angle)  # turn towards 90 degree
                 sleep(1)  # sleep 1 second
-                angle += angle
+                angle += 2.5
+                if angle > 100:
+                    angle = 0
         except KeyboardInterrupt:
             self.p.stop()
             self.p = None
