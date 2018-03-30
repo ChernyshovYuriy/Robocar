@@ -32,7 +32,7 @@ while True:
             idx += 1
         else:
             idx -= 1
-        if idx == len(steps):
+        if idx == len(steps) - 1:
             direction = False
         if idx == 0:
             direction = True
