@@ -48,19 +48,24 @@ while True:
 
     try:
 
-        for g in G:
+        # for g in G:
 
-            pi.set_servo_pulsewidth(g, width[g])
+        pi.set_servo_pulsewidth(g, 2000)
 
-            print(g, width[g])
+        # print(g, width[g])
+        time.sleep(1)
 
-            width[g] += step[g]
+        pi.set_servo_pulsewidth(g, 1000)
 
-            if width[g] < MIN_WIDTH or width[g] > MAX_WIDTH:
-                step[g] = -step[g]
-                width[g] += step[g]
+        time.sleep(1)
 
-        time.sleep(0.1)
+        # width[g] += step[g]
+        #
+        # if width[g] < MIN_WIDTH or width[g] > MAX_WIDTH:
+        #     step[g] = -step[g]
+        #     width[g] += step[g]
+
+        # time.sleep(0.1)
 
     except KeyboardInterrupt:
         break
