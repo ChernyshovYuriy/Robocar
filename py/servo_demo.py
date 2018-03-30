@@ -15,6 +15,8 @@ pi = pigpio.pi()
 if not pi.connected:
     exit()
 
+pi.set_servo_pulsewidth(PIN, 0)
+
 while True:
 
     try:
