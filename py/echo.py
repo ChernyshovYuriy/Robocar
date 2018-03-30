@@ -78,7 +78,7 @@ class Echo:
                         distance[i][j] = Echo.distance(Echo.SENSORS[i][0], Echo.SENSORS[i][1])
                     distance[i] = round(stat.mean(distance[i]), 0)
             # print("ECHO %s" % distance)
-            self.on_echo(distance)
+            # self.on_echo(distance)
             sleep(0.1)
 
     # Get distance from sensor.
