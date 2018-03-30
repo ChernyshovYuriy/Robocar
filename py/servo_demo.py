@@ -15,37 +15,27 @@ pi = pigpio.pi()
 if not pi.connected:
     exit()
 
+idx = 0
+direction = True
 sleep_time = 0.15
+steps = [500, 833, 1166, 1500, 1833, 2166, 2500]
 
 pi.set_servo_pulsewidth(PIN, 500)
 time.sleep(1)
 
 while True:
     try:
-        pi.set_servo_pulsewidth(PIN, 500)
+        pi.set_servo_pulsewidth(PIN, steps[idx])
         time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 833)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1166)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1500)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1833)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 2166)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 2500)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 2166)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1833)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1500)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1166)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 833)
-        time.sleep(sleep_time)
+
+        if direction:
+            idx += 1
+        else:
+            idx -= 1
+        if idx == len(steps):
+            direction = False
+        if idx == 0:
+            direction = True
     except KeyboardInterrupt:
         break
 
