@@ -2,9 +2,9 @@ from time import sleep
 
 import RPi
 
-from py import PWM
+from py.PWM import RPi_PWM_Adapter
 
-pwm = PWM.RPi_PWM_Adapter(RPi.GPIO)
+pwm = RPi_PWM_Adapter(RPi.GPIO)
 pwm.start(4, 50)
 
 pwm.set_duty_cycle(4, 0)
