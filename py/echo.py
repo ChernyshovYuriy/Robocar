@@ -71,7 +71,7 @@ class Echo:
             distance = [self.default_distance, self.default_distance, self.default_distance]
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(Echo.SENSORS)):
-                    distance[i] = Echo.distance(Echo.SENSORS[1][0], Echo.SENSORS[1][1])
+                    distance[i] = Echo.distance(Echo.SENSORS[0][0], Echo.SENSORS[0][1])
             print("ECHO %s" % distance)
             # self.on_echo(distance)
             sleep(0.1)
