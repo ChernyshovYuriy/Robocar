@@ -15,20 +15,13 @@ pi = pigpio.pi()
 if not pi.connected:
     exit()
 
-pi.set_servo_pulsewidth(PIN, 0)
-
 while True:
 
     try:
-
-        pi.set_servo_pulsewidth(PIN, 2000)
-
+        pi.set_servo_pulsewidth(PIN, 500)
         time.sleep(1)
-
-        pi.set_servo_pulsewidth(PIN, 1000)
-
+        pi.set_servo_pulsewidth(PIN, 2500)
         time.sleep(1)
-
     except KeyboardInterrupt:
         break
 
