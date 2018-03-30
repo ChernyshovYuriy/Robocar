@@ -25,6 +25,7 @@ time.sleep(1)
 
 while True:
     try:
+        print("Step:%d" % steps[idx])
         pi.set_servo_pulsewidth(PIN, steps[idx])
         time.sleep(sleep_time)
 
