@@ -15,7 +15,7 @@ pi = pigpio.pi()
 if not pi.connected:
     exit()
 
-sleep_time = 0.2
+sleep_time = 0.05
 
 pi.set_servo_pulsewidth(PIN, 500)
 time.sleep(1)
