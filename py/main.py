@@ -85,7 +85,7 @@ class Controller:
         print("Run debug")
         if self.p is None:
             self.p = GPIO.PWM(4, 50)
-        self.p.start(7.5)
+            self.p.start(7.5)
         print("turn towards 90 degree")
         self.p.ChangeDutyCycle(7.5)  # turn towards 90 degree
         sleep(1)  # sleep 1 second
@@ -95,7 +95,7 @@ class Controller:
         print("turn towards 180 degree")
         self.p.ChangeDutyCycle(12.5)  # turn towards 180 degree
         sleep(1)  # sleep 1 second
-        self.p.stop()
+        # self.p.stop()
         print("stop")
 
     # Callback function to echo class
