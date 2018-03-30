@@ -87,31 +87,17 @@ class Controller:
             self.p = GPIO.PWM(4, 50)
             self.p.start(7.5)
         print("turn towards 90 degree")
-        self.SetAngle(0)  # turn towards 90 degree
+        self.p.ChangeDutyCycle(7.5)  # turn towards 90 degree
         sleep(1)  # sleep 1 second
         print("turn towards 0 degree")
-        self.SetAngle(90)  # turn towards 0 degree
+        self.p.ChangeDutyCycle(2.5)  # turn towards 0 degree
         sleep(1)  # sleep 1 second
         print("turn towards 180 degree")
-        self.SetAngle(180)  # turn towards 180 degree
+        self.p.ChangeDutyCycle(12.5)  # turn towards 180 degree
         sleep(1)  # sleep 1 second
         self.p.stop()
         self.p = None
         print("stop")
-
-    def SetAngle(self, angle):
-
-        duty = angle / 18 + 2
-
-        GPIO.output(4, 1)
-
-        self.p.ChangeDutyCycle(duty)
-
-        sleep(1)
-
-        GPIO.output(4, 0)
-
-        self.p.ChangeDutyCycle(0)
 
     # Callback function to echo class
     def on_echo(self, distance):
