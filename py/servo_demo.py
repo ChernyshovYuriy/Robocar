@@ -40,7 +40,7 @@ time.sleep(1)
 #     except KeyboardInterrupt:
 #         break
 
-for i in range(0, 50):
+for i in range(0, 500):
     print("Iteration %d, Step:%d" % (i, steps[idx]))
     pi.set_servo_pulsewidth(PIN, steps[idx])
     time.sleep(sleep_time)
