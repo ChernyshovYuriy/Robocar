@@ -28,6 +28,12 @@ while True:
         time.sleep(1)
         pi.set_servo_pulsewidth(PIN, 2000)
         time.sleep(1)
+        pi.set_servo_pulsewidth(PIN, 1500)
+        time.sleep(1)
+        pi.set_servo_pulsewidth(PIN, 1000)
+        time.sleep(1)
+        pi.set_servo_pulsewidth(PIN, 500)
+        time.sleep(1)
     except KeyboardInterrupt:
         break
 
