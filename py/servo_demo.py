@@ -18,11 +18,11 @@ if not pi.connected:
 sleep_time = 2
 
 pi.set_servo_pulsewidth(PIN, 1500)
-time.sleep(sleep_time)
+time.sleep(1)
 
 while True:
     try:
-        pi.set_servo_pulsewidth(PIN, 1500)
+        pi.set_servo_pulsewidth(PIN, 2000)
         time.sleep(sleep_time)
     #     pi.set_servo_pulsewidth(PIN, 1000)
     #     time.sleep(sleep_time)
