@@ -16,6 +16,7 @@ from py.i2c_manager import I2CManager
 
 import RPi.GPIO as GPIO
 from time import sleep
+from RPIO import PWM
 
 
 class Controller:
@@ -84,20 +85,17 @@ class Controller:
     def run_debug(self):
         print("Run debug")
         if self.p is None:
-            self.p = GPIO.PWM(4, 50)
-            self.p.start(7.5)
+            self.p = PWM.Servo()
         try:
             while True:
-                print("turn towards 90 degree")
-                self.p.ChangeDutyCycle(7.5)  # turn towards 90 degree
-                sleep(1)  # sleep 1 second
-                print("turn towards 0 degree")
-                self.p.ChangeDutyCycle(2.5)  # turn towards 0 degree
-                sleep(1)  # sleep 1 second
-                print("turn towards 180 degree")
-                self.p.ChangeDutyCycle(12.5)  # turn towards 180 degree
-                sleep(1)  # sleep 1 second
+                # Add servo pulse for GPIO 17 with 1200µs (1.2ms)
+                self.p.set_servo(4, 1200)
+                sleep(1)
+                # Add servo pulse for GPIO 17 with 2000µs (2.0ms)
+                self.p.set_servo(4, 2000)
+                sleep(1)
         except KeyboardInterrupt:
+            self.p.stop_servo(4)
             self.p = None
             print("stop")
 
