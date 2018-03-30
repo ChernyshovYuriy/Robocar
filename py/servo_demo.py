@@ -19,22 +19,26 @@ sleep_time = 0.1
 while True:
 
     try:
-        pi.set_servo_pulsewidth(PIN, 0)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 500)
-        time.sleep(sleep_time)
+        # pi.set_servo_pulsewidth(PIN, 0)
+        # time.sleep(sleep_time)
+        # pi.set_servo_pulsewidth(PIN, 500)
+        # time.sleep(sleep_time)
         pi.set_servo_pulsewidth(PIN, 1000)
         time.sleep(sleep_time)
         pi.set_servo_pulsewidth(PIN, 1500)
         time.sleep(sleep_time)
         pi.set_servo_pulsewidth(PIN, 2000)
         time.sleep(sleep_time)
+        # pi.set_servo_pulsewidth(PIN, 2500)
+        # time.sleep(sleep_time)
+        # pi.set_servo_pulsewidth(PIN, 2000)
+        # time.sleep(sleep_time)
         pi.set_servo_pulsewidth(PIN, 1500)
         time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 1000)
-        time.sleep(sleep_time)
-        pi.set_servo_pulsewidth(PIN, 500)
-        time.sleep(sleep_time)
+        # pi.set_servo_pulsewidth(PIN, 1000)
+        # time.sleep(sleep_time)
+        # pi.set_servo_pulsewidth(PIN, 500)
+        # time.sleep(sleep_time)
     except KeyboardInterrupt:
         break
 
