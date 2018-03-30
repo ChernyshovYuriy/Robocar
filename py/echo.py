@@ -7,7 +7,6 @@ import time
 import py.config
 from threading import Thread
 from time import sleep
-import statistics as stat
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
