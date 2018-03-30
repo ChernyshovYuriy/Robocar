@@ -95,7 +95,8 @@ class Controller:
         print("turn towards 180 degree")
         self.p.ChangeDutyCycle(12.5)  # turn towards 180 degree
         sleep(1)  # sleep 1 second
-        # self.p.stop()
+        self.p.stop()
+        self.p = None
         print("stop")
 
     # Callback function to echo class
