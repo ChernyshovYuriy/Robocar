@@ -103,4 +103,4 @@ class Echo:
         """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
         """ Multiply with the speed of sound and divide by two (distance to and from object) """
-        return (time_elapsed * Echo.SOUND_SPEED) / 2
+        return int((time_elapsed * Echo.SOUND_SPEED) / 2)
