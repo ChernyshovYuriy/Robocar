@@ -22,7 +22,8 @@ time.sleep(sleep_time)
 
 while True:
     try:
-        print("Loop")
+        pi.set_servo_pulsewidth(PIN, 1500)
+        time.sleep(sleep_time)
     #     pi.set_servo_pulsewidth(PIN, 1000)
     #     time.sleep(sleep_time)
     #     pi.set_servo_pulsewidth(PIN, 1500)
