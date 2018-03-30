@@ -5,11 +5,11 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 
 from time import sleep
 
-import RPi
+import RPi.GPIO as GPIO
 
 from py.PWM import RPi_PWM_Adapter
 
-pwm = RPi_PWM_Adapter(RPi.GPIO)
+pwm = RPi_PWM_Adapter(GPIO)
 pwm.start(4, 50)
 
 pwm.set_duty_cycle(4, 0)
