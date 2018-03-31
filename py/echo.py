@@ -63,7 +63,7 @@ class Echo:
     # Handle distance measurement.
     def runnable(self):
         while self.is_run:
-            distance = [self.default_distance]
+            distance = [0, 0, 0, 0, 0]
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(GPIOManager.ULTRASONIC_SENSORS)):
                     try:
