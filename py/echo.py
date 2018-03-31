@@ -26,10 +26,6 @@ class Echo:
     # 12 microseconds
     TWELVE_MICROSEC = 0.000012
 
-    SENSORS = [(GPIOManager.TRIGGER_1, GPIOManager.ECHO_1),
-               (GPIOManager.TRIGGER_2, GPIOManager.ECHO_2),
-               (GPIOManager.TRIGGER_3, GPIOManager.ECHO_3)]
-
     def __init__(self, on_echo):
         print("Init  echo on ", py.config.CONFIG)
         self.is_run = False
@@ -69,8 +65,10 @@ class Echo:
         while self.is_run:
             distance = [self.default_distance]
             if py.config.CONFIG is py.config.Platform.PI:
-                # for i in range(len(Echo.SENSORS)):
-                distance[0] = Echo.distance(Echo.SENSORS[0][0], Echo.SENSORS[0][1])
+                for i in range(len(GPIOManager.ULTRASONIC_SENSORS)):
+                    distance[0] = Echo.distance(
+                        GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
+                    )
             print("ECHO %s" % distance)
             # self.on_echo(distance)
             sleep(0.1)
