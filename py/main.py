@@ -10,7 +10,7 @@ from py.ui_commander import UiCommander
 from py.cmd_commander import CmdCommander
 from tkinter import StringVar, Tk
 from py.echo import Echo
-from py.echo_servo import EchoServo
+# from py.echo_servo import EchoServo
 from py.motors import Motors
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
@@ -27,7 +27,7 @@ class Controller:
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
         self.echo = Echo(self.on_echo)
-        self.echo_servo = EchoServo()
+        # self.echo_servo = EchoServo()
         self.motors = Motors(
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
@@ -41,7 +41,7 @@ class Controller:
 
         print("Start controller")
         self.echo.start()
-        self.echo_servo.start()
+        # self.echo_servo.start()
         self.motors.start()
         self.is_run = True
 
@@ -54,7 +54,7 @@ class Controller:
         self.is_run = False
         self.motors.stop()
         self.echo.stop()
-        self.echo_servo.stop()
+        # self.echo_servo.stop()
 
     # Run engine forward
     def eng_fwd(self):
