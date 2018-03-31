@@ -71,6 +71,7 @@ class Echo:
                             GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
                         )
                     except Exception as e:
+                        print("Exception %s" % e)
                         distance[0] = 0
             print("ECHO %s" % distance)
             # self.on_echo(distance)
