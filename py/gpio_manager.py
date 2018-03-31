@@ -12,16 +12,16 @@ if py.config.CONFIG is py.config.Platform.PI:
 # Manager of the GPIO and its pins.
 class GPIOManager:
 
-    TRIGGER_1 = 25
-    ECHO_1 = 26
-    TRIGGER_2 = 23
-    ECHO_2 = 24
+    TRIGGER_1 = 5
+    ECHO_1 = 6
+    TRIGGER_2 = 17
+    ECHO_2 = 18
     TRIGGER_3 = 20
     ECHO_3 = 21
-    TRIGGER_4 = 17
-    ECHO_4 = 18
-    TRIGGER_5 = 5
-    ECHO_5 = 6
+    TRIGGER_4 = 23
+    ECHO_4 = 24
+    TRIGGER_5 = 25
+    ECHO_5 = 26
     SERVO = 4
 
     ULTRASONIC_SENSORS = [

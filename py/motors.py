@@ -46,7 +46,7 @@ class Motors:
         print("Stop  motors")
 
     def on_echo(self, distance):
-        print("Distance: %s, state: %s, is run %r" % (distance, self.state, self.is_run))
+        print("State: %s, is run %r" % (self.state, self.is_run))
         if not self.is_run:
             self.stop_motors()
             return
