@@ -66,7 +66,7 @@ class Echo:
             distance = [0, 0]
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(GPIOManager.ULTRASONIC_SENSORS)):
-                    distance[0] = Echo.distance(
+                    distance[i] = Echo.distance(
                         GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
                     )
             print("ECHO %s" % distance)
