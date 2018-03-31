@@ -25,11 +25,11 @@ class GPIOManager:
     SERVO = 4
 
     ULTRASONIC_SENSORS = [
-        [TRIGGER_1, ECHO_1],
-        [TRIGGER_2, ECHO_2],
-        [TRIGGER_3, ECHO_3],
-        [TRIGGER_4, ECHO_4],
-        [TRIGGER_5, ECHO_5]
+        [TRIGGER_1, ECHO_1]
+        # [TRIGGER_2, ECHO_2],
+        # [TRIGGER_3, ECHO_3],
+        # [TRIGGER_4, ECHO_4],
+        # [TRIGGER_5, ECHO_5]
     ]
 
     @staticmethod
