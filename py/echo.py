@@ -67,6 +67,7 @@ class Echo:
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(GPIOManager.ULTRASONIC_SENSORS)):
                     try:
+                        print("Trigger %d Echo %d" % (GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]))
                         distance[0] = Echo.distance(
                             GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
                         )
