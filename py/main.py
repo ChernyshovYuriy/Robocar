@@ -33,7 +33,6 @@ class Controller:
         )
         self.p = None
 
-
     # Start controller.
     def start(self):
         if self.is_run is True:
