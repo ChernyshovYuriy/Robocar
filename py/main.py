@@ -83,10 +83,7 @@ class Controller:
 
     def echo_error_callback(self):
         print("Echo error")
-        self.motors.stop_motors()
-        self.motors.backward()
-        sleep(2)
-        self.motors.start()
+        self.motors.hit_the_wall()
 
     # Run debug action
     def run_debug(self):

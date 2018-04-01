@@ -1,5 +1,6 @@
 import sys
 from os.path import dirname, abspath
+from time import sleep
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
@@ -23,6 +24,7 @@ class MotorsState(Enum):
     STARTED_BWD = 3
     TURNING_L = 4
     TURNING_R = 5
+    HIT_THE_WALL = 6
 
 
 # Interface
@@ -87,6 +89,16 @@ class TurningRCmd(Command):
             pass
 
 
+# Hit the wall command
+class HitTheWallCmd(Command):
+
+    def execute(self, state, distance, listener):
+        print("Motor - Hit the wall command")
+        listener.stop_motors()
+        listener.backward()
+        sleep(2)
+        listener.forward()
+
 # Manager of the motors.
 class Motors:
 
@@ -99,7 +111,8 @@ class Motors:
                          MotorsState.STARTED_FWD: StartedFwdCmd(),
                          MotorsState.STARTED_BWD: StartedBwdCmd(),
                          MotorsState.TURNING_L: TurningLCmd(),
-                         MotorsState.TURNING_R: TurningRCmd()}
+                         MotorsState.TURNING_R: TurningRCmd(),
+                         MotorsState.HIT_THE_WALL: HitTheWallCmd()}
         self.stop_motors()
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
@@ -159,3 +172,6 @@ class Motors:
             I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
         self.state = MotorsState.TURNING_R
         self.on_motors_turning_ref(self.state)
+
+    def hit_the_wall(self):
+        self.state = MotorsState.HIT_THE_WALL
