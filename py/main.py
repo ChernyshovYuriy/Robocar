@@ -51,6 +51,10 @@ class Controller:
             return
 
         print("Stop  controller")
+        self.force_stop()
+
+    # Force stop controller
+    def force_stop(self):
         self.is_run = False
         self.motors.stop()
         self.echo.stop()
@@ -137,7 +141,7 @@ if __name__ == "__main__":
         motors_prompt = StringVar()
         commander = UiCommander(controller, root, distance_prompt, motors_prompt)
 
-    controller.stop()
+    controller.force_stop()
     GPIOManager.cleanup()
     I2CManager.cleanup()
 
