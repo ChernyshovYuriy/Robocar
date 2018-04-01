@@ -63,8 +63,10 @@ class Motors:
                 """
                 if distance[0] < self.min_stop_distance:
                     self.turn_l()
-                else:
+                elif distance[len(distance) - 1] < self.min_stop_distance:
                     self.turn_r()
+                else:
+                    self.turn_l()
         else:
             if self.state is (MotorsState.TURNING_L or MotorsState.TURNING_R):
                 if min(distance) > self.min_start_distance:
