@@ -5,7 +5,6 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
 from enum import Enum
-from time import sleep
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO

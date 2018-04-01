@@ -90,11 +90,17 @@ class Echo:
         stop_time = time.time()
 
         """ Save the time of signal emitted """
+        c = 0
         while GPIO.input(echo) == 0:
+            c += 1
+            print("C1:%d" % c)
             start_time = time.time()
 
         """ Save the time of signal received """
+        c = 0
         while GPIO.input(echo) == 1:
+            c += 1
+            print("C1:%d" % c)
             stop_time = time.time()
 
         """ Time difference between emitted and received signal """
