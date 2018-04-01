@@ -26,7 +26,7 @@ class Controller:
         self.distance_drove = 0
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
-        self.echo = Echo(self.on_echo)
+        self.echo = Echo(self.on_echo, self.echo_error_callback)
         # self.echo_servo = EchoServo()
         self.motors = Motors(
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
@@ -79,6 +79,9 @@ class Controller:
     def eng_stop(self):
         print("Engine stop")
         self.motors.stop_motors()
+
+    def echo_error_callback(self):
+        print("Echo error")
 
     # Run debug action
     def run_debug(self):

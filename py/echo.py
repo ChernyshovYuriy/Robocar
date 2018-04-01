@@ -25,14 +25,16 @@ class Echo:
     TWO_MICROSEC = 0.000002
     # 12 microseconds
     TWELVE_MICROSEC = 0.000012
+    # Max counter for the echo back
     MAX_COUNTER = 10000
 
-    def __init__(self, on_echo):
+    def __init__(self, on_echo, echo_error_callback):
         print("Init  echo on ", py.config.CONFIG)
         self.is_run = False
         self.default_distance = 0
         self.thread = None
         self.on_echo = on_echo
+        self.echo_error_callback = echo_error_callback
         # Connect to local Pi.
         # self.pi = pigpio.pi()
         # self.sonar_sensor = SonarSensor(self.pi)
@@ -68,7 +70,8 @@ class Echo:
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(GPIOManager.ULTRASONIC_SENSORS)):
                     distance[i] = Echo.distance(
-                        GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
+                        GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1],
+                        self.echo_error_callback
                     )
             # print("ECHO %s" % distance)
             self.on_echo(distance)
@@ -76,7 +79,7 @@ class Echo:
 
     # Get distance from sensor.
     @staticmethod
-    def distance(trigger, echo):
+    def distance(trigger, echo, echo_error_callback):
         """
         The PING is triggered by a HIGH pulse of 10 or more microseconds.
         Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
@@ -106,6 +109,7 @@ class Echo:
             c += 1
             if c == Echo.MAX_COUNTER:
                 print("Brake echo 1 loop")
+                echo_error_callback()
                 break
 
         """ Time difference between emitted and received signal """
