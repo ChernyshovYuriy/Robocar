@@ -58,6 +58,8 @@ class Motors:
                 self.stop_motors()
                 sleep(self.action_sleep)
             if self.is_run:
+                if self.state is (MotorsState.TURNING_L or MotorsState.TURNING_R):
+                    return 
                 """
                 Do turn / seek logic here
                 """
