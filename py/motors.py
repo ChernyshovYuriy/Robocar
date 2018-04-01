@@ -49,7 +49,6 @@ class StoppedCmd(Command):
 class StartedFwdCmd(Command):
 
     def execute(self, state, distance, listener):
-        # super(StartedFwdCmd, self).execute(state, distance)
         print("Motor - Started wrd command")
         if min(distance) >= min_stop_distance:
             return
@@ -119,40 +118,6 @@ class Motors:
             return
 
         self.commands[self.state].execute(self.state, distance, self)
-
-        # if min(distance) < min_stop_distance:
-        #     if self.state is MotorsState.STOPPED:
-        #         return
-        #     if self.state is not (MotorsState.TURNING_L or MotorsState.TURNING_R):
-        #         self.stop_motors()
-        #         sleep(action_sleep)
-        #     if self.is_run:
-        #         if self.state is MotorsState.TURNING_L:
-        #             self.turn_l()
-        #             return
-        #         elif self.state is MotorsState.TURNING_R:
-        #             self.turn_r()
-        #             return
-        #         """
-        #         Do turn / seek logic here
-        #         """
-        #         if distance[0] < min_stop_distance:
-        #             self.turn_r()
-        #         elif distance[len(distance) - 1] < min_stop_distance:
-        #             self.turn_l()
-        #         else:
-        #             self.turn_l()
-        # else:
-        #     if self.state is (MotorsState.TURNING_L or MotorsState.TURNING_R):
-        #         if min(distance) > min_start_distance:
-        #             self.stop_motors()
-        #             sleep(action_sleep)
-        #             if self.is_run:
-        #                 self.forward()
-        #         return
-        #     if self.state is (MotorsState.STARTED_FWD or self.state is MotorsState.STARTED_BWD):
-        #         return
-        #     self.forward()
 
     def forward(self):
         if py.config.CONFIG is py.config.Platform.PI:
