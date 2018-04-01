@@ -59,9 +59,12 @@ class Motors:
                 sleep(self.action_sleep)
             if self.is_run:
                 """
-                Lets turn left
+                Do turn / seek logic here
                 """
-                self.turn_l()
+                if distance[0] < self.min_stop_distance:
+                    self.turn_l()
+                else:
+                    self.turn_r()
         else:
             if self.state is (MotorsState.TURNING_L or MotorsState.TURNING_R):
                 if min(distance) > self.min_start_distance:
