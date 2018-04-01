@@ -38,11 +38,15 @@ class StoppedCmd(Command):
 
     def execute(self, state, distance, listener):
         print("Motor - Stopped command")
-        if min(distance) < min_stop_distance:
-            # TODO: Implement turn logic here
-            listener.turn_l()
-        else:
+        if min(distance) >= min_stop_distance:
             listener.forward()
+            return
+        if distance[0] < min_stop_distance:
+            listener.turn_l()
+        elif distance[len(distance) - 1] < min_stop_distance:
+            listener.turn_r()
+        else:
+            listener.turn_l()
 
 
 # Started fwd command
