@@ -60,7 +60,7 @@ class Motors:
             if self.is_run:
                 if self.state is MotorsState.TURNING_L:
                     self.turn_l()
-                    return 
+                    return
                 elif self.state is MotorsState.TURNING_R:
                     self.turn_r()
                     return
@@ -68,9 +68,9 @@ class Motors:
                 Do turn / seek logic here
                 """
                 if distance[0] < self.min_stop_distance:
-                    self.turn_l()
-                elif distance[len(distance) - 1] < self.min_stop_distance:
                     self.turn_r()
+                elif distance[len(distance) - 1] < self.min_stop_distance:
+                    self.turn_l()
                 else:
                     self.turn_l()
         else:
