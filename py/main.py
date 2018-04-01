@@ -1,5 +1,6 @@
 import sys
 from os.path import dirname, abspath
+from time import sleep
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
@@ -82,6 +83,10 @@ class Controller:
 
     def echo_error_callback(self):
         print("Echo error")
+        self.motors.stop_motors()
+        self.motors.backward()
+        sleep(2)
+        self.motors.start()
 
     # Run debug action
     def run_debug(self):
