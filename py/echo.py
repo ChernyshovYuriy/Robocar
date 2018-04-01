@@ -92,15 +92,21 @@ class Echo:
         """ Save the time of signal emitted """
         c = 0
         while GPIO.input(echo) == 0:
-            c += 1
             start_time = time.time()
-        print("C1:%d" % c)
+            c += 1
+            if c == 10000:
+                print("Brake echo 0 loop")
+                break
+
         """ Save the time of signal received """
         c = 0
         while GPIO.input(echo) == 1:
-            c += 1
             stop_time = time.time()
-        print("C2:%d" % c)
+            c += 1
+            if c == 10000:
+                print("Brake echo 1 loop")
+                break
+
         """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
         """ Multiply with the speed of sound and divide by two (distance to and from object) """
