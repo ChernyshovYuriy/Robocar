@@ -25,6 +25,7 @@ class Echo:
     TWO_MICROSEC = 0.000002
     # 12 microseconds
     TWELVE_MICROSEC = 0.000012
+    MAX_COUNTER = 10000
 
     def __init__(self, on_echo):
         print("Init  echo on ", py.config.CONFIG)
@@ -94,7 +95,7 @@ class Echo:
         while GPIO.input(echo) == 0:
             start_time = time.time()
             c += 1
-            if c == 10000:
+            if c == Echo.MAX_COUNTER:
                 print("Brake echo 0 loop")
                 break
 
@@ -103,7 +104,7 @@ class Echo:
         while GPIO.input(echo) == 1:
             stop_time = time.time()
             c += 1
-            if c == 10000:
+            if c == Echo.MAX_COUNTER:
                 print("Brake echo 1 loop")
                 break
 
