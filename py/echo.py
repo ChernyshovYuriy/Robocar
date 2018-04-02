@@ -67,19 +67,23 @@ class Echo:
     def runnable(self):
         while self.is_run:
             distance = [0, 0, 0, 0, 0]
+            c = 0
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(GPIOManager.ULTRASONIC_SENSORS)):
                     distance[i] = Echo.distance(
-                        GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1],
-                        self.echo_error_callback
+                        GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
                     )
+                    if distance[i] == 0:
+                        c += 1
             # print("ECHO %s" % distance)
             self.on_echo(distance)
+            if c >= 2:
+                self.echo_error_callback()
             sleep(0.1)
 
     # Get distance from sensor.
     @staticmethod
-    def distance(trigger, echo, echo_error_callback):
+    def distance(trigger, echo):
         """
         The PING is triggered by a HIGH pulse of 10 or more microseconds.
         Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
@@ -109,7 +113,7 @@ class Echo:
             c += 1
             if c == Echo.MAX_COUNTER:
                 print("Brake echo 1 loop")
-                echo_error_callback()
+                stop_time = start_time = 0
                 break
 
         """ Time difference between emitted and received signal """
