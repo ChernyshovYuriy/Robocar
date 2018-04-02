@@ -98,6 +98,7 @@ class HitTheWallCmd(Command):
         listener.backward()
         sleep(2)
         listener.stop_motors()
+        sleep(5)
         listener.forward()
 
 # Manager of the motors.
