@@ -67,18 +67,13 @@ class Echo:
     def runnable(self):
         while self.is_run:
             distance = [0, 0, 0, 0, 0]
-            c = 0
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(len(GPIOManager.ULTRASONIC_SENSORS)):
                     distance[i] = Echo.distance(
                         GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
                     )
-                    if distance[i] == 0:
-                        c += 1
             # print("ECHO %s" % distance)
             self.on_echo(distance)
-            if c >= 2:
-                self.echo_error_callback()
             sleep(0.1)
 
     # Get distance from sensor.
