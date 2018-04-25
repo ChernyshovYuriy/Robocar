@@ -24,9 +24,8 @@ class LM393:
         if self.is_run is True:
             return
 
-        print("Start echo")
         self.is_run = True
-        """Run echo in separate thread"""
+        """Run LM393 in separate thread"""
         if self.thread is None:
             self.thread = Thread(target=self.runnable)
         self.thread.start()
@@ -36,7 +35,6 @@ class LM393:
         if self.is_run is False:
             return
 
-        print("Stop  echo")
         self.is_run = False
         self.thread = None
 
