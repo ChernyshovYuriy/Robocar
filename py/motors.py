@@ -94,12 +94,6 @@ class HitTheWallCmd(Command):
 
     def execute(self, state, distance, listener):
         print("Motor - Hit the wall command")
-        listener.stop_motors()
-        listener.backward()
-        sleep(2)
-        listener.stop_motors()
-        sleep(5)
-        listener.forward()
 
 
 # Manager of the motors.
@@ -115,8 +109,7 @@ class Motors:
                          MotorsState.STARTED_FWD: StartedFwdCmd(),
                          MotorsState.STARTED_BWD: StartedBwdCmd(),
                          MotorsState.TURNING_L: TurningLCmd(),
-                         MotorsState.TURNING_R: TurningRCmd(),
-                         MotorsState.HIT_THE_WALL: HitTheWallCmd()}
+                         MotorsState.TURNING_R: TurningRCmd()}
         self.stop_motors()
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
