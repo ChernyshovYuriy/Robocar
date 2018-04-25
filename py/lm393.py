@@ -13,11 +13,12 @@ if py.config.CONFIG is py.config.Platform.PI:
 
 class LM393:
 
-    def __init__(self):
+    def __init__(self, on_value):
         print("Init  LM393")
         self.is_run = False
         self.value = 0
         self.thread = None
+        self.on_value_int = on_value
 
     def start(self):
         print("Start LM393")
@@ -41,10 +42,10 @@ class LM393:
     # Handle distance measurement.
     def runnable(self):
         while self.is_run:
-            value = self.get_value()
-            print("LM393 value %d" % value)
+            self.on_value_int(self.get_value())
 
-    def get_value(self):
+    @staticmethod
+    def get_value():
         count = 0
 
         # Output on the pin for

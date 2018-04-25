@@ -110,6 +110,7 @@ class Motors:
         self.state = MotorsState.STOPPED
         self.is_run = False
         self.on_motors_stopped_ref = None
+        self.lm393_value = 0
         self.commands = {MotorsState.STOPPED: StoppedCmd(),
                          MotorsState.STARTED_FWD: StartedFwdCmd(),
                          MotorsState.STARTED_BWD: StartedBwdCmd(),
@@ -120,6 +121,9 @@ class Motors:
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
+
+    def set_lm393_value(self, value):
+        self.lm393_value = value
 
     def start(self):
         self.is_run = True
