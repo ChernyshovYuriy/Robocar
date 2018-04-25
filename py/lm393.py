@@ -20,7 +20,7 @@ class LM393:
         try:
             # Main loop
             while True:
-                print ("Count:" % self.callback())
+                print ("Count: %d" % self.callback())
         except KeyboardInterrupt:
             pass
 
