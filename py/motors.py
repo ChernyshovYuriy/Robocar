@@ -101,6 +101,7 @@ class HitTheWallCmd(Command):
         sleep(5)
         listener.forward()
 
+
 # Manager of the motors.
 class Motors:
 

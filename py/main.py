@@ -1,6 +1,5 @@
 import sys
 from os.path import dirname, abspath
-from time import sleep
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
@@ -15,6 +14,7 @@ from py.echo import Echo
 from py.motors import Motors
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
+from py.lm393 import LM393
 
 
 class Controller:
@@ -33,6 +33,8 @@ class Controller:
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
         self.p = None
+        self.lm393 = LM393()
+        self.lm393.start()
 
     # Start controller.
     def start(self):
