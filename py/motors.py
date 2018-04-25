@@ -54,7 +54,7 @@ class StoppedCmd(Command):
 class StartedFwdCmd(Command):
 
     def execute(self, state, distance, listener):
-        print("Motor - Started wrd command")
+        print("Motor - Started wrd command %d" % listener.lm393_value)
         if min(distance) >= min_stop_distance:
             return
         listener.stop_motors()
