@@ -34,7 +34,7 @@ class LM393:
         # Output on the pin for
         GPIO.setup(GPIOManager.LM393, GPIO.OUT)
         GPIO.output(GPIOManager.LM393, GPIO.LOW)
-        sleep(0.001)
+        sleep(0.5)
 
         # Change the pin back to input
         GPIO.setup(GPIOManager.LM393, GPIO.IN)
