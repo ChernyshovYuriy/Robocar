@@ -3,6 +3,7 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
+import time
 from time import sleep
 from py.gpio_manager import GPIOManager
 import py.config
@@ -29,18 +30,15 @@ class LM393:
 
     def callback(self):
         print("Callback LM393")
-        count = 0
+        millis = int(round(time.time() * 1000))
+        newmillis = int(round(time.time() * 1000))
+        soundPeack = 1
+        while (newmillis <= (millis + int(1000))):
+            # print newmillis - millis
+            # print GPIO.input(4)
+            if GPIO.input(GPIOManager.LM393):
+                soundPeack = soundPeack + 1
+                time.sleep(0.1)  # give 100 ms to gpio pin rest time
+            newmillis = int(round(time.time() * 1000))
 
-        # Output on the pin for
-        GPIO.setup(GPIOManager.LM393, GPIO.OUT)
-        GPIO.output(GPIOManager.LM393, GPIO.LOW)
-        sleep(0.1)
-
-        # Change the pin back to input
-        GPIO.setup(GPIOManager.LM393, GPIO.IN)
-
-        # Count until the pin goes high
-        while GPIO.input(GPIOManager.LM393) == GPIO.LOW:
-            count += 1
-
-        return count
+        return soundPeack
