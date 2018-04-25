@@ -34,7 +34,6 @@ class Controller:
         )
         self.p = None
         self.lm393 = LM393()
-        self.lm393.start()
 
     # Start controller.
     def start(self):
@@ -45,6 +44,7 @@ class Controller:
         self.echo.start()
         # self.echo_servo.start()
         self.motors.start()
+        self.lm393.start()
         self.is_run = True
 
     # Stop controller
@@ -54,6 +54,7 @@ class Controller:
 
         print("Stop  controller")
         self.force_stop()
+        self.lm393.stop()
 
     # Force stop controller
     def force_stop(self):
