@@ -1,9 +1,9 @@
 import sys
 from os.path import dirname, abspath
-from time import time
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
+from time import sleep
 from py.gpio_manager import GPIOManager
 import py.config
 if py.config.CONFIG is py.config.Platform.PI:
@@ -34,7 +34,7 @@ class LM393:
         # Output on the pin for
         GPIO.setup(GPIOManager.LM393, GPIO.OUT)
         GPIO.output(GPIOManager.LM393, GPIO.LOW)
-        time.sleep(0.1)
+        sleep(0.1)
 
         # Change the pin back to input
         GPIO.setup(GPIOManager.LM393, GPIO.IN)
