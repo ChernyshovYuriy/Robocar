@@ -42,7 +42,7 @@ class LM393:
     def runnable(self):
         while self.is_run:
             value = self.get_value()
-            print("LM393 value %d" % value)
+            print("                           LM393 value %d" % value)
 
     def get_value(self):
         count = 0
