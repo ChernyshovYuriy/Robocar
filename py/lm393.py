@@ -44,10 +44,9 @@ class LM393:
     def runnable(self):
         while self.is_run:
             value = self.get_value()
-            print("Value %d" % value)
+            print("LM393 value %d" % value)
 
     def get_value(self):
-        print("Callback LM393")
         count = 0
 
         # Output on the pin for
