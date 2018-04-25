@@ -29,5 +29,18 @@ class LM393:
 
     def callback(self):
         print("Callback LM393")
+        count = 0
 
-        return GPIO.input(GPIOManager.LM393)
+        # Output on the pin for
+        GPIO.setup(GPIOManager.LM393, GPIO.OUT)
+        GPIO.output(GPIOManager.LM393, GPIO.LOW)
+        sleep(0.01)
+
+        # Change the pin back to input
+        GPIO.setup(GPIOManager.LM393, GPIO.IN)
+
+        # Count until the pin goes high
+        while GPIO.input(GPIOManager.LM393) == GPIO.LOW:
+            count += 1
+
+        return count
