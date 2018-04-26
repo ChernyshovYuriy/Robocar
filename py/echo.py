@@ -72,7 +72,6 @@ class Echo:
                     distance[i] = Echo.distance(
                         GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
                     )
-                    sleep(0.1)
             print("ECHO %s" % distance)
             # self.on_echo(distance)
             sleep(0.1)
@@ -100,6 +99,7 @@ class Echo:
             c += 1
             if c == Echo.MAX_COUNTER:
                 print("Brake echo 0 loop")
+                start_time = time.time()
                 break
 
         """ Save the time of signal received """
