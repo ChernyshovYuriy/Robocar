@@ -99,7 +99,7 @@ class Controller:
     # Callback function to LM393 class
     def on_lm393_value(self, value):
         print("LM393 value is %d" % value)
-        # self.motors.set_lm393_value(value)
+        self.motors.set_lm393_value(value)
 
     # Callback function to echo class
     def on_echo(self, distance):
