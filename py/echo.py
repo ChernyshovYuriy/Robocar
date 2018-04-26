@@ -96,20 +96,20 @@ class Echo:
         c = 0
         while GPIO.input(echo) == 0:
             start_time = time.time()
-            c += 1
-            if c == Echo.MAX_COUNTER:
-                print("Brake echo 0 loop")
-                break
+            # c += 1
+            # if c == Echo.MAX_COUNTER:
+            #     print("Brake echo 0 loop")
+            #     break
 
         """ Save the time of signal received """
         c = 0
         while GPIO.input(echo) == 1:
             stop_time = time.time()
-            c += 1
-            if c == Echo.MAX_COUNTER:
-                print("Brake echo 1 loop")
-                stop_time = start_time = 0
-                break
+            # c += 1
+            # if c == Echo.MAX_COUNTER:
+            #     print("Brake echo 1 loop")
+            #     stop_time = start_time = 0
+            #     break
 
         """ Time difference between emitted and received signal """
         time_elapsed = stop_time - start_time
