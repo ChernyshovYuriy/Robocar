@@ -57,17 +57,8 @@ class StartedFwdCmd(Command):
         self.zero_counter = 0
 
     def execute(self, state, distance, listener):
-        print("Motor - Started frd command, lm393 %d, zero %d" % (listener.lm393_value, self.zero_counter))
-        if min(distance) >= min_stop_distance:
-            if listener.lm393_value <= 0:
-                self.zero_counter += 1
-                if self.zero_counter == 5:
-                    listener.hit_the_wall()
-                    self.zero_counter = 0
-            else:
-                self.zero_counter = 0
-            return
-        listener.stop_motors()
+        print("Motor - Started frd command")
+        # listener.stop_motors()
 
 
 # Started bwd command
@@ -124,6 +115,7 @@ class Motors:
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
+        self.zero_counter = 0
 
     def set_lm393_value(self, value):
         self.lm393_value = value
@@ -137,11 +129,19 @@ class Motors:
         print("Stop  motors")
 
     def on_echo(self, distance):
-        print("State: %s, is run %r" % (self.state, self.is_run))
+        print("State: %s, is run %r, lm393 %d" % (self.state, self.is_run, self.lm393_value))
 
         if not self.is_run:
             self.stop_motors()
             return
+
+        if self.lm393_value <= 0:
+            self.zero_counter += 1
+            if self.zero_counter == 5:
+                self.zero_counter = 0
+                self.state = MotorsState.HIT_THE_WALL
+        else:
+            self.zero_counter = 0
 
         self.commands[self.state].execute(self.state, distance, self)
 
@@ -187,5 +187,5 @@ class Motors:
         self.state = MotorsState.HIT_THE_WALL
         self.stop_motors()
         self.backward()
-        sleep(2)
+        sleep(1)
         self.turn_l()
