@@ -35,6 +35,7 @@ class Echo:
         self.thread = None
         self.on_echo = on_echo
         self.echo_error_callback = echo_error_callback
+        self.distance_prev = [0, 0, 0, 0, 0]
         # Connect to local Pi.
         # self.pi = pigpio.pi()
         # self.sonar_sensor = SonarSensor(self.pi)
@@ -72,6 +73,10 @@ class Echo:
                     distance[i] = Echo.distance(
                         GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
                     )
+                    if distance[i] != 0:
+                        self.distance_prev[i] = distance[i]
+                    if distance[i] == 0 and self.distance_prev[i] != 0:
+                        distance[i] = self.distance_prev[i]
             # print("ECHO %s" % distance)
             self.on_echo(distance)
             sleep(0.1)
