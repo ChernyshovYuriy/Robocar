@@ -33,7 +33,7 @@ class Controller:
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
         self.p = None
-        # self.lm393 = LM393(self.on_lm393_value)
+        self.lm393 = LM393(self.on_lm393_value)
 
     # Start controller.
     def start(self):
@@ -42,7 +42,7 @@ class Controller:
 
         print("Start controller")
         self.echo.start()
-        # self.lm393.start()
+        self.lm393.start()
         # self.echo_servo.start()
         self.motors.start()
         self.is_run = True
@@ -58,7 +58,7 @@ class Controller:
     # Force stop controller
     def force_stop(self):
         self.is_run = False
-        # self.lm393.stop()
+        self.lm393.stop()
         self.motors.stop()
         self.echo.stop()
         # self.echo_servo.stop()
@@ -99,7 +99,7 @@ class Controller:
     # Callback function to LM393 class
     def on_lm393_value(self, value):
         print("LM393 value is %d" % value)
-        # self.motors.set_lm393_value(value)
+        self.motors.set_lm393_value(value)
 
     # Callback function to echo class
     def on_echo(self, distance):
