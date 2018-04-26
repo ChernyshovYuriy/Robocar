@@ -20,7 +20,7 @@ class GPIOManager:
     ECHO_3 = 21
     TRIGGER_4 = 23
     ECHO_4 = 24
-    TRIGGER_5 = 25
+    TRIGGER_5 = 13
     ECHO_5 = 26
     SERVO = 4
     # LM393 = 12
@@ -37,7 +37,7 @@ class GPIOManager:
     def init():
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.setmode(GPIO.BCM)
-            # GPIO.setup(GPIOManager.SERVO, GPIO.OUT)
+            GPIO.setup(GPIOManager.SERVO, GPIO.OUT)
             GPIO.setup(GPIOManager.TRIGGER_1, GPIO.OUT)
             GPIO.setup(GPIOManager.TRIGGER_2, GPIO.OUT)
             GPIO.setup(GPIOManager.TRIGGER_3, GPIO.OUT)
