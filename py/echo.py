@@ -90,6 +90,7 @@ class Echo:
         GPIO.output(trigger, GPIO.LOW)
 
         start_time = time.time()
+        stop_time = time.time()
 
         """ Save the time of signal emitted """
         c = 0
@@ -102,7 +103,6 @@ class Echo:
 
         """ Save the time of signal received """
         c = 0
-        stop_time = time.time()
         while GPIO.input(echo) == 1:
             stop_time = time.time()
             c += 1
