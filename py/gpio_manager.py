@@ -23,7 +23,10 @@ class GPIOManager:
     TRIGGER_5 = 13
     ECHO_5 = 26
     SERVO = 4
-    # LM393 = 12
+    LM393 = 12
+
+    # Out of order - revalidate later
+    DOWN_PORT = 25
 
     ULTRASONIC_SENSORS = [
         [TRIGGER_1, ECHO_1],
@@ -48,7 +51,7 @@ class GPIOManager:
             GPIO.setup(GPIOManager.ECHO_3, GPIO.IN)
             GPIO.setup(GPIOManager.ECHO_4, GPIO.IN)
             GPIO.setup(GPIOManager.ECHO_5, GPIO.IN)
-            # GPIO.setup(GPIOManager.LM393, GPIO.IN)
+            GPIO.setup(GPIOManager.LM393, GPIO.IN)
             print("GPIO Manager initialized")
 
     @staticmethod
