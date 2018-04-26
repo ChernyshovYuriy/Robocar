@@ -95,7 +95,10 @@ class HitTheWallCmd(Command):
 
     def execute(self, state, distance, listener):
         print("Motor - Hit the wall command")
-
+        listener.stop_motors()
+        listener.backward()
+        sleep(1)
+        listener.turn_l()
 
 # Manager of the motors.
 class Motors:
@@ -140,7 +143,7 @@ class Motors:
             self.zero_counter += 1
             if self.zero_counter == 5:
                 self.zero_counter = 0
-                self.state = MotorsState.HIT_THE_WALL
+                self.hit_the_wall()
         else:
             self.zero_counter = 0
 
@@ -186,7 +189,3 @@ class Motors:
 
     def hit_the_wall(self):
         self.state = MotorsState.HIT_THE_WALL
-        self.stop_motors()
-        self.backward()
-        sleep(1)
-        self.turn_l()
