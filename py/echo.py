@@ -72,6 +72,7 @@ class Echo:
                     distance[i] = Echo.distance(
                         GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
                     )
+                    sleep(0.1)
             print("ECHO %s" % distance)
             # self.on_echo(distance)
             sleep(0.1)
