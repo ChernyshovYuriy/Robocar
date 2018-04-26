@@ -84,9 +84,6 @@ class TurningLCmd(Command):
         print("Motor - Turning l command")
         if min(distance) >= min_stop_distance:
             listener.stop_motors()
-        elif distance[0] < min_stop_distance:
-            listener.stop_motors()
-            listener.turn_r()
         else:
             pass
 
@@ -98,9 +95,6 @@ class TurningRCmd(Command):
         print("Motor - Turning r command")
         if min(distance) >= min_stop_distance:
             listener.stop_motors()
-        elif distance[len(distance) - 1] < min_stop_distance:
-            listener.stop_motors()
-            listener.turn_l()
         else:
             pass
 
