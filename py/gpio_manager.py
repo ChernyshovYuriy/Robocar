@@ -21,7 +21,7 @@ class GPIOManager:
     TRIGGER_4 = 23
     ECHO_4 = 24
     TRIGGER_5 = 25
-    ECHO_5 = 26
+    ECHO_5 = 16
     SERVO = 4
     # LM393 = 12
 
