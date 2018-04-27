@@ -77,7 +77,8 @@ class TurningLCmd(Command):
             sleep(0.5)
             listener.stop_motors()
         else:
-            listener.handle_lm393()
+            # listener.handle_lm393()
+            pass
 
 
 # Turning r command
@@ -89,8 +90,8 @@ class TurningRCmd(Command):
             sleep(0.5)
             listener.stop_motors()
         else:
-            listener.handle_lm393()
-
+            # listener.handle_lm393()
+            pass
 
 # Hit the wall command
 class HitTheWallCmd(Command):
