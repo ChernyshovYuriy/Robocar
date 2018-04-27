@@ -61,7 +61,7 @@ class StartedFwdCmd(Command):
         if min(distance) >= min_stop_distance:
             if listener.lm393_value <= 0:
                 self.zero_counter += 1
-                if self.zero_counter == 5:
+                if self.zero_counter == 10:
                     self.zero_counter = 0
                     listener.hit_the_wall()
             else:
