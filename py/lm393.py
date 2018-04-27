@@ -10,6 +10,8 @@ import py.config
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
 
+# Max counter for the echo back
+MAX_COUNTER = 10000
 
 class LM393:
 
@@ -56,8 +58,13 @@ class LM393:
         # Change the pin back to input
         GPIO.setup(GPIOManager.LM393, GPIO.IN)
 
+        c = 0
         # Count until the pin goes high
         while GPIO.input(GPIOManager.LM393) == GPIO.LOW:
             count += 1
+            c += 1
+            if c == MAX_COUNTER:
+                print("Brake lm393 loop")
+                break
 
         return count
