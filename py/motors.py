@@ -58,7 +58,9 @@ class StartedFwdCmd(Command):
 
     def execute(self, state, distance, listener):
         print("Motor - Started frd command")
-        # listener.stop_motors()
+        if min(distance) >= min_stop_distance:
+            return 
+        listener.stop_motors()
 
 
 # Started bwd command
@@ -139,13 +141,13 @@ class Motors:
             self.stop_motors()
             return
 
-        if self.lm393_value <= 0:
-            self.zero_counter += 1
-            if self.zero_counter == 5:
-                self.zero_counter = 0
-                self.hit_the_wall()
-        else:
-            self.zero_counter = 0
+        # if self.lm393_value <= 0:
+        #     self.zero_counter += 1
+        #     if self.zero_counter == 5:
+        #         self.zero_counter = 0
+        #         self.hit_the_wall()
+        # else:
+        #     self.zero_counter = 0
 
         self.commands[self.state].execute(self.state, distance, self)
 
