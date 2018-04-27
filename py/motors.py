@@ -74,6 +74,7 @@ class TurningLCmd(Command):
     def execute(self, state, distance, listener):
         print("Motor - Turning l command")
         if min(distance) >= min_stop_distance:
+            sleep(1)
             listener.stop_motors()
         else:
             listener.handle_lm393()
@@ -85,6 +86,7 @@ class TurningRCmd(Command):
     def execute(self, state, distance, listener):
         print("Motor - Turning r command")
         if min(distance) >= min_stop_distance:
+            sleep(1)
             listener.stop_motors()
         else:
             listener.handle_lm393()
