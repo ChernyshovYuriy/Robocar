@@ -14,7 +14,6 @@ if py.config.CONFIG is py.config.Platform.PI:
 
 min_stop_distance = 20
 min_start_distance = 30
-action_sleep = 0.5
 
 
 # Enumeration of the motors states.
@@ -53,19 +52,10 @@ class StoppedCmd(Command):
 # Started fwd command
 class StartedFwdCmd(Command):
 
-    def __init__(self):
-        self.zero_counter = 0
-
     def execute(self, state, distance, listener):
         print("Motor - Started fwd command")
         if min(distance) >= min_stop_distance:
-            if listener.lm393_value <= 0:
-                self.zero_counter += 1
-                if self.zero_counter == 10:
-                    self.zero_counter = 0
-                    listener.hit_the_wall()
-            else:
-                self.zero_counter = 0
+            listener.handle_lm393()
             return
         listener.stop_motors()
 
@@ -85,7 +75,7 @@ class TurningLCmd(Command):
         if min(distance) >= min_stop_distance:
             listener.stop_motors()
         else:
-            pass
+            listener.handle_lm393()
 
 
 # Turning r command
@@ -96,7 +86,7 @@ class TurningRCmd(Command):
         if min(distance) >= min_stop_distance:
             listener.stop_motors()
         else:
-            pass
+            listener.handle_lm393()
 
 
 # Hit the wall command
@@ -148,14 +138,6 @@ class Motors:
             self.stop_motors()
             return
 
-        # if self.lm393_value <= 0:
-        #     self.zero_counter += 1
-        #     if self.zero_counter == 5:
-        #         self.zero_counter = 0
-        #         self.hit_the_wall()
-        # else:
-        #     self.zero_counter = 0
-
         self.commands[self.state].execute(self.state, distance, self)
 
     def forward(self):
@@ -198,3 +180,12 @@ class Motors:
 
     def hit_the_wall(self):
         self.state = MotorsState.HIT_THE_WALL
+
+    def handle_lm393(self):
+        if self.lm393_value <= 0:
+            self.zero_counter += 1
+            if self.zero_counter == 10:
+                self.zero_counter = 0
+                self.hit_the_wall()
+        else:
+            self.zero_counter = 0
