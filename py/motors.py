@@ -4,6 +4,7 @@ from time import sleep
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
+from py.lm393 import LM393_MAX_COUNTER
 import py.config
 from enum import Enum
 
@@ -182,7 +183,7 @@ class Motors:
         self.state = MotorsState.HIT_THE_WALL
 
     def handle_lm393(self):
-        if self.lm393_value <= 0:
+        if self.lm393_value <= 0 or self.lm393_value == LM393_MAX_COUNTER:
             self.zero_counter += 1
             if self.zero_counter == 10:
                 self.zero_counter = 0
