@@ -16,6 +16,7 @@ if py.config.CONFIG is py.config.Platform.PI:
 min_stop_distance = 8
 # 12inch 30cm
 min_start_distance = 12
+TURN_SLEEP = 0.1
 
 
 # Enumeration of the motors states.
@@ -75,7 +76,7 @@ class TurningLCmd(Command):
     def execute(self, state, distance, listener):
         print("Motor - Turning l command")
         if min(distance) >= min_stop_distance:
-            sleep(0.5)
+            sleep(TURN_SLEEP)
             listener.stop_motors()
         else:
             # listener.handle_lm393()
@@ -88,7 +89,7 @@ class TurningRCmd(Command):
     def execute(self, state, distance, listener):
         print("Motor - Turning r command")
         if min(distance) >= min_stop_distance:
-            sleep(0.5)
+            sleep(TURN_SLEEP)
             listener.stop_motors()
         else:
             # listener.handle_lm393()
