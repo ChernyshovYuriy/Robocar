@@ -74,24 +74,19 @@ class Echo:
     # Handle distance measurement.
     def runnable(self):
         num_of_sensors = len(self.distance_prev)
+        self.octasonic.toggle_led()
         while self.is_run:
-            # distance = [0, 0, 0, 0, 0]
-            # if py.config.CONFIG is py.config.Platform.PI:
-            #     for i in range(len(GPIOManager.ULTRASONIC_SENSORS)):
-            #         distance[i] = Echo.distance(
-            #             GPIOManager.ULTRASONIC_SENSORS[i][0], GPIOManager.ULTRASONIC_SENSORS[i][1]
-            #         )
-            #         if distance[i] != 0:
-            #             self.distance_prev[i] = distance[i]
-            #         if distance[i] == 0 and self.distance_prev[i] != 0:
-            #             distance[i] = self.distance_prev[i]
-            # print("ECHO %s" % distance)
+            distance = [0, 0, 0, 0, 0]
+            if py.config.CONFIG is py.config.Platform.PI:
+                for i in range(num_of_sensors):
+                    distance[i] = self.octasonic.get_sensor_reading(i)
+                    if distance[i] != 0:
+                        self.distance_prev[i] = distance[i]
+                    if distance[i] == 0 and self.distance_prev[i] != 0:
+                        distance[i] = self.distance_prev[i]
+            print("ECHO %s" % distance)
             # self.on_echo(distance)
-            # sleep(0.1)
-            self.octasonic.toggle_led()
-            time.sleep(0.1)
-            for i in range(0, num_of_sensors):
-                print("                           Distance: %s" % self.octasonic.get_sensor_reading(1))
+            sleep(0.1)
 
     # Get distance from sensor.
     @staticmethod
