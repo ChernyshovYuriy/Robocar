@@ -12,9 +12,10 @@ if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
     from py.i2c_manager import I2CManager
 
-
-min_stop_distance = 20
-min_start_distance = 30
+# 8inch 20cm
+min_stop_distance = 8
+# 12inch 30cm
+min_start_distance = 12
 
 
 # Enumeration of the motors states.
@@ -93,6 +94,7 @@ class TurningRCmd(Command):
             # listener.handle_lm393()
             pass
 
+
 # Hit the wall command
 class HitTheWallCmd(Command):
 
@@ -102,6 +104,7 @@ class HitTheWallCmd(Command):
         listener.backward()
         sleep(1)
         listener.turn_l()
+
 
 # Manager of the motors.
 class Motors:
