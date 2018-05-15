@@ -91,7 +91,7 @@ class Echo:
             self.octasonic.toggle_led()
             time.sleep(0.1)
             for i in range(0, num_of_sensors):
-                print("                           Distance: %s" % self.octasonic.get_sensor_reading(i))
+                print("                           Distance: %s" % self.octasonic.get_sensor_reading(0))
 
     # Get distance from sensor.
     @staticmethod
