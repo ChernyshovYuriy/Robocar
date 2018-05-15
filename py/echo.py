@@ -41,7 +41,7 @@ class Echo:
         protocol_version = self.octasonic.get_protocol_version()
         firmware_version = self.octasonic.get_firmware_version()
         print("Octasonic protocol v%s firmware v%s" % (protocol_version, firmware_version))
-        self.octasonic.set_sensor_count(1)
+        self.octasonic.set_sensor_count(5)
         print("Octasonic sensor count: %s" % self.octasonic.get_sensor_count())
         # Connect to local Pi.
         # self.pi = pigpio.pi()
@@ -73,6 +73,7 @@ class Echo:
 
     # Handle distance measurement.
     def runnable(self):
+        num_of_sensors = len(self.distance_prev)
         while self.is_run:
             # distance = [0, 0, 0, 0, 0]
             # if py.config.CONFIG is py.config.Platform.PI:
@@ -89,7 +90,7 @@ class Echo:
             # sleep(0.1)
             self.octasonic.toggle_led()
             time.sleep(0.1)
-            for i in range(0, 1):
+            for i in range(0, num_of_sensors):
                 print("                           Distance: %s" % self.octasonic.get_sensor_reading(i))
 
     # Get distance from sensor.
