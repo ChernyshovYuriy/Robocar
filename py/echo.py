@@ -88,7 +88,7 @@ class Echo:
             # self.on_echo(distance)
             # sleep(0.1)
             self.octasonic.toggle_led()
-            time.sleep(0.25)
+            time.sleep(0.1)
             for i in range(0, 1):
                 print("                           Distance: %s" % self.octasonic.get_sensor_reading(i))
 
