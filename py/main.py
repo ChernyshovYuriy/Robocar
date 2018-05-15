@@ -3,6 +3,7 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
+from py.octasonic import Octasonic
 import py.config
 from py import config
 from py.config import Commander
@@ -138,6 +139,11 @@ if __name__ == "__main__":
 
     distance_prompt = None
     motors_prompt = None
+
+    octasonic = Octasonic(0)
+    protocol_version = octasonic.get_protocol_version()
+    firmware_version = octasonic.get_firmware_version()
+    print("Octasonic Protocol v%s; Firmware v%s" % (protocol_version, firmware_version))
 
     controller = Controller(distance_prompt, motors_prompt)
 
