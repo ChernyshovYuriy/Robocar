@@ -38,6 +38,7 @@ class Controller:
         self.lm393 = LM393(self.on_lm393_value)
         self.camera = Camera()
         self.server = HttpServer()
+        self.server.start()
 
     # Start controller.
     def start(self):
