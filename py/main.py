@@ -1,11 +1,10 @@
 import sys
 from os.path import dirname, abspath
 
-from py.httpserver import HttpServer
-
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
+from py.httpserver import HttpServer
 from py import config
 from py.config import Commander
 from py.ui_commander import UiCommander
