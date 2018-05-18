@@ -35,7 +35,7 @@ class Controller:
         )
         self.p = None
         self.lm393 = LM393(self.on_lm393_value)
-        self.camera = Camera
+        self.camera = Camera()
 
     # Start controller.
     def start(self):
