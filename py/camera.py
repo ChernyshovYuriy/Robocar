@@ -42,4 +42,6 @@ class Camera:
         self.camera.camera.stop_preview()
 
     def runnable(self):
-        self.camera.capture('/home/pi/dev/ivan/robocar/py/img/camera_image.jpg')
+        while self.is_run:
+            self.camera.capture('/home/pi/dev/ivan/robocar/py/img/camera_image.jpg')
+            sleep(0.1)
