@@ -45,7 +45,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
 
     def send_image(self):
         mimetype = 'image/jpg'
-        url = "img/camera_image.jpg"
+        url = "/img/camera_image.jpg"
         print("url %s" % url)
         f = open(url, "rb")
         self.send_response(200)
