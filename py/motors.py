@@ -81,6 +81,7 @@ class TurningAbcCmd(Command):
 class TurningLCmd(TurningAbcCmd):
 
     def execute(self, state, distance, listener):
+        super().execute(state, distance, listener)
         print("Motor - Turning l command")
         if min(distance) >= min_stop_distance:
             sleep(TURN_SLEEP)
@@ -94,6 +95,7 @@ class TurningLCmd(TurningAbcCmd):
 class TurningRCmd(TurningAbcCmd):
 
     def execute(self, state, distance, listener):
+        super().execute(state, distance, listener)
         print("Motor - Turning r command")
         if min(distance) >= min_stop_distance:
             sleep(TURN_SLEEP)
