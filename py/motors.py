@@ -144,12 +144,14 @@ class Motors:
         self.is_run = False
         self.on_motors_stopped_ref = None
         self.lm393_value = 0
-        self.commands = {MotorsState.STOPPED: StoppedCmd(),
-                         MotorsState.STARTED_FWD: StartedFwdCmd(),
-                         MotorsState.STARTED_BWD: StartedBwdCmd(),
-                         MotorsState.TURNING_L: TurningLCmd(),
-                         MotorsState.TURNING_R: TurningRCmd(),
-                         MotorsState.HIT_THE_WALL: HitTheWallCmd()}
+        self.commands = {
+            MotorsState.STOPPED: StoppedCmd(),
+            MotorsState.STARTED_FWD: StartedFwdCmd(),
+            MotorsState.STARTED_BWD: StartedBwdCmd(),
+            MotorsState.TURNING_L: TurningLCmd(),
+            MotorsState.TURNING_R: TurningRCmd(),
+            MotorsState.HIT_THE_WALL: HitTheWallCmd(),
+        }
         self.stop_motors()
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
