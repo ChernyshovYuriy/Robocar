@@ -13,6 +13,7 @@ if py.config.CONFIG is py.config.Platform.PI:
 # Max counter for the echo back
 LM393_MAX_COUNTER = 10000
 
+
 class LM393:
 
     def __init__(self, on_value):

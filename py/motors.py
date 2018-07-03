@@ -70,8 +70,15 @@ class StartedBwdCmd(Command):
         print("Motor - Started bwd command")
 
 
+class TurningAbcCmd(Command):
+
+    def execute(self, state, distance, listener):
+        print("Motor - Turning abc command")
+        pass
+
+
 # Turning l command
-class TurningLCmd(Command):
+class TurningLCmd(TurningAbcCmd):
 
     def execute(self, state, distance, listener):
         print("Motor - Turning l command")
@@ -84,7 +91,7 @@ class TurningLCmd(Command):
 
 
 # Turning r command
-class TurningRCmd(Command):
+class TurningRCmd(TurningAbcCmd):
 
     def execute(self, state, distance, listener):
         print("Motor - Turning r command")
