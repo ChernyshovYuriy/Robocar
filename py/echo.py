@@ -86,7 +86,7 @@ class Echo:
                         distance[i] = self.distance_prev[i]
             print("ECHO %s" % distance)
             # self.on_echo(distance)
-            sleep(0.1)
+            sleep(0.05)
 
     # Get distance from sensor.
     @staticmethod
