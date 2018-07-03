@@ -45,10 +45,16 @@ class StoppedCmd(Command):
             listener.forward()
             return
         if distance[0] < min_stop_distance:
+            listener.backward()
+            sleep(1)
             listener.turn_r()
         elif distance[len(distance) - 1] < min_stop_distance:
+            listener.backward()
+            sleep(1)
             listener.turn_l()
         else:
+            listener.backward()
+            sleep(1)
             listener.turn_l()
 
 
