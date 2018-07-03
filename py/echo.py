@@ -3,7 +3,7 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-# from py.octasonic import Octasonic
+from py.octasonic import Octasonic
 import time
 import py.config
 from threading import Thread
@@ -11,7 +11,6 @@ from time import sleep
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
-    from octasonic.octasonic import Octasonic
     from py.gpio_manager import GPIOManager
     # from py.i2c_sonar import SonarSensor
 

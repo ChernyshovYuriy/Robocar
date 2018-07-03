@@ -26,7 +26,6 @@ class Octasonic:
         self.spi.mode = 0b00
         self.spi.max_speed_hz = 600  # need to see what speed is really supported
 
-        print("Octasonic Init %s" % (self.spi))
         # init and ignore response
         self.send(0x00, 0x00)
 
@@ -37,7 +36,7 @@ class Octasonic:
         response1 = self.spi.xfer([(cmd << 4) | param])
         # get the response
         response2 = self.spi.xfer([CMD_NO_COMMAND])
-        print("Responses: %s, %s" % (response1, response2))
+        # print "Responses: %s, %s" % (response1, response2)
         return response2[0]
 
     def get_protocol_version(self):
