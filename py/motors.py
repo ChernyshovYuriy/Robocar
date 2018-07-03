@@ -75,6 +75,7 @@ class TurningAbcCmd(Command):
     def __init__(self):
         self.lm393_value = 0
         self.zero_counter = 0
+        self.escape_forward = True
 
     def execute(self, state, distance, listener):
         print("Motor - Turning abc command")
@@ -82,7 +83,12 @@ class TurningAbcCmd(Command):
             self.zero_counter += 1
             if self.zero_counter == 10:
                 self.zero_counter = 0
-                listener.forward()
+                if self.escape_forward:
+                    listener.forward()
+                    self.escape_forward = False
+                else:
+                    listener.backward()
+                    self.escape_forward = True
                 sleep(1)
         else:
             self.zero_counter = 0
