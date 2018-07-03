@@ -84,7 +84,6 @@ class TurningAbcCmd(Command):
                 self.zero_counter = 0
                 listener.forward()
                 sleep(1)
-                listener.stop()
         else:
             self.zero_counter = 0
         pass
