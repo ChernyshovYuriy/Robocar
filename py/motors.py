@@ -84,11 +84,11 @@ class TurningAbcCmd(Command):
             if self.zero_counter == 10:
                 self.zero_counter = 0
                 if self.escape_forward:
-                    listener.stop()
+                    listener.stop_motors()
                     listener.forward()
                     self.escape_forward = False
                 else:
-                    listener.stop()
+                    listener.stop_motors()
                     listener.backward()
                     self.escape_forward = True
                 sleep(1)
