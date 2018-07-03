@@ -58,7 +58,7 @@ class StartedFwdCmd(Command):
     def execute(self, state, distance, listener):
         print("Motor - Started fwd command")
         if min(distance) >= min_stop_distance:
-            listener.handle_lm393()
+            # listener.handle_lm393()
             return
         listener.stop_motors()
 
@@ -107,7 +107,7 @@ class TurningLCmd(TurningAbcCmd):
             sleep(TURN_SLEEP)
             listener.stop_motors()
         else:
-            super().execute(state, distance, listener)
+            # super().execute(state, distance, listener)
             pass
 
 
@@ -120,7 +120,7 @@ class TurningRCmd(TurningAbcCmd):
             sleep(TURN_SLEEP)
             listener.stop_motors()
         else:
-            super().execute(state, distance, listener)
+            # super().execute(state, distance, listener)
             pass
 
 
