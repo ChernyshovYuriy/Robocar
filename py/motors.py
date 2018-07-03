@@ -72,8 +72,21 @@ class StartedBwdCmd(Command):
 
 class TurningAbcCmd(Command):
 
+    def __init__(self):
+        self.lm393_value = 0
+        self.zero_counter = 0
+
     def execute(self, state, distance, listener):
         print("Motor - Turning abc command")
+        if self.lm393_value <= 0 or self.lm393_value == LM393_MAX_COUNTER:
+            self.zero_counter += 1
+            if self.zero_counter == 10:
+                self.zero_counter = 0
+                listener.forward()
+                sleep(1)
+                listener.stop()
+        else:
+            self.zero_counter = 0
         pass
 
 
@@ -81,13 +94,12 @@ class TurningAbcCmd(Command):
 class TurningLCmd(TurningAbcCmd):
 
     def execute(self, state, distance, listener):
-        super().execute(state, distance, listener)
         print("Motor - Turning l command")
         if min(distance) >= min_stop_distance:
             sleep(TURN_SLEEP)
             listener.stop_motors()
         else:
-            # listener.handle_lm393()
+            super().execute(state, distance, listener)
             pass
 
 
@@ -95,13 +107,12 @@ class TurningLCmd(TurningAbcCmd):
 class TurningRCmd(TurningAbcCmd):
 
     def execute(self, state, distance, listener):
-        super().execute(state, distance, listener)
         print("Motor - Turning r command")
         if min(distance) >= min_stop_distance:
             sleep(TURN_SLEEP)
             listener.stop_motors()
         else:
-            # listener.handle_lm393()
+            super().execute(state, distance, listener)
             pass
 
 
