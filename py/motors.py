@@ -13,9 +13,9 @@ if py.config.CONFIG is py.config.Platform.PI:
     from py.i2c_manager import I2CManager
 
 # 8inch 20cm
-min_stop_distance = 12
+MIN_STOP_DISTANCE = 12
 # 12inch 30cm
-min_start_distance = 12
+MIN_START_DISTANCE = 12
 TURN_SLEEP = 0.1
 
 
@@ -47,7 +47,7 @@ class StartedFwdCmd(Command):
 
     def execute(self, state, distance, listener):
         print("Motor - Started fwd command")
-        if min(distance) >= min_stop_distance:
+        if min(distance) >= MIN_STOP_DISTANCE:
             # listener.handle_lm393()
             return
         listener.stop_motors()
@@ -94,7 +94,7 @@ class TurningLCmd(TurningAbcCmd):
 
     def execute(self, state, distance, listener):
         print("Motor - Turning l command")
-        if min(distance) >= min_stop_distance:
+        if min(distance) >= MIN_STOP_DISTANCE:
             # sleep(TURN_SLEEP)
             listener.stop_motors()
             listener.make_move_decision(distance, listener)
@@ -108,7 +108,7 @@ class TurningRCmd(TurningAbcCmd):
 
     def execute(self, state, distance, listener):
         print("Motor - Turning r command")
-        if min(distance) >= min_stop_distance:
+        if min(distance) >= MIN_STOP_DISTANCE:
             # sleep(TURN_SLEEP)
             listener.stop_motors()
             listener.make_move_decision(distance, listener)
@@ -208,12 +208,21 @@ class Motors:
             self.zero_counter = 0
 
     def make_move_decision(self, distance, listener):
-        if min(distance) >= min_stop_distance:
+        if min(distance) >= MIN_STOP_DISTANCE:
             self.forward()
             return
-        if distance[0] < min_stop_distance:
-            self.turn_r()
-        elif distance[len(distance) - 1] < min_stop_distance:
-            self.turn_l()
+        if distance[0] < MIN_STOP_DISTANCE:
+            while self.state is not MotorsState.STARTED_FWD:
+                self.turn_r()
+                self.stop_motors()
+                sleep(0.1)
+        elif distance[len(distance) - 1] < MIN_STOP_DISTANCE:
+            while self.state is not MotorsState.STARTED_FWD:
+                self.turn_l()
+                self.stop_motors()
+                sleep(0.1)
         else:
-            self.turn_l()
+            while self.state is not MotorsState.STARTED_FWD:
+                self.turn_l()
+                self.stop_motors()
+                sleep(0.1)
