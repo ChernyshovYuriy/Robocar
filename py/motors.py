@@ -145,10 +145,12 @@ class Motors:
     def start(self):
         self.is_run = True
         print("Start motors")
+        self.forward()
 
     def stop(self):
         self.is_run = False
         print("Stop  motors")
+        self.stop_motors()
 
     def on_echo(self, distance):
         print("State: %s, is run %r, lm393 %d" % (self.state, self.is_run, self.lm393_value))
