@@ -1,6 +1,6 @@
 import sys
 from os.path import dirname, abspath
-from time import sleep
+from time import sleep, time
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
@@ -140,6 +140,9 @@ class Motors:
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
         self.zero_counter = 0
+        self.turn_l_counter = 0
+        self.turn_r_counter = 0
+        self.turn_start = 0
 
     def set_lm393_value(self, value):
         self.lm393_value = value
@@ -201,27 +204,42 @@ class Motors:
         self.state = MotorsState.TURNING_R
         self.on_motors_turning_ref(self.state)
 
-    def handle_lm393(self):
-        if self.lm393_value <= 0 or self.lm393_value == LM393_MAX_COUNTER:
-            self.zero_counter += 1
-            if self.zero_counter == 10:
-                self.zero_counter = 0
-        else:
-            self.zero_counter = 0
+    # def handle_lm393(self):
+    #     if self.lm393_value <= 0 or self.lm393_value == LM393_MAX_COUNTER:
+    #         self.zero_counter += 1
+    #         if self.zero_counter == 10:
+    #             self.zero_counter = 0
+    #     else:
+    #         self.zero_counter = 0
 
     def make_move_decision(self, distance):
         if min(distance) >= MIN_STOP_DISTANCE:
             self.forward()
+            self.turn_l_counter = 0
+            self.turn_r_counter = 0
+            self.turn_start = 0
             return
+
+        timestamp = time() * 1000
+        if self.turn_start is 0:
+            self.turn_start = timestamp
+        if timestamp - self.turn_start >= 5000:
+            self.turn_l()
+            sleep(1)
+            return
+
         if distance[0] < MIN_STOP_DISTANCE:
             self.turn_r()
-            sleep(0.1)
+            self.turn_r_counter += 1
+            sleep(TURN_SLEEP)
             self.stop_motors()
         elif distance[len(distance) - 1] < MIN_STOP_DISTANCE:
             self.turn_l()
-            sleep(0.1)
+            self.turn_l_counter += 1
+            sleep(TURN_SLEEP)
             self.stop_motors()
         else:
             self.turn_l()
-            sleep(0.1)
+            self.turn_l_counter += 1
+            sleep(TURN_SLEEP)
             self.stop_motors()
