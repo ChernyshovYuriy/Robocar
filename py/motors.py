@@ -215,14 +215,14 @@ class Motors:
             while self.state is not MotorsState.STARTED_FWD:
                 self.turn_r()
                 self.stop_motors()
-                sleep(0.1)
+                sleep(0.5)
         elif distance[len(distance) - 1] < MIN_STOP_DISTANCE:
             while self.state is not MotorsState.STARTED_FWD:
                 self.turn_l()
                 self.stop_motors()
-                sleep(0.1)
+                sleep(0.5)
         else:
             while self.state is not MotorsState.STARTED_FWD:
                 self.turn_l()
                 self.stop_motors()
-                sleep(0.1)
+                sleep(0.5)
