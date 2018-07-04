@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+var intervalId = -1;
+
+function startCameraFetch() {
+	console.log("Start fetch")
+	intervalId = setInterval(fetchCamera, 1000);	
+}
+
+function stopCameraFetch() {
+	console.log("Stop fetch")
+	if (intervalId != -1) {
+		clearInterval(intervalId);
+	}	
+}
+
+function fetchCamera() {
+	console.log("Image ...");
+	var myImage = document.querySelector('.camera_image');
+	myImage.src = "http://192.168.0.16:8080/camera";
+}
+</script>
+<button id="start_btn" type="button" onclick="fetchCamera()">Start</button>
+<button id="stop_btn" type="button" onclick="stopCameraFetch()">Stop</button><p>
+<img id="image" src="" class="camera_image"/>
+</body>
+</html>
