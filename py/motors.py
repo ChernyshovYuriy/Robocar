@@ -223,8 +223,8 @@ class Motors:
         timestamp = time()
         if self.turn_start is 0:
             self.turn_start = timestamp
-        print("Timestamp %d, turn start %d, diff %d" % (timestamp, self.turn_start, (timestamp - self.turn_start)))
-        if timestamp - self.turn_start >= 5:
+        # print("Timestamp %d, turn start %d, diff %d" % (timestamp, self.turn_start, (timestamp - self.turn_start)))
+        if timestamp - self.turn_start >= 3:
             self.turn_l()
             sleep(1)
             return
