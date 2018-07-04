@@ -40,6 +40,8 @@ class StoppedCmd(Command):
 
     def execute(self, state, distance, listener):
         print("Motor - Stopped command")
+        if listener.is_run:
+            listener.make_move_decision(distance)
 
 
 # Started fwd command
