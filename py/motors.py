@@ -209,11 +209,11 @@ class Motors:
 
     def make_move_decision(self, distance, listener):
         if min(distance) >= min_stop_distance:
-            listener.forward()
+            self.forward()
             return
         if distance[0] < min_stop_distance:
-            listener.turn_r()
+            self.turn_r()
         elif distance[len(distance) - 1] < min_stop_distance:
-            listener.turn_l()
+            self.turn_l()
         else:
-            listener.turn_l()
+            self.turn_l()
