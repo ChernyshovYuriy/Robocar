@@ -51,7 +51,7 @@ class StartedFwdCmd(Command):
             # listener.handle_lm393()
             return
         listener.stop_motors()
-        listener.make_move_decision(distance, listener)
+        listener.make_move_decision(distance)
 
 
 # Started bwd command
@@ -97,7 +97,7 @@ class TurningLCmd(TurningAbcCmd):
         if min(distance) >= MIN_STOP_DISTANCE:
             # sleep(TURN_SLEEP)
             listener.stop_motors()
-            listener.make_move_decision(distance, listener)
+            listener.make_move_decision(distance)
         else:
             # super().execute(state, distance, listener)
             pass
@@ -111,7 +111,7 @@ class TurningRCmd(TurningAbcCmd):
         if min(distance) >= MIN_STOP_DISTANCE:
             # sleep(TURN_SLEEP)
             listener.stop_motors()
-            listener.make_move_decision(distance, listener)
+            listener.make_move_decision(distance)
         else:
             # super().execute(state, distance, listener)
             pass
@@ -207,22 +207,13 @@ class Motors:
         else:
             self.zero_counter = 0
 
-    def make_move_decision(self, distance, listener):
+    def make_move_decision(self, distance):
         if min(distance) >= MIN_STOP_DISTANCE:
             self.forward()
             return
         if distance[0] < MIN_STOP_DISTANCE:
-            while self.state is not MotorsState.STARTED_FWD:
-                self.turn_r()
-                sleep(0.1)
-                self.stop_motors()
+            self.turn_r()
         elif distance[len(distance) - 1] < MIN_STOP_DISTANCE:
-            while self.state is not MotorsState.STARTED_FWD:
-                self.turn_l()
-                sleep(0.1)
-                self.stop_motors()
+            self.turn_l()
         else:
-            while self.state is not MotorsState.STARTED_FWD:
-                self.turn_l()
-                sleep(0.1)
-                self.stop_motors()
+            self.turn_l()
