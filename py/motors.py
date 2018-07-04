@@ -26,7 +26,6 @@ class MotorsState(Enum):
     STARTED_BWD = 3
     TURNING_L = 4
     TURNING_R = 5
-    HIT_THE_WALL = 6
 
 
 # Interface
@@ -41,21 +40,6 @@ class StoppedCmd(Command):
 
     def execute(self, state, distance, listener):
         print("Motor - Stopped command")
-        if min(distance) >= min_stop_distance:
-            listener.forward()
-            return
-        if distance[0] < min_stop_distance:
-            listener.backward()
-            sleep(1)
-            listener.turn_r()
-        elif distance[len(distance) - 1] < min_stop_distance:
-            listener.backward()
-            sleep(1)
-            listener.turn_l()
-        else:
-            listener.backward()
-            sleep(1)
-            listener.turn_l()
 
 
 # Started fwd command
@@ -67,6 +51,7 @@ class StartedFwdCmd(Command):
             # listener.handle_lm393()
             return
         listener.stop_motors()
+        listener.make_move_decision(distance, listener)
 
 
 # Started bwd command
@@ -112,6 +97,7 @@ class TurningLCmd(TurningAbcCmd):
         if min(distance) >= min_stop_distance:
             sleep(TURN_SLEEP)
             listener.stop_motors()
+            listener.make_move_decision(distance, listener)
         else:
             # super().execute(state, distance, listener)
             pass
@@ -125,20 +111,10 @@ class TurningRCmd(TurningAbcCmd):
         if min(distance) >= min_stop_distance:
             sleep(TURN_SLEEP)
             listener.stop_motors()
+            listener.make_move_decision(distance, listener)
         else:
             # super().execute(state, distance, listener)
             pass
-
-
-# Hit the wall command
-class HitTheWallCmd(Command):
-
-    def execute(self, state, distance, listener):
-        print("Motor - Hit the wall command")
-        listener.stop_motors()
-        listener.backward()
-        sleep(1)
-        listener.turn_l()
 
 
 # Manager of the motors.
@@ -156,7 +132,6 @@ class Motors:
             MotorsState.STARTED_BWD: StartedBwdCmd(),
             MotorsState.TURNING_L: TurningLCmd(),
             MotorsState.TURNING_R: TurningRCmd(),
-            MotorsState.HIT_THE_WALL: HitTheWallCmd(),
         }
         self.stop_motors()
         self.on_motors_stopped_ref = on_motors_stopped_in
@@ -222,14 +197,21 @@ class Motors:
         self.state = MotorsState.TURNING_R
         self.on_motors_turning_ref(self.state)
 
-    def hit_the_wall(self):
-        self.state = MotorsState.HIT_THE_WALL
-
     def handle_lm393(self):
         if self.lm393_value <= 0 or self.lm393_value == LM393_MAX_COUNTER:
             self.zero_counter += 1
             if self.zero_counter == 10:
                 self.zero_counter = 0
-                self.hit_the_wall()
         else:
             self.zero_counter = 0
+
+    def make_move_decision(self, distance, listener):
+        if min(distance) >= min_stop_distance:
+            listener.forward()
+            return
+        if distance[0] < min_stop_distance:
+            listener.turn_r()
+        elif distance[len(distance) - 1] < min_stop_distance:
+            listener.turn_l()
+        else:
+            listener.turn_l()
