@@ -13,7 +13,7 @@ if py.config.CONFIG is py.config.Platform.PI:
     from py.i2c_manager import I2CManager
 
 # 8inch 20cm
-min_stop_distance = 10
+min_stop_distance = 12
 # 12inch 30cm
 min_start_distance = 12
 TURN_SLEEP = 0.1
