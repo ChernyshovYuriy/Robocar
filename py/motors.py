@@ -213,7 +213,13 @@ class Motors:
             return
         if distance[0] < MIN_STOP_DISTANCE:
             self.turn_r()
+            sleep(0.1)
+            self.stop_motors()
         elif distance[len(distance) - 1] < MIN_STOP_DISTANCE:
             self.turn_l()
+            sleep(0.1)
+            self.stop_motors()
         else:
             self.turn_l()
+            sleep(0.1)
+            self.stop_motors()
