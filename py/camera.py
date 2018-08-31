@@ -18,6 +18,7 @@ class Camera:
         self.is_run = False
         self.thread = None
         self.camera = PiCamera()
+        print("Init  camera completed")
 
     def start(self):
         if self.is_run is True:
