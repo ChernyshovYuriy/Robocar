@@ -5,9 +5,9 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 
 from threading import Thread
 import py.config
-if py.config.CONFIG is py.config.Platform.PI:
-    from picamera import PiCamera
-    from time import sleep
+#if py.config.CONFIG is py.config.Platform.PI:
+from picamera import PiCamera
+from time import sleep
 
 
 # Camera's class.
