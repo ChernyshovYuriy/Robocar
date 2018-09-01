@@ -13,10 +13,10 @@ if py.config.CONFIG is py.config.Platform.PI:
     from py.i2c_manager import I2CManager
 
 # 8inch 20cm
-MIN_STOP_DISTANCE = 12
 # 12inch 30cm
+MIN_STOP_DISTANCE = 12
 MIN_START_DISTANCE = 12
-TURN_SLEEP = 0.1
+TURN_SLEEP = 0.05
 
 
 # Enumeration of the motors states.
