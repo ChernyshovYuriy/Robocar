@@ -5,9 +5,9 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 
 from threading import Thread
 import py.config
-#if py.config.CONFIG is py.config.Platform.PI:
-from picamera import PiCamera
-from time import sleep
+if py.config.CONFIG is py.config.Platform.PI:
+    from picamera import PiCamera
+    from time import sleep
 
 
 # Camera's class.
@@ -44,5 +44,5 @@ class Camera:
 
     def runnable(self):
         while self.is_run:
-            self.camera.capture('/home/pi/dev/ivan/robocar/py/img/camera_image.jpg')
+            self.camera.capture('/home/pi/dev/robocar/py/img/camera_image.jpg')
             sleep(0.1)
