@@ -36,10 +36,10 @@ class Controller:
         )
         self.p = None
         self.lm393 = LM393(self.on_lm393_value)
-        self.camera = Camera()
+        # self.camera = Camera()
         # self.server = HttpServer()
 
-        self.camera.start()
+        # self.camera.start()
         # self.server.start()
 
     # Start controller.
@@ -50,7 +50,7 @@ class Controller:
         print("Start controller")
         self.echo.start()
         self.lm393.start()
-        self.camera.start()
+        # self.camera.start()
         # self.server.start()
         # self.echo_servo.start()
         self.motors.start()
@@ -70,7 +70,7 @@ class Controller:
         self.lm393.stop()
         self.motors.stop()
         self.echo.stop()
-        self.camera.stop()
+        # self.camera.stop()
         # self.server.stop()
         # self.echo_servo.stop()
 
