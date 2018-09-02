@@ -16,7 +16,7 @@ if py.config.CONFIG is py.config.Platform.PI:
 # 12inch 30cm
 MIN_STOP_DISTANCE = 12
 MIN_START_DISTANCE = 12
-TURN_SLEEP = 0.05
+TURN_SLEEP = 0.1
 
 
 # Enumeration of the motors states.
