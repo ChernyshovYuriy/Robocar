@@ -117,6 +117,7 @@ class Controller:
     def on_echo(self, distance):
         print(" -- echo: %s" % distance)
         self.distance = distance
+        self.server_data.echo = distance
         self.motors.on_echo(self.distance)
         if config.COMMANDER is Commander.UI:
             self.distance_prompt_ref.set("Distance: %s cm" % self.distance)

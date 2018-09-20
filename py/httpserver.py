@@ -13,6 +13,8 @@ PORT_NUMBER = 8080
 # the browser
 class ConnectionHandler(BaseHTTPRequestHandler):
 
+    echo_data = ""
+
     # Handler for the GET requests
     def do_GET(self):
         print("GET: %s" % self.path)
@@ -63,7 +65,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', mime_type)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-        self.wfile.write(bytes(self.data, "utf-8"))
+        self.wfile.write(bytes(self.echo_data, "utf-8"))
 
     def __init__(self, data, request, client_address, server):
         super().__init__(request, client_address, server)
@@ -72,11 +74,14 @@ class ConnectionHandler(BaseHTTPRequestHandler):
 
 class HttpServer:
 
+    echo_data = ""
+
     def __init__(self, data):
         print("Init http server")
         # Create a web server and define the handler to manage the
         # incoming request
         self.data = data
+        ConnectionHandler.echo_data = self.data
         self.server = HTTPServer(('', PORT_NUMBER), ConnectionHandler)
 
     def start(self):
