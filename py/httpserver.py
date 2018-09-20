@@ -31,6 +31,8 @@ class ConnectionHandler(BaseHTTPRequestHandler):
                 mimetype = 'text/css'
             if self.path.endswith("/camera"):
                 self.send_image()
+            if self.path.endswith("/echo"):
+                self.send_response(200, "This is response body")
 
             return
         except IOError:
