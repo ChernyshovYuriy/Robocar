@@ -77,7 +77,8 @@ class HttpServer:
         # Create a web server and define the handler to manage the
         # incoming request
         self.data = data
-        self.server = HTTPServer(('', PORT_NUMBER), ConnectionHandler)
+        handler = ConnectionHandler()
+        self.server = HTTPServer(('', PORT_NUMBER), handler)
 
     def start(self):
         print('Started http server on port ', PORT_NUMBER)
