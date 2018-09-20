@@ -67,10 +67,6 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(bytes(self.echo_data, "utf-8"))
 
-    def __init__(self, data, request, client_address, server):
-        super().__init__(request, client_address, server)
-        print("Init ConnectionHandler")
-
 
 class HttpServer:
 
