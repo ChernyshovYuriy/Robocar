@@ -18,8 +18,21 @@ function stopCameraFetch() {
 
 function fetchCamera() {
 	console.log("Image ...");
-	var myImage = document.querySelector('.camera_image');
-	myImage.src = "http://192.168.0.16:8080/camera";
+	//var myImage = document.querySelector('.camera_image');
+	//myImage.src = "http://192.168.0.16:8080/camera";
+	// Create request object
+    var request = new Request('http://192.168.0.16:8080/echo',
+         { method: 'GET' , headers: new Headers({ 'Content-Type': 'text/html' }) }
+    );
+    // Now use it!
+
+   fetch(request)
+   .then(resp => {
+         console.log("Response OK")
+   })
+   .catch(err => {
+         console.log("Response error")
+    });
 }
 </script>
 <button id="start_btn" type="button" onclick="fetchCamera()">Start</button>

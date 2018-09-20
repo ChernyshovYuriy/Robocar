@@ -33,6 +33,8 @@ class ConnectionHandler(BaseHTTPRequestHandler):
                 self.send_image()
             if self.path.endswith("/echo"):
                 self.send_response(200, "This is response body")
+                self.send_header('Content-type', 'text/html')
+                self.end_headers()
 
             return
         except IOError:
