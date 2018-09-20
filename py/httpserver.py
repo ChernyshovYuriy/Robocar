@@ -63,7 +63,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', mime_type)
         self.end_headers()
         self.wfile.write(bytes("<body><p>This is a test.</p>", "utf-8"))
-        self.wfile.close()
+        # self.wfile.close()
 
 
 class HttpServer:
