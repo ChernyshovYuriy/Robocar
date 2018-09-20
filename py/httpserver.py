@@ -63,15 +63,20 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', mime_type)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-        self.wfile.write(bytes("This is a plain test.", "utf-8"))
+        self.wfile.write(bytes(self.data, "utf-8"))
+
+    def __init__(self, data, request, client_address, server):
+        super().__init__(request, client_address, server)
+        print("Init ConnectionHandler")
 
 
 class HttpServer:
 
-    def __init__(self):
-        print("Init  http server")
+    def __init__(self, data):
+        print("Init http server")
         # Create a web server and define the handler to manage the
         # incoming request
+        self.data = data
         self.server = HTTPServer(('', PORT_NUMBER), ConnectionHandler)
 
     def start(self):
@@ -82,3 +87,10 @@ class HttpServer:
     def stop(self):
         print('Shutting down http server')
         self.server.socket.close()
+
+
+class HttpServerData:
+
+    def __init__(self):
+        print("Init http server data")
+        self.echo = ""

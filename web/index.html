@@ -3,9 +3,9 @@
 <body>
 <script>
 var intervalId = -1;
+var xhr = new XMLHttpRequest();
 
-function createCORSRequest(method, url){
-    var xhr = new XMLHttpRequest();
+function openCORSRequest(method, url){
     if ("withCredentials" in xhr){
         xhr.open(method, url, true);
     } else if (typeof XDomainRequest != "undefined"){
@@ -17,35 +17,32 @@ function createCORSRequest(method, url){
     return xhr;
 }
 
-function startCameraFetch() {
+function startDataFetch() {
 	console.log("Start fetch")
-	intervalId = setInterval(fetchCamera, 1000);	
+	intervalId = setInterval(fetchData, 500);
 }
 
-function stopCameraFetch() {
+function stopDataFetch() {
 	console.log("Stop fetch")
 	if (intervalId != -1) {
 		clearInterval(intervalId);
 	}	
 }
 
-function fetchCamera() {
-	console.log("Image ...");
-	//var myImage = document.querySelector('.camera_image');
-	//myImage.src = "http://192.168.0.16:8080/camera";
-
-    var request = createCORSRequest("get", "http://192.168.0.16:8080/echo");
-    if (request) {
-        request.onload = function(){
-            //do something with request.responseText
-            console.log("Response:" + request.responseText)
+function fetchData() {
+	console.log("Fetch ...");
+	var echoRequest = openCORSRequest("get", "http://192.168.0.16:8080/echo");
+    if (echoRequest) {
+        echoRequest.onload = function(){
+            console.log("Response:" + echoRequest.responseText)
+            document.getElementById("echo_text_view").innerHTML += (echoRequest.responseText + "\n");
         };
-        request.send();
+        echoRequest.send();
     }
 }
 </script>
-<button id="start_btn" type="button" onclick="fetchCamera()">Start</button>
-<button id="stop_btn" type="button" onclick="stopCameraFetch()">Stop</button><p>
-<img id="image" src="" class="camera_image"/>
+<button id="start_btn" type="button" onclick="startDataFetch()">Start</button>
+<button id="stop_btn" type="button" onclick="stopDataFetch()">Stop</button><p>
+<textarea id="echo_text_view" rows="20" cols="100"></textarea>
 </body>
 </html>

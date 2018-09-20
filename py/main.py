@@ -4,7 +4,7 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
-from py.httpserver import HttpServer
+from py.httpserver import HttpServer, HttpServerData
 from py import config
 from py.config import Commander
 from py.ui_commander import UiCommander
@@ -37,7 +37,8 @@ class Controller:
         self.p = None
         self.lm393 = LM393(self.on_lm393_value)
         # self.camera = Camera()
-        self.server = HttpServer()
+        self.server_data = HttpServerData()
+        self.server = HttpServer(self.server_data)
 
         # self.camera.start()
         self.server.start()
