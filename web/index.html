@@ -20,21 +20,19 @@ function fetchCamera() {
 	console.log("Image ...");
 	//var myImage = document.querySelector('.camera_image');
 	//myImage.src = "http://192.168.0.16:8080/camera";
-	// Create request object
-    var request = new Request('http://192.168.0.16:8080/echo',
-         { method: 'GET' ,
-            mode: 'no-cors',
-           headers: new Headers({
-                'Content-Type': 'text/plain',
-            }) }
-    );
-   fetch(request)
-   .then(resp => {
-         console.log("Response OK" + resp.text())
-   })
-   .catch(err => {
-         console.log("Response error")
-    });
+	var request = new XMLHttpRequest();
+    request.onreadystatechange = function() {
+        if (request.readyState === 4) {
+            if (request.status === 200) {
+                console.log(request.responseText);
+            } else {
+                console.log("The error:" + request.status);
+            }
+        }
+    };
+    request.open("GET", "http://192.168.0.16:8080/echo" , true);
+    request.setRequestHeader('Access-Control-Allow-Origin', '*');
+    request.send(null);
 }
 </script>
 <button id="start_btn" type="button" onclick="fetchCamera()">Start</button>

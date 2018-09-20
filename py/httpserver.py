@@ -61,6 +61,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         mime_type = 'text/html'
         self.send_response(200)
         self.send_header('Content-type', mime_type)
+        self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
         self.wfile.write(bytes("<body><p>This is a test.</p>", "utf-8"))
 
