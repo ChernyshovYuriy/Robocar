@@ -65,6 +65,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', mime_type)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
+        print(">>" + self.echo_data)
         self.wfile.write(bytes(self.echo_data, "utf-8"))
 
 
