@@ -58,12 +58,11 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         f.close()
 
     def send_echo(self):
-        mime_type = 'text/html'
+        mime_type = 'text/plain'
         self.send_response(200)
         self.send_header('Content-type', mime_type)
-        self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-        self.wfile.write(bytes("<body><p>This is a test.</p>", "utf-8"))
+        self.wfile.write(bytes("This is a test.", "utf-8"))
 
 
 class HttpServer:
