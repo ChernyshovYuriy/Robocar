@@ -65,8 +65,10 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', mime_type)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-        print(">>>", self.echo_data.echo)
-        self.wfile.write(bytes(self.echo_data.echo, "utf-8"))
+        if self.echo_data is not None:
+            self.wfile.write(bytes(self.echo_data.echo, "utf-8"))
+        else:
+            self.wfile.write(bytes("No echo data available", "utf-8"))
 
 
 class HttpServer:
