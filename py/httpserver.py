@@ -33,7 +33,6 @@ class ConnectionHandler(BaseHTTPRequestHandler):
                 self.send_image()
             if self.path.endswith("/echo"):
                 self.send_response(200, "This is response body")
-                self.send_header('Access-Control-Allow-Origin', '*')
                 self.send_header('Content-type', 'text/plain')
                 self.end_headers()
 

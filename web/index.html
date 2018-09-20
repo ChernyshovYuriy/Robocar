@@ -23,13 +23,11 @@ function fetchCamera() {
 	// Create request object
     var request = new Request('http://192.168.0.16:8080/echo',
          { method: 'GET' ,
+            mode: 'no-cors',
            headers: new Headers({
                 'Content-Type': 'text/plain',
-                'Access-Control-Allow-Origin': '*'
             }) }
     );
-    // Now use it!
-
    fetch(request)
    .then(resp => {
          console.log("Response OK")
