@@ -30,7 +30,7 @@ function fetchCamera() {
     );
    fetch(request)
    .then(resp => {
-         console.log("Response OK")
+         console.log("Response OK" + resp.text())
    })
    .catch(err => {
          console.log("Response error")

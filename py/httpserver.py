@@ -32,9 +32,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
             if self.path.endswith("/camera"):
                 self.send_image()
             if self.path.endswith("/echo"):
-                self.send_response(200, "This is response body")
-                self.send_header('Content-type', 'text/plain')
-                self.end_headers()
+                self.send_echo()
 
             return
         except IOError:
@@ -48,16 +46,23 @@ class ConnectionHandler(BaseHTTPRequestHandler):
             pass
 
     def send_image(self):
-        mimetype = 'image/jpg'
+        mime_type = 'image/jpg'
         url = "/home/pi/dev/ivan/robocar/py/img/camera_image.jpg"
         print("url %s" % url)
         f = open(url, "rb")
         self.send_response(200)
-        self.send_header('Content-type', mimetype)
+        self.send_header('Content-type', mime_type)
         self.end_headers()
         with open(url, 'rb') as content:
             shutil.copyfileobj(content, self.wfile)
         f.close()
+
+    def send_echo(self):
+        mime_type = 'text/plain'
+        self.send_response(200)
+        self.send_header('Content-type', mime_type)
+        self.end_headers()
+        self.wfile.write(b"<foo>bar</foo>")
 
 
 class HttpServer:
