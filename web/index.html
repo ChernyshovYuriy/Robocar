@@ -23,9 +23,10 @@ function fetchCamera() {
 	// Create request object
     var request = new Request('http://192.168.0.16:8080/echo',
          { method: 'GET' ,
-           crossDomain: true,
-           Access-Control-Allow-Origin: '*',
-           headers: new Headers({ 'Content-Type': 'text/plain' }) }
+           headers: new Headers({
+                'Content-Type': 'text/plain',
+                'Access-Control-Allow-Origin': '*'
+            }) }
     );
     // Now use it!
 
