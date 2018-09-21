@@ -84,8 +84,9 @@ class Echo:
                         self.distance_prev[i] = distance[i]
                     if distance[i] == 0 and self.distance_prev[i] != 0:
                         distance[i] = self.distance_prev[i]
+                    sleep(0.5)
             self.on_echo(distance)
-            sleep(0.05)
+            sleep(0.5)
 
     # Get distance from sensor.
     @staticmethod
