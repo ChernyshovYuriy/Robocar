@@ -78,15 +78,15 @@ class Echo:
         while self.is_run:
             distance = [0, 0, 0, 0, 0]
             if py.config.CONFIG is py.config.Platform.PI:
+                val = self.octasonic.get_sensor_reading(0)
                 for i in range(num_of_sensors):
-                    distance[i] = self.octasonic.get_sensor_reading(0)
+                    distance[i] = val
                     if distance[i] != 0:
                         self.distance_prev[i] = distance[i]
                     if distance[i] == 0 and self.distance_prev[i] != 0:
                         distance[i] = self.distance_prev[i]
-                    sleep(0.5)
             self.on_echo(distance)
-            sleep(0.5)
+            sleep(0.05)
 
     # Get distance from sensor.
     @staticmethod
