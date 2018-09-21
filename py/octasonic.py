@@ -36,7 +36,7 @@ class Octasonic:
         response1 = self.spi.xfer([(cmd << 4) | param])
         # get the response
         response2 = self.spi.xfer([CMD_NO_COMMAND])
-        # print "Responses: %s, %s" % (response1, response2)
+        print ("Responses: %d %s %s" % (param, response1, response2))
         return response2[0]
 
     def get_protocol_version(self):
