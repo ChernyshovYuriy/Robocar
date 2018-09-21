@@ -4,6 +4,7 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import shutil
+from threading import Thread
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
 PORT_NUMBER = 8080
@@ -82,15 +83,33 @@ class HttpServer:
         self.data = data
         ConnectionHandler.echo_data = self.data
         self.server = HTTPServer(('', PORT_NUMBER), ConnectionHandler)
+        self.is_run = False
+        self.thread = None
 
     def start(self):
-        print('Started http server on port ', PORT_NUMBER)
-        # Wait forever for incoming http requests
-        self.server.serve_forever()
+        if self.is_run is True:
+            return
+
+        self.is_run = True
+        """Run echo in separate thread"""
+        if self.thread is None:
+            self.thread = Thread(target=self.runnable)
+        self.thread.start()
 
     def stop(self):
+        if self.is_run is False:
+            return
+
         print('Shutting down http server')
         self.server.socket.close()
+        self.is_run = False
+        self.thread = None
+
+    def runnable(self):
+        while self.is_run:
+            print('Started http server on port ', PORT_NUMBER)
+            # Wait forever for incoming http requests
+            self.server.serve_forever()
 
 
 class HttpServerData:
