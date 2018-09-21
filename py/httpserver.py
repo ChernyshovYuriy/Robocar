@@ -66,7 +66,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
         message = "No echo data available"
-        print(">>>", self.echo_data.echo)
+        print(">>>%s<<<", self.echo_data.echo)
         if self.echo_data is not None or self.echo_data.echo != "":
             message = self.echo_data.echo
         self.wfile.write(bytes(message, "utf-8"))
