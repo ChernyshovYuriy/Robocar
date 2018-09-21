@@ -68,7 +68,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.end_headers()
         message = "No echo data available"
         if self.echo_data is not None and self.echo_data.echo is not "":
-            message = self.echo_data.echo
+            message = "".join(str(e) for e in self.echo_data.echo)
             print("TRACEDATA>>%s<<" % message)
         self.wfile.write(bytes(message, "utf-8"))
 
