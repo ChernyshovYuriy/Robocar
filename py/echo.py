@@ -79,7 +79,7 @@ class Echo:
             distance = [0, 0, 0, 0, 0]
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(num_of_sensors):
-                    distance[i] = self.octasonic.get_sensor_reading(i)
+                    distance[i] = self.octasonic.get_sensor_reading(0)
                     if distance[i] != 0:
                         self.distance_prev[i] = distance[i]
                     if distance[i] == 0 and self.distance_prev[i] != 0:
