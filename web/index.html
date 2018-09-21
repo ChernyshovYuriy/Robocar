@@ -2,6 +2,8 @@
 <html>
 <body>
 <script>
+var echoUrl = "http://192.168.0.16:8080/echo"
+var intervalPeriod = 100;
 var intervalId = -1;
 var xhr = new XMLHttpRequest();
 
@@ -19,7 +21,7 @@ function openCORSRequest(method, url){
 
 function startDataFetch() {
 	console.log("Start fetch")
-	intervalId = setInterval(fetchData, 500);
+	intervalId = setInterval(fetchData, intervalPeriod);
 }
 
 function stopDataFetch() {
@@ -31,11 +33,12 @@ function stopDataFetch() {
 
 function fetchData() {
 	console.log("Fetch ...");
-	var echoRequest = openCORSRequest("get", "http://192.168.0.16:8080/echo");
+	var echoRequest = openCORSRequest("get", echoUrl);
     if (echoRequest) {
         echoRequest.onload = function(){
             console.log("Response:" + echoRequest.responseText)
-            document.getElementById("echo_text_view").innerHTML += (echoRequest.responseText + "\n");
+            document.getElementById("echo_text_view").innerHTML += "echo [" + echoRequest.responseText + "]\n";
+            document.getElementById("echo_text_view").scrollTop = document.getElementById("echo_text_view").scrollHeight
         };
         echoRequest.send();
     }
