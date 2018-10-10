@@ -24,8 +24,8 @@ class Controller:
     def __init__(self, distance_prompt_in, motors_prompt_in):
         print("Init  controller on %s" % py.config.CONFIG)
         self.is_run = False
-        self.distance = [0, 0, 0]
-        self.distance_origin = [0, 0, 0]
+        self.distance = [0, 0, 0, 0, 0, 0, 0 ,0]
+        self.distance_origin = [0, 0, 0, 0, 0 ,0 ,0]
         self.distance_drove = 0
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
