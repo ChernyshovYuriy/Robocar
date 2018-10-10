@@ -39,7 +39,7 @@ class CmdCommander:
             try:
                 while True:
                     ch = sys.stdin.read(1)
-                    print('%s' % ord(ch))
+                    print('Key %s pressed' % ord(ch))
                     if not ch or ord(ch) == START:
                         self.controller_ref.start()
                     if not ch or ord(ch) == STOP:

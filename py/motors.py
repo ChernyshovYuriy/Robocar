@@ -150,7 +150,7 @@ class Motors:
     def start(self):
         self.is_run = True
         print("Start motors")
-        self.forward()
+        # self.forward()
 
     def stop(self):
         self.is_run = False
