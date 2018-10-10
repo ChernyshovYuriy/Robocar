@@ -36,7 +36,7 @@ class Echo:
         self.thread = None
         self.on_echo = on_echo
         self.echo_error_callback = echo_error_callback
-        self.distance_prev = [0, 0, 0, 0, 0]
+        self.distance_prev = [0, 0, 0, 0, 0, 0, 0]
         self.octasonic = Octasonic(0)
         protocol_version = self.octasonic.get_protocol_version()
         firmware_version = self.octasonic.get_firmware_version()
@@ -76,7 +76,7 @@ class Echo:
         num_of_sensors = len(self.distance_prev)
         self.octasonic.toggle_led()
         while self.is_run:
-            distance = [0, 0, 0, 0, 0]
+            distance = [0, 0, 0, 0, 0, 0, 0]
             if py.config.CONFIG is py.config.Platform.PI:
                 val = self.octasonic.get_sensor_reading(0)
                 for i in range(num_of_sensors):
