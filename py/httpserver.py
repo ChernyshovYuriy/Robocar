@@ -101,7 +101,7 @@ class HttpServer:
             return
 
         print('Shutting down http server')
-        self.server.socket.close()
+        # self.server.socket.close()
         self.server.shutdown()
         self.is_run = False
         self.thread = None
