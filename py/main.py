@@ -16,7 +16,7 @@ from py.motors import Motors
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
 # from py.lm393 import LM393
-from py.camera import Camera
+# from py.camera import Camera
 
 
 class Controller:
