@@ -41,7 +41,7 @@ class Controller:
         self.server = HttpServer(self.server_data)
 
         # self.camera.start()
-        self.server.start()
+        # self.server.start()
 
     # Start controller.
     def start(self):
@@ -52,7 +52,7 @@ class Controller:
         self.echo.start()
         # self.lm393.start()
         # self.camera.start()
-        self.server.start()
+        # self.server.start()
         # self.echo_servo.start()
         self.motors.start()
         self.is_run = True
@@ -72,7 +72,7 @@ class Controller:
         self.motors.stop()
         self.echo.stop()
         # self.camera.stop()
-        self.server.stop()
+        # self.server.stop()
         # self.echo_servo.stop()
 
     # Run engine forward
