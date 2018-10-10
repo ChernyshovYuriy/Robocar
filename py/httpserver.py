@@ -103,6 +103,7 @@ class HttpServer:
         print('Shutting down http server')
         self.server.socket.close()
         self.is_run = False
+        self.thread.join()
         self.thread = None
 
     def runnable(self):
