@@ -15,7 +15,7 @@ from py.echo import Echo
 from py.motors import Motors
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
-from py.lm393 import LM393
+# from py.lm393 import LM393
 from py.camera import Camera
 
 
@@ -35,7 +35,7 @@ class Controller:
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
         self.p = None
-        self.lm393 = LM393(self.on_lm393_value)
+        # self.lm393 = LM393(self.on_lm393_value)
         # self.camera = Camera()
         self.server_data = HttpServerData()
         self.server = HttpServer(self.server_data)
@@ -50,7 +50,7 @@ class Controller:
 
         print("Start controller")
         self.echo.start()
-        self.lm393.start()
+        # self.lm393.start()
         # self.camera.start()
         self.server.start()
         # self.echo_servo.start()
@@ -68,7 +68,7 @@ class Controller:
     # Force stop controller
     def force_stop(self):
         self.is_run = False
-        self.lm393.stop()
+        # self.lm393.stop()
         self.motors.stop()
         self.echo.stop()
         # self.camera.stop()
@@ -109,9 +109,9 @@ class Controller:
         print("Run debug")
 
     # Callback function to LM393 class
-    def on_lm393_value(self, value):
-        print("LM393 value is %d" % value)
-        self.motors.set_lm393_value(value)
+    # def on_lm393_value(self, value):
+    #     print("LM393 value is %d" % value)
+    #     self.motors.set_lm393_value(value)
 
     # Callback function to echo class
     def on_echo(self, distance):
