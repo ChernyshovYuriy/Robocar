@@ -28,6 +28,8 @@ class Echo:
     TWELVE_MICROSEC = 0.000012
     # Max counter for the echo back
     MAX_COUNTER = 10000
+    # Number of sensors
+    SENSORS_NUM = 7
 
     def __init__(self, on_echo, echo_error_callback):
         print("Init  echo on ", py.config.CONFIG)
@@ -36,12 +38,12 @@ class Echo:
         self.thread = None
         self.on_echo = on_echo
         self.echo_error_callback = echo_error_callback
-        self.distance_prev = [0, 0, 0, 0, 0, 0, 0]
+        self.distance_prev = [0] * Echo.SENSORS_NUM
         self.octasonic = Octasonic(0)
         protocol_version = self.octasonic.get_protocol_version()
         firmware_version = self.octasonic.get_firmware_version()
         print("Octasonic protocol v%s firmware v%s" % (protocol_version, firmware_version))
-        self.octasonic.set_sensor_count(5)
+        self.octasonic.set_sensor_count(Echo.SENSORS_NUM)
         print("Octasonic sensor count: %s" % self.octasonic.get_sensor_count())
         # Connect to local Pi.
         # self.pi = pigpio.pi()
@@ -76,7 +78,7 @@ class Echo:
         num_of_sensors = len(self.distance_prev)
         self.octasonic.toggle_led()
         while self.is_run:
-            distance = [0, 0, 0, 0, 0, 0, 0]
+            distance = [0] * Echo.SENSORS_NUM
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(num_of_sensors):
                     distance[i] = self.octasonic.get_sensor_reading(i)
