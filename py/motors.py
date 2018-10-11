@@ -16,7 +16,7 @@ if py.config.CONFIG is py.config.Platform.PI:
 # 12inch 30cm
 MIN_STOP_DISTANCE = 12
 MIN_START_DISTANCE = 12
-TURN_SLEEP = 0.1
+TURN_SLEEP = 0.3
 
 
 # Enumeration of the motors states.
@@ -229,18 +229,13 @@ class Motors:
             sleep(1)
             return
 
-        if distance[0] < MIN_STOP_DISTANCE:
-            self.turn_r()
-            self.turn_r_counter += 1
-            sleep(TURN_SLEEP)
-            self.stop_motors()
-        elif distance[len(distance) - 1] < MIN_STOP_DISTANCE:
+        if (distance[0] + distance[1] + distance[2]) < (distance[4] + distance[5] + distance[6]):
             self.turn_l()
             self.turn_l_counter += 1
             sleep(TURN_SLEEP)
             self.stop_motors()
         else:
-            self.turn_l()
-            self.turn_l_counter += 1
+            self.turn_r()
+            self.turn_r_counter += 1
             sleep(TURN_SLEEP)
             self.stop_motors()
