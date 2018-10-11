@@ -17,6 +17,7 @@ if py.config.CONFIG is py.config.Platform.PI:
 MIN_STOP_DISTANCE = 12
 MIN_START_DISTANCE = 12
 TURN_SLEEP = 0.3
+TURN_FAIL_COUNTER = 5
 
 
 # Enumeration of the motors states.
@@ -224,11 +225,12 @@ class Motors:
         if self.turn_start is 0:
             self.turn_start = timestamp
         # print("Timestamp %d, turn start %d, diff %d" % (timestamp, self.turn_start, (timestamp - self.turn_start)))
-        if timestamp - self.turn_start >= 3:
+        if timestamp - self.turn_start >= TURN_FAIL_COUNTER:
             self.turn_l()
             sleep(1)
             return
 
+        # TODO: Hardcode these for a test
         if (distance[0] + distance[1] + distance[2]) < (distance[4] + distance[5] + distance[6]):
             self.turn_l()
             self.turn_l_counter += 1
