@@ -216,18 +216,18 @@ class Motors:
     def is_min_left(self, distance):
         if distance[0] < 2:
             return True
-        if distance[1] < 5:
+        if distance[1] < 6:
             return True
-        if distance[2] < 10:
+        if distance[2] < 15:
             return True
         return False
 
     def is_min_right(self, distance):
         if distance[6] < 2:
             return True
-        if distance[5] < 5:
+        if distance[5] < 6:
             return True
-        if distance[4] < 10:
+        if distance[4] < 15:
             return True
         return False
 
