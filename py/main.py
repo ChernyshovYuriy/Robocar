@@ -105,8 +105,11 @@ class Controller:
         self.motors.hit_the_wall()
 
     # Run print echo action
-    def print_echo(self):
-        self.echo.start()
+    def trigger_print_echo(self):
+        if self.echo.is_run:
+            self.echo.start()
+        else:
+            self.echo.stop()
         print("ECHO :: ---> %s" % (self.distance))
 
     # Callback function to LM393 class

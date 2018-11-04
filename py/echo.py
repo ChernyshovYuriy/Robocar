@@ -49,6 +49,10 @@ class Echo:
         # self.pi = pigpio.pi()
         # self.sonar_sensor = SonarSensor(self.pi)
 
+    # Whether echo is running
+    def is_active(self):
+        return self.is_run
+
     # Start echo location.
     def start(self):
         if self.is_run is True:
