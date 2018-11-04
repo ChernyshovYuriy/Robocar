@@ -215,8 +215,8 @@ class Motors:
 
     def min_left(self, distance):
         m = 255
-        if distance[0] < m:
-            m = distance[0]
+        # if distance[0] < m:
+        #     m = distance[0]
         if distance[1] < m:
             m = distance[1]
         if distance[2] < m:
@@ -229,8 +229,8 @@ class Motors:
             m = distance[4]
         if distance[5] < m:
             m = distance[5]
-        if distance[6] < m:
-            m = distance[6]
+        # if distance[6] < m:
+        #     m = distance[6]
         return m
 
     def make_move_decision(self, distance):
