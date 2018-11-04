@@ -213,6 +213,26 @@ class Motors:
     #     else:
     #         self.zero_counter = 0
 
+    def min_left(self, distance):
+        m = 255
+        if distance[0] < m:
+            m = distance[0]
+        if distance[1] < m:
+            m = distance[1]
+        if distance[2] < m:
+            m = distance[2]
+        return m
+
+    def min_right(self, distance):
+        m = 255
+        if distance[4] < m:
+            m = distance[4]
+        if distance[5] < m:
+            m = distance[5]
+        if distance[6] < m:
+            m = distance[6]
+        return m
+
     def make_move_decision(self, distance):
         if min(distance) >= MIN_STOP_DISTANCE:
             self.forward()
@@ -230,8 +250,15 @@ class Motors:
             sleep(1)
             return
 
+        if distance[3] <= MIN_START_DISTANCE:
+            self.turn_l()
+            self.turn_l_counter += 1
+            sleep(TURN_SLEEP)
+            self.stop_motors()
+            return
+
         # TODO: Hardcode these for a test
-        if (distance[0] + distance[1] + distance[2]) < (distance[4] + distance[5] + distance[6]):
+        if (self.min_left(distance)) < (self.min_right(distance)):
             self.turn_l()
             self.turn_l_counter += 1
             sleep(TURN_SLEEP)
