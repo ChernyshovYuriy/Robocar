@@ -104,8 +104,9 @@ class Controller:
         print("Echo error")
         self.motors.hit_the_wall()
 
-    # Run debug action
+    # Run print echo action
     def print_echo(self):
+        self.echo.start()
         print("ECHO :: ---> %s" % (self.distance))
 
     # Callback function to LM393 class
