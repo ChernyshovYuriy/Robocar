@@ -14,8 +14,8 @@ if py.config.CONFIG is py.config.Platform.PI:
 
 # 8inch 20cm
 # 12inch 30cm
-MIN_STOP_DISTANCE = 15
-MIN_START_DISTANCE = 15
+MIN_STOP_DISTANCE = 10
+MIN_START_DISTANCE = 10
 TURN_SLEEP = 0.3
 TURN_FAIL_COUNTER = 5
 
@@ -213,25 +213,23 @@ class Motors:
     #     else:
     #         self.zero_counter = 0
 
-    def min_left(self, distance):
-        m = 255
-        # if distance[0] < m:
-        #     m = distance[0]
-        if distance[1] < m:
-            m = distance[1]
-        if distance[2] < m:
-            m = distance[2]
-        return m
+    def is_min_left(self, distance):
+        if distance[0] < 2:
+            return True
+        if distance[1] < 5:
+            return True
+        if distance[2] < 10:
+            return True
+        return False
 
-    def min_right(self, distance):
-        m = 255
-        if distance[4] < m:
-            m = distance[4]
-        if distance[5] < m:
-            m = distance[5]
-        # if distance[6] < m:
-        #     m = distance[6]
-        return m
+    def is_min_right(self, distance):
+        if distance[6] < 2:
+            return True
+        if distance[5] < 5:
+            return True
+        if distance[4] < 10:
+            return True
+        return False
 
     def make_move_decision(self, distance):
         if min(distance) >= MIN_STOP_DISTANCE:
@@ -250,7 +248,7 @@ class Motors:
             sleep(1)
             return
 
-        if distance[3] <= MIN_START_DISTANCE:
+        if distance[3] <= MIN_STOP_DISTANCE:
             self.turn_l()
             self.turn_l_counter += 1
             sleep(TURN_SLEEP)
@@ -258,12 +256,12 @@ class Motors:
             return
 
         # TODO: Hardcode these for a test
-        if (self.min_right(distance)) < (self.min_left(distance)):
+        if self.is_min_right(distance):
             self.turn_l()
             self.turn_l_counter += 1
             sleep(TURN_SLEEP)
             self.stop_motors()
-        else:
+        elif self.is_min_left(distance):
             self.turn_r()
             self.turn_r_counter += 1
             sleep(TURN_SLEEP)
