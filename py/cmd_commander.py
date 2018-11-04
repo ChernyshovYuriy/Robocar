@@ -21,11 +21,10 @@ ENG_OFF = 115
 START = 10
 # Space
 STOP = 32
+# Print echo
+PRINT_ECHO = 101
 # Esc
 QUIT = 27
-
-# p
-DEBUG = 112
 
 
 # Implementation of the commander based on the command line - events from the keyboard.
@@ -54,10 +53,8 @@ class CmdCommander:
                         self.controller_ref.eng_turn_r()
                     if not ch or ord(ch) == ENG_OFF:
                         self.controller_ref.eng_stop()
-
-                    if not ch or ord(ch) == DEBUG:
-                        self.controller_ref.run_debug()
-
+                    if not ch or ord(ch) == PRINT_ECHO:
+                        self.controller_ref.print_echo()
                     if not ch or ord(ch) == QUIT:
                         self.controller_ref.stop()
                         break

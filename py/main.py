@@ -105,8 +105,8 @@ class Controller:
         self.motors.hit_the_wall()
 
     # Run debug action
-    def run_debug(self):
-        print("Run debug")
+    def print_echo(self):
+        print("ECHO :: ---> %s" % (self.distance))
 
     # Callback function to LM393 class
     # def on_lm393_value(self, value):
