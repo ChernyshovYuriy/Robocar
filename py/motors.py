@@ -266,3 +266,5 @@ class Motors:
             self.turn_r_counter += 1
             sleep(TURN_SLEEP)
             self.stop_motors()
+        else:
+            self.forward()
