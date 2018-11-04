@@ -258,7 +258,7 @@ class Motors:
             return
 
         # TODO: Hardcode these for a test
-        if (self.min_left(distance)) < (self.min_right(distance)):
+        if (self.min_right(distance)) < (self.min_left(distance)):
             self.turn_l()
             self.turn_l_counter += 1
             sleep(TURN_SLEEP)
