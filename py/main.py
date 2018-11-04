@@ -106,7 +106,7 @@ class Controller:
 
     # Run print echo action
     def trigger_print_echo(self):
-        if self.echo.is_run:
+        if not self.echo.is_run:
             self.echo.start()
         else:
             self.echo.stop()
