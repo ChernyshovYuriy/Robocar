@@ -82,7 +82,7 @@ class Controller:
     # Run engine backward
     def eng_bwd(self):
         print("Engine backward")
-        self.motors.set_state(MotorsState.STAR_BWD)
+        self.motors.set_state(MotorsState.START_BWD)
         self.motors.exec_cmd()
 
     # Run engines turn left

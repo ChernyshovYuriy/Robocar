@@ -23,7 +23,7 @@ TURN_FAIL_COUNTER = 5
 class MotorsState(Enum):
     STOP = 1
     START_FWD = 2
-    STAR_BWD = 3
+    START_BWD = 3
     TURN_L = 4
     TURN_R = 5
 
@@ -112,7 +112,7 @@ class Motors:
         self.commands = {
             MotorsState.STOP: StopCmd(),
             MotorsState.START_FWD: StartFwdCmd(),
-            MotorsState.STAR_BWD: StartBwdCmd(),
+            MotorsState.START_BWD: StartBwdCmd(),
             MotorsState.TURN_L: TurnLeftCmd(),
             MotorsState.TURN_R: TurnRightCmd(),
         }
@@ -186,6 +186,7 @@ class Motors:
 
         print("Motor state - new %s | current %s" % (new_state, self.get_state()))
         if new_state != self.get_state():
+            print("DO EXEC")
             self.exec_cmd()
 
     def exec_cmd(self):
