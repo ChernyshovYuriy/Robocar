@@ -144,7 +144,7 @@ class Motors:
         Normalize
         """
         for i in range(len(self.weights)):
-            if self.weights[i] >= self.norm_weights:
+            if self.weights[i] >= self.norm_weights[i]:
                 self.weights[i] = 1
             else:
                 self.weights[i] = self.weights[i] / self.norm_weights[i]
