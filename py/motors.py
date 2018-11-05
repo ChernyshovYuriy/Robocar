@@ -1,10 +1,8 @@
 import sys
 from os.path import dirname, abspath
-from time import sleep, time
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-from py.lm393 import LM393_MAX_COUNTER
 import py.config
 from enum import Enum
 
@@ -22,102 +20,85 @@ TURN_FAIL_COUNTER = 5
 
 # Enumeration of the motors states.
 class MotorsState(Enum):
-    STOPPED = 1
-    STARTED_FWD = 2
-    STARTED_BWD = 3
-    TURNING_L = 4
-    TURNING_R = 5
+    STOP = 1
+    START_FWD = 2
+    STAR_BWD = 3
+    TURN_L = 4
+    TURN_R = 5
 
 
 # Interface
 class Command:
 
-    def execute(self, state, distance, listener):
+    def execute(self, listener):
         raise NotImplementedError()
 
 
-# Stopped command
-class StoppedCmd(Command):
+# Stop motors command
+class StopCmd(Command):
 
-    def execute(self, state, distance, listener):
+    def execute(self, reference):
         print("Motor - Stopped command")
-        if listener.is_run:
-            listener.make_move_decision(distance)
+        if py.config.CONFIG is py.config.Platform.PI:
+            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
+        reference.on_motors_stopped_ref()
 
 
-# Started fwd command
-class StartedFwdCmd(Command):
+# Start motors forward command
+class StartFwdCmd(Command):
 
-    def execute(self, state, distance, listener):
+    def execute(self, reference):
         print("Motor - Started fwd command")
-        if min(distance) >= MIN_STOP_DISTANCE:
-            # listener.handle_lm393()
-            return
-        listener.stop_motors()
-        listener.make_move_decision(distance)
+        if py.config.CONFIG is py.config.Platform.PI:
+            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
+        reference.on_motors_started_ref(reference.get_state())
 
 
-# Started bwd command
-class StartedBwdCmd(Command):
+# Start motors backward command
+class StartBwdCmd(Command):
 
-    def execute(self, state, distance, listener):
+    def execute(self, reference):
         print("Motor - Started bwd command")
+        if py.config.CONFIG is py.config.Platform.PI:
+            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
+        reference.on_motors_started_ref(reference.get_state())
 
 
-class TurningAbcCmd(Command):
+# Abstraction of turn motors command
+class TurnAbcCmd(Command):
 
     def __init__(self):
-        self.lm393_value = 0
-        self.zero_counter = 0
-        self.escape_forward = True
+        pass
 
-    def execute(self, state, distance, listener):
-        print("Motor - Turning abc command")
-        if self.lm393_value <= 0 or self.lm393_value == LM393_MAX_COUNTER:
-            self.zero_counter += 1
-            if self.zero_counter == 10:
-                self.zero_counter = 0
-                if self.escape_forward:
-                    listener.stop_motors()
-                    listener.forward()
-                    self.escape_forward = False
-                else:
-                    listener.stop_motors()
-                    listener.backward()
-                    sleep(2)
-                    listener.forward()
-                    self.escape_forward = True
-        else:
-            self.zero_counter = 0
+    def execute(self, listener):
         pass
 
 
-# Turning l command
-class TurningLCmd(TurningAbcCmd):
+# Turn motors left command
+class TurnLeftCmd(TurnAbcCmd):
 
-    def execute(self, state, distance, listener):
+    def execute(self, reference):
         print("Motor - Turning l command")
-        if min(distance) >= MIN_STOP_DISTANCE:
-            # sleep(TURN_SLEEP)
-            listener.stop_motors()
-            listener.make_move_decision(distance)
-        else:
-            # super().execute(state, distance, listener)
-            pass
+        if py.config.CONFIG is py.config.Platform.PI:
+            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
+        reference.on_motors_turning_ref(reference.get_state())
 
 
-# Turning r command
-class TurningRCmd(TurningAbcCmd):
+# Turn motors right command
+class TurnRightCmd(TurnAbcCmd):
 
-    def execute(self, state, distance, listener):
+    def execute(self, reference):
         print("Motor - Turning r command")
-        if min(distance) >= MIN_STOP_DISTANCE:
-            # sleep(TURN_SLEEP)
-            listener.stop_motors()
-            listener.make_move_decision(distance)
-        else:
-            # super().execute(state, distance, listener)
-            pass
+        if py.config.CONFIG is py.config.Platform.PI:
+            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
+            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
+        reference.on_motors_turning_ref(reference.get_state())
 
 
 # Manager of the motors.
@@ -125,146 +106,43 @@ class Motors:
 
     def __init__(self, on_motors_stopped_in, on_motors_started_in, on_motors_turning_in):
         print("Init  motors on %s" % py.config.CONFIG)
-        self.state = MotorsState.STOPPED
+        self.state = MotorsState.STOP
         self.is_run = False
-        self.on_motors_stopped_ref = None
-        self.lm393_value = 0
         self.commands = {
-            MotorsState.STOPPED: StoppedCmd(),
-            MotorsState.STARTED_FWD: StartedFwdCmd(),
-            MotorsState.STARTED_BWD: StartedBwdCmd(),
-            MotorsState.TURNING_L: TurningLCmd(),
-            MotorsState.TURNING_R: TurningRCmd(),
+            MotorsState.STOP: StopCmd(),
+            MotorsState.START_FWD: StartFwdCmd(),
+            MotorsState.STAR_BWD: StartBwdCmd(),
+            MotorsState.TURN_L: TurnLeftCmd(),
+            MotorsState.TURN_R: TurnRightCmd(),
         }
-        self.stop_motors()
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
-        self.zero_counter = 0
-        self.turn_l_counter = 0
-        self.turn_r_counter = 0
-        self.turn_start = 0
-
-    def set_lm393_value(self, value):
-        self.lm393_value = value
 
     def start(self):
-        self.is_run = True
+        if self.is_run:
+            return
         print("Start motors")
-        # self.forward()
+        self.is_run = True
 
     def stop(self):
-        self.is_run = False
+        if not self.is_run:
+            return
         print("Stop  motors")
-        self.stop_motors()
+        self.is_run = False
 
     def on_echo(self, distance):
-        print("State: %s, is run %r, lm393 %d" % (self.state, self.is_run, self.lm393_value))
+        print("State: %s, is run: %r, distance: %s" % (self.get_state(), self.is_run, distance))
 
-        if not self.is_run:
-            self.stop_motors()
-            return
+        # TODO: Make decision about state based on array of distances and is_run
 
-        self.commands[self.state].execute(self.state, distance, self)
+        self.exec_cmd()
 
-    def forward(self):
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
-            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
-        self.state = MotorsState.STARTED_FWD
-        self.on_motors_started_ref(self.state)
+    def exec_cmd(self):
+        self.commands[self.get_state()].execute(self)
 
-    def backward(self):
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
-            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
-        self.state = MotorsState.STARTED_BWD
-        self.on_motors_started_ref(self.state)
+    def set_state(self, state):
+        self.state = state
 
-    def stop_motors(self):
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
-            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
-            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
-            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
-        self.state = MotorsState.STOPPED
-        if self.on_motors_stopped_ref is not None:
-            self.on_motors_stopped_ref()
-
-    def turn_l(self):
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
-            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
-        self.state = MotorsState.TURNING_L
-        self.on_motors_turning_ref(self.state)
-
-    def turn_r(self):
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
-            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
-        self.state = MotorsState.TURNING_R
-        self.on_motors_turning_ref(self.state)
-
-    # def handle_lm393(self):
-    #     if self.lm393_value <= 0 or self.lm393_value == LM393_MAX_COUNTER:
-    #         self.zero_counter += 1
-    #         if self.zero_counter == 10:
-    #             self.zero_counter = 0
-    #     else:
-    #         self.zero_counter = 0
-
-    def is_min_left(self, distance):
-        if distance[0] < 2:
-            return True
-        if distance[1] < 6:
-            return True
-        if distance[2] < 15:
-            return True
-        return False
-
-    def is_min_right(self, distance):
-        if distance[6] < 2:
-            return True
-        if distance[5] < 6:
-            return True
-        if distance[4] < 15:
-            return True
-        return False
-
-    def make_move_decision(self, distance):
-        if min(distance) >= MIN_STOP_DISTANCE:
-            self.forward()
-            self.turn_l_counter = 0
-            self.turn_r_counter = 0
-            self.turn_start = 0
-            return
-
-        timestamp = time()
-        if self.turn_start is 0:
-            self.turn_start = timestamp
-        # print("Timestamp %d, turn start %d, diff %d" % (timestamp, self.turn_start, (timestamp - self.turn_start)))
-        if timestamp - self.turn_start >= TURN_FAIL_COUNTER:
-            self.turn_l()
-            sleep(1)
-            return
-
-        if distance[3] <= MIN_STOP_DISTANCE:
-            self.turn_l()
-            self.turn_l_counter += 1
-            sleep(TURN_SLEEP)
-            self.stop_motors()
-            return
-
-        # TODO: Hardcode these for a test
-        if self.is_min_right(distance):
-            self.turn_l()
-            self.turn_l_counter += 1
-            sleep(TURN_SLEEP)
-            self.stop_motors()
-        elif self.is_min_left(distance):
-            self.turn_r()
-            self.turn_r_counter += 1
-            sleep(TURN_SLEEP)
-            self.stop_motors()
-        else:
-            self.forward()
+    def get_state(self):
+        return self.state

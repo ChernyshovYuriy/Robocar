@@ -91,7 +91,6 @@ class Echo:
                     if distance[i] == 0 and self.distance_prev[i] != 0:
                         distance[i] = self.distance_prev[i]
             self.on_echo(distance)
-            # print("--------> ECHO %s" % distance)
             sleep(0.05)
 
     # Get distance from sensor.

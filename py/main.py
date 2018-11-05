@@ -12,7 +12,7 @@ from py.cmd_commander import CmdCommander
 from tkinter import StringVar, Tk
 from py.echo import Echo
 # from py.echo_servo import EchoServo
-from py.motors import Motors
+from py.motors import Motors, MotorsState
 from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
 # from py.lm393 import LM393
@@ -25,8 +25,6 @@ class Controller:
         print("Init  controller on %s" % py.config.CONFIG)
         self.is_run = False
         self.distance = [0] * Echo.SENSORS_NUM
-        self.distance_origin = [0] * Echo.SENSORS_NUM
-        self.distance_drove = 0
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
         self.echo = Echo(self.on_echo, self.echo_error_callback)
@@ -78,31 +76,35 @@ class Controller:
     # Run engine forward
     def eng_fwd(self):
         print("Engine forward")
-        self.motors.forward()
+        self.motors.set_state(MotorsState.START_FWD)
+        self.motors.exec_cmd()
 
     # Run engine backward
     def eng_bwd(self):
         print("Engine backward")
-        self.motors.backward()
+        self.motors.set_state(MotorsState.STAR_BWD)
+        self.motors.exec_cmd()
 
     # Run engines turn left
     def eng_turn_l(self):
         print("Engines turn left")
-        self.motors.turn_l()
+        self.motors.set_state(MotorsState.TURN_L)
+        self.motors.exec_cmd()
 
     # Run engines turn right
     def eng_turn_r(self):
         print("Engines turn right")
-        self.motors.turn_r()
+        self.motors.set_state(MotorsState.TURN_R)
+        self.motors.exec_cmd()
 
     # Run engine stop
     def eng_stop(self):
         print("Engine stop")
-        self.motors.stop_motors()
+        self.motors.set_state(MotorsState.STOP)
+        self.motors.exec_cmd()
 
     def echo_error_callback(self):
         print("Echo error")
-        self.motors.hit_the_wall()
 
     # Run print echo action
     def trigger_print_echo(self):
@@ -125,20 +127,15 @@ class Controller:
         self.motors.on_echo(self.distance)
         if config.COMMANDER is Commander.UI:
             self.distance_prompt_ref.set("Distance: %s cm" % self.distance)
-        # if self.distance_origin > 0:
-            # self.distance_drove = self.distance_origin - self.distance
 
     def on_motors_stopped(self):
-        print(" -- motors stopped, drove %.1f sm" % self.distance_drove)
-        self.distance_origin = [0, 0, 0]
+        print(" -- motors stopped")
         """ Reset drove distance here, any reference must be obtained prior to this line """
-        # self.distance_drove = 0
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors stopped")
 
     def on_motors_started(self, state):
-        print(" -- motors started %s, distance origin %s sm" % (state, self.distance))
-        self.distance_origin = self.distance
+        print(" -- motors started %s" % (state))
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors started")
 
