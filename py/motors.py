@@ -145,7 +145,7 @@ class Motors:
             new_state = self.calculate_state(distance)
             print("Motor state - new %s | current %s" % (new_state, self.get_state()))
 
-        # self.exec_cmd()
+        self.exec_cmd()
 
     def exec_cmd(self):
         self.commands[self.get_state()].execute(self)
