@@ -140,12 +140,21 @@ class Motors:
         # TODO: Make decision about state based on array of distances and is_run
 
         if not self.is_run:
-            self.set_state(MotorsState.STOP)
+            new_state = MotorsState.STOP
         else:
             new_state = self.calculate_state(distance)
-            print("Motor state - new %s | current %s" % (new_state, self.get_state()))
-            if new_state != self.get_state():
-                self.set_state(new_state)
+
+        print("Motor state - new %s | current %s" % (new_state, self.get_state()))
+        if new_state != self.get_state():
+
+            if py.config.CONFIG is py.config.Platform.PI:
+                I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
+                I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
+                I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
+                I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
+            self.on_motors_stopped_ref()
+
+            self.set_state(new_state)
 
         self.exec_cmd()
 
