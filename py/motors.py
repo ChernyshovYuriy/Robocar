@@ -212,9 +212,9 @@ class Motors:
             print("Move index is %d" % move_idx)
 
             if 0 <= move_idx <= 3:
-                new_state = MotorsState.TURN_R
-            elif 4 <= move_idx <= 7:
                 new_state = MotorsState.TURN_L
+            elif 4 <= move_idx <= 7:
+                new_state = MotorsState.TURN_R
             else:
                 new_state = MotorsState.START_FWD
 
