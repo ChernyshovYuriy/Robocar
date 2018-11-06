@@ -112,7 +112,6 @@ class Controller:
             self.echo.start()
         else:
             self.echo.stop()
-        print("ECHO :: ---> %s" % (self.distance))
 
     # Callback function to LM393 class
     # def on_lm393_value(self, value):
