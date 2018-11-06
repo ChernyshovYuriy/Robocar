@@ -131,10 +131,6 @@ class Motors:
         self.stop_motors()
 
     def on_echo(self, distance):
-        print("State: %s, is run: %r, distance: %s" % (self.get_state(), self.is_run, distance))
-
-        # TODO: Make decision about state based on array of distances and is_run
-
         if not self.is_run:
             new_state = MotorsState.STOP
         else:
