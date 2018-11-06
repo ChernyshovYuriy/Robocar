@@ -204,6 +204,7 @@ class Motors:
 
         new_state = MotorsState.START_FWD
         if is_adjusted:
+            print("Weighted distance: %s" % self.weights)
             """
             Find max move vector and decide where to go
             """
