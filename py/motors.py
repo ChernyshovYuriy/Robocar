@@ -40,12 +40,7 @@ class StopCmd(Command):
 
     def execute(self, reference):
         print("Motor - Stopped command")
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
-            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
-            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
-            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
-        reference.on_motors_stopped_ref()
+        reference.stop_motors()
 
 
 # Start motors forward command
@@ -133,6 +128,7 @@ class Motors:
             return
         print("Stop  motors")
         self.is_run = False
+        self.stop_motors()
 
     def on_echo(self, distance):
         print("State: %s, is run: %r, distance: %s" % (self.get_state(), self.is_run, distance))
@@ -146,14 +142,7 @@ class Motors:
 
         print("Motor state - new %s | current %s" % (new_state, self.get_state()))
         if new_state != self.get_state():
-
-            if py.config.CONFIG is py.config.Platform.PI:
-                I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
-                I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
-                I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
-                I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
-            self.on_motors_stopped_ref()
-
+            self.stop_motors()
             self.set_state(new_state)
 
         self.exec_cmd()
@@ -166,6 +155,14 @@ class Motors:
 
     def get_state(self):
         return self.state
+
+    def stop_motors(self):
+        if py.config.CONFIG is py.config.Platform.PI:
+            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
+            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
+        self.on_motors_stopped_ref()
 
     def calculate_state(self, distance):
         if distance == 0:
