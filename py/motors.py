@@ -139,6 +139,28 @@ class Motors:
 
         # TODO: Make decision about state based on array of distances and is_run
 
+        if not self.is_run:
+            self.set_state(MotorsState.STOP)
+        else:
+            new_state = self.calculate_state(distance)
+            print("Motor state - new %s | current %s" % (new_state, self.get_state()))
+
+        # self.exec_cmd()
+
+    def exec_cmd(self):
+        self.commands[self.get_state()].execute(self)
+
+    def set_state(self, state):
+        self.state = state
+
+    def get_state(self):
+        return self.state
+
+    def calculate_state(self, distance):
+        if distance == 0:
+            self.weights = [0] * Echo.SENSORS_NUM
+            return MotorsState.STOP
+
         self.weights = distance[:]
         """
         Normalize
@@ -184,19 +206,4 @@ class Motors:
             else:
                 new_state = MotorsState.START_FWD
 
-        print("Motor state - new %s | current %s" % (new_state, self.get_state()))
-        if new_state != self.get_state():
-            self.set_state(new_state)
-
-        if not self.is_run:
-            self.set_state(MotorsState.STOP)
-        # self.exec_cmd()
-
-    def exec_cmd(self):
-        self.commands[self.get_state()].execute(self)
-
-    def set_state(self, state):
-        self.state = state
-
-    def get_state(self):
-        return self.state
+        return new_state
