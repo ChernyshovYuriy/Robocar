@@ -111,6 +111,7 @@ class HttpServer:
             print('Started http server on port ', PORT_NUMBER)
             # Wait forever for incoming http requests
             self.server.serve_forever()
+        print('Exit runnable of http server')
 
 
 class HttpServerData:
