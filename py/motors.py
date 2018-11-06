@@ -144,6 +144,8 @@ class Motors:
         else:
             new_state = self.calculate_state(distance)
             print("Motor state - new %s | current %s" % (new_state, self.get_state()))
+            if new_state != self.get_state():
+                self.set_state(new_state)
 
         self.exec_cmd()
 
