@@ -1,3 +1,4 @@
+import math
 import sys
 from os.path import dirname, abspath
 
@@ -105,7 +106,7 @@ class Echo:
             if weights[i] >= self.norm_weights[i]:
                 weights[i] = 1
             else:
-                weights[i] = round(weights[i] / self.norm_weights[i], 2)
+                weights[i] = math.ceil((weights[i] / self.norm_weights[i]) * 100 / 100)
         """
         Adjust move vector
         """
