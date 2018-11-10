@@ -59,6 +59,7 @@ class Echo:
             return
 
         print("Start echo")
+        self.octasonic.toggle_led()
         self.is_run = True
         """Run echo in separate thread"""
         if self.thread is None:
@@ -71,6 +72,7 @@ class Echo:
             return
 
         print("Stop  echo")
+        self.octasonic.toggle_led()
         self.is_run = False
         self.thread = None
         # self.sonar_sensor.cancel()
@@ -79,7 +81,6 @@ class Echo:
     # Handle distance measurement.
     def runnable(self):
         num_of_sensors = len(self.distance_prev)
-        self.octasonic.toggle_led()
         while self.is_run:
             distance = [0] * Echo.SENSORS_NUM
             if py.config.CONFIG is py.config.Platform.PI:
