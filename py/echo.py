@@ -1,4 +1,3 @@
-import math
 import sys
 from os.path import dirname, abspath
 

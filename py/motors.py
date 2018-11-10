@@ -151,10 +151,12 @@ class Motors:
             I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
         self.on_motors_stopped_ref()
 
-    def calculate_state(self, weights):
+    @staticmethod
+    def calculate_state(weights):
         """
         Find max move vector and decide where to go
         """
+        #TODO: Check whether peaks are on both sides of vector (in 1 or 2 and in 4 or 5) - potential corner
         max_idx = max(weights)
         if max_idx != 1:
             move_idx = weights.index(max_idx)
