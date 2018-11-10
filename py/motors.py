@@ -152,7 +152,6 @@ class Motors:
         self.on_motors_stopped_ref()
 
     def calculate_state(self, weights):
-        new_state = MotorsState.START_FWD
         """
         Find max move vector and decide where to go
         """
