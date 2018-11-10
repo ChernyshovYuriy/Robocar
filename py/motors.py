@@ -155,7 +155,11 @@ class Motors:
         """
         Find max move vector and decide where to go
         """
-        move_idx = weights.index(max(weights))
+        max_idx = max(weights)
+        if max_idx != 1:
+            move_idx = weights.index(max_idx)
+        else:
+            move_idx = -1
         print("Move index is %d" % move_idx)
 
         if 0 <= move_idx <= 3:
