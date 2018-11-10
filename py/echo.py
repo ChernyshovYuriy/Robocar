@@ -106,7 +106,7 @@ class Echo:
             if weights[i] >= self.norm_weights[i]:
                 weights[i] = 1
             else:
-                weights[i] = math.ceil((weights[i] / self.norm_weights[i]) * 100 / 100)
+                weights[i] = math.ceil(((weights[i] / self.norm_weights[i]) * 100) / 100.0)
         """
         Adjust move vector
         """
