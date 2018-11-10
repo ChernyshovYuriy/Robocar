@@ -24,8 +24,18 @@ TODO list:
 
 View of the prototype (not annotated, annotation is coming):
 
-![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/ae0d3ce125bd4b1e61bc72f7235771def5c43504/py/img/robocar_1.png)
+![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar1.jpg)
 
-![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/ae0d3ce125bd4b1e61bc72f7235771def5c43504/py/img/robocar_2.png)
+![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar2.jpg)
+
+![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar3.jpg)
+
+![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar4.jpg)
+
+![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar5.jpg)
+
+![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar6.jpg)
+
+![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar7.jpg)
 
 ---
