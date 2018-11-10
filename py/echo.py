@@ -92,6 +92,7 @@ class Echo:
                         self.distance_prev[i] = distance[i]
                     if distance[i] == 0 and self.distance_prev[i] != 0:
                         distance[i] = self.distance_prev[i]
+                    weights[i] = distance[i]
             self.calculate_weights(weights)
             self.on_echo(distance, weights)
             sleep(0.05)
