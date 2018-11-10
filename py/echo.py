@@ -106,6 +106,7 @@ class Echo:
                 weights[i] = 1
             else:
                 weights[i] = weights[i] / self.norm_weights[i]
+            round(weights[i], 2)
         """
         Adjust move vector
         """
