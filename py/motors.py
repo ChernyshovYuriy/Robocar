@@ -108,7 +108,7 @@ class Motors:
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
         self.weights = [0] * Echo.SENSORS_NUM
-        self.norm_weights = [2, 4, 8, 10, 8, 4, 2]
+        self.norm_weights = [3, 9, 12, 15, 12, 9, 3]
 
     def start(self):
         if self.is_run:
