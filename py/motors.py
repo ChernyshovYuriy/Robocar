@@ -107,8 +107,6 @@ class Motors:
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
-        self.weights = [0] * Echo.SENSORS_NUM
-        self.norm_weights = [2, 9, 12, 15, 12, 9, 2]
 
     def start(self):
         if self.is_run:
@@ -123,11 +121,11 @@ class Motors:
         self.is_run = False
         self.stop_motors()
 
-    def on_echo(self, distance):
+    def on_echo(self, distance, weights):
         if not self.is_run:
             new_state = MotorsState.STOP
         else:
-            new_state = self.calculate_state(distance)
+            new_state = self.calculate_state(weights)
 
         print("Motor state - new %s | current %s" % (new_state, self.get_state()))
         if new_state != self.get_state():
@@ -153,55 +151,19 @@ class Motors:
             I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
         self.on_motors_stopped_ref()
 
-    def calculate_state(self, distance):
-        if distance == 0:
-            self.weights = [0] * Echo.SENSORS_NUM
-            return MotorsState.STOP
-
-        self.weights = distance[:]
-        """
-        Normalize
-        """
-        for i in range(len(self.weights)):
-            if self.weights[i] >= self.norm_weights[i]:
-                self.weights[i] = 1
-            else:
-                self.weights[i] = self.weights[i] / self.norm_weights[i]
-        """
-        Adjust move vector
-        """
-        is_adjusted = False
-        for i in range(len(self.weights)):
-            if self.weights[i] >= 1:
-                continue
-            is_adjusted = True
-            if i == 0:
-                self.weights[6] += (1 - self.weights[i])
-            if i == 1:
-                self.weights[5] += (1 - self.weights[i])
-            if i == 2:
-                self.weights[4] += (1 - self.weights[i])
-            if i == 4:
-                self.weights[2] += (1 - self.weights[i])
-            if i == 5:
-                self.weights[1] += (1 - self.weights[i])
-            if i == 6:
-                self.weights[0] += (1 - self.weights[i])
-
+    def calculate_state(self, weights):
         new_state = MotorsState.START_FWD
-        if is_adjusted:
-            print("Weighted distance: %s" % self.weights)
-            """
-            Find max move vector and decide where to go
-            """
-            move_idx = self.weights.index(max(self.weights))
-            print("Move index is %d" % move_idx)
+        """
+        Find max move vector and decide where to go
+        """
+        move_idx = weights.index(max(weights))
+        print("Move index is %d" % move_idx)
 
-            if 0 <= move_idx <= 3:
-                new_state = MotorsState.TURN_L
-            elif 4 <= move_idx <= 7:
-                new_state = MotorsState.TURN_R
-            else:
-                new_state = MotorsState.START_FWD
+        if 0 <= move_idx <= 3:
+            new_state = MotorsState.TURN_L
+        elif 4 <= move_idx <= 7:
+            new_state = MotorsState.TURN_R
+        else:
+            new_state = MotorsState.START_FWD
 
         return new_state

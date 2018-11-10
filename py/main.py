@@ -24,7 +24,6 @@ class Controller:
     def __init__(self, distance_prompt_in, motors_prompt_in):
         print("Init  controller on %s" % py.config.CONFIG)
         self.is_run = False
-        self.distance = [0] * Echo.SENSORS_NUM
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
         self.echo = Echo(self.on_echo, self.echo_error_callback)
@@ -119,13 +118,13 @@ class Controller:
     #     self.motors.set_lm393_value(value)
 
     # Callback function to echo class
-    def on_echo(self, distance):
-        print(" -- echo: %s" % distance)
-        self.distance = distance
+    def on_echo(self, distance, weights):
+        print(" -- echo   : %s" % distance)
+        print(" -- weights: %s" % weights)
         self.server_data.echo = distance
-        self.motors.on_echo(self.distance)
+        self.motors.on_echo(distance, weights)
         if config.COMMANDER is Commander.UI:
-            self.distance_prompt_ref.set("Distance: %s cm" % self.distance)
+            self.distance_prompt_ref.set("Distance: %s cm" % distance)
 
     def on_motors_stopped(self):
         print(" -- motors stopped")

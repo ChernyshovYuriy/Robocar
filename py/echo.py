@@ -39,6 +39,7 @@ class Echo:
         self.on_echo = on_echo
         self.echo_error_callback = echo_error_callback
         self.distance_prev = [0] * Echo.SENSORS_NUM
+        self.norm_weights = [2, 9, 12, 15, 12, 9, 2]
         self.octasonic = Octasonic(0)
         protocol_version = self.octasonic.get_protocol_version()
         firmware_version = self.octasonic.get_firmware_version()
@@ -83,6 +84,7 @@ class Echo:
         num_of_sensors = len(self.distance_prev)
         while self.is_run:
             distance = [0] * Echo.SENSORS_NUM
+            weights = [0] * Echo.SENSORS_NUM
             if py.config.CONFIG is py.config.Platform.PI:
                 for i in range(num_of_sensors):
                     distance[i] = self.octasonic.get_sensor_reading(i)
@@ -90,8 +92,38 @@ class Echo:
                         self.distance_prev[i] = distance[i]
                     if distance[i] == 0 and self.distance_prev[i] != 0:
                         distance[i] = self.distance_prev[i]
-            self.on_echo(distance)
+            self.calculate_weights(weights)
+            self.on_echo(distance, weights)
             sleep(0.05)
+
+    def calculate_weights(self, weights):
+        """
+        Normalize
+        """
+        for i in range(len(weights)):
+            if weights[i] >= self.norm_weights[i]:
+                weights[i] = 1
+            else:
+                weights[i] = weights[i] / self.norm_weights[i]
+        """
+        Adjust move vector
+        """
+        for i in range(len(weights)):
+            if weights[i] >= 1:
+                continue
+            if i == 0:
+                weights[6] += (1 - weights[i])
+            if i == 1:
+                weights[5] += (1 - weights[i])
+            if i == 2:
+                weights[4] += (1 - weights[i])
+            if i == 4:
+                weights[2] += (1 - weights[i])
+            if i == 5:
+                weights[1] += (1 - weights[i])
+            if i == 6:
+                weights[0] += (1 - weights[i])
+
 
     # Get distance from sensor.
     @staticmethod
