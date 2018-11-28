@@ -74,6 +74,7 @@ class LM393:
         self.pulse += 1  # increase pulse by 1 whenever interrupt occurred
         self.elapse = time.time() - self.start_timer  # elapse for every 1 complete rotation made!
         self.start_timer = time.time()
+        self.calculate()
 
     def left_sensor_callback(self, channel):
         print("Callback L")
