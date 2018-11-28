@@ -51,7 +51,7 @@ class LM393:
 
     @staticmethod
     def get_value(pin):
-        print("-- start")
+        print("\n-- start")
         count = 0
 
         # Output on the pin for
@@ -64,11 +64,11 @@ class LM393:
 
         c = 0
         # Count until the pin goes high
-        while GPIO.input(pin) == GPIO.LOW:
+        while count == 0 or GPIO.input(pin) == GPIO.LOW:
             count += 1
             c += 1
             if c == LM393_MAX_COUNTER:
                 print("Brake lm393 loop")
                 break
-        print("-- stop\n")
+        print("-- stop")
         return count
