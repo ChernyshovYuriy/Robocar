@@ -51,6 +51,7 @@ class LM393:
 
     @staticmethod
     def get_value(pin):
+        print("-- start")
         count = 0
 
         # Output on the pin for
@@ -69,5 +70,5 @@ class LM393:
             if c == LM393_MAX_COUNTER:
                 print("Brake lm393 loop")
                 break
-
+        print("-- stop\n")
         return count
