@@ -77,7 +77,7 @@ class HttpServer:
     echo_data = ""
 
     def __init__(self, data):
-        print("Init http server")
+        print("Init  http server")
         # Create a web server and define the handler to manage the
         # incoming request
         self.data = data
