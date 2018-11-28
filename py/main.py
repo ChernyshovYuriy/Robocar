@@ -30,7 +30,7 @@ class Controller:
         # self.echo_servo = EchoServo()
         self.lm393 = LM393(self.on_lm393_value)
         self.motors = Motors(
-            self.lm393, self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
+            self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
         self.p = None
         # self.camera = Camera()
@@ -72,25 +72,25 @@ class Controller:
 
     # Run engine forward
     def eng_fwd(self):
-        print("Engine forward")
+        print("Motors forward")
         self.motors.set_state(MotorsState.START_FWD)
         self.motors.exec_cmd()
 
     # Run engine backward
     def eng_bwd(self):
-        print("Engine backward")
+        print("Motors backward")
         self.motors.set_state(MotorsState.START_BWD)
         self.motors.exec_cmd()
 
     # Run engines turn left
     def eng_turn_l(self):
-        print("Engines turn left")
+        print("Motors turn left")
         self.motors.set_state(MotorsState.TURN_L)
         self.motors.exec_cmd()
 
     # Run engines turn right
     def eng_turn_r(self):
-        print("Engines turn right")
+        print("Motors turn right")
         self.motors.set_state(MotorsState.TURN_R)
         self.motors.exec_cmd()
 
@@ -126,12 +126,14 @@ class Controller:
 
     def on_motors_stopped(self):
         print(" -- motors stopped")
+        self.lm393.stop()
         """ Reset drove distance here, any reference must be obtained prior to this line """
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors stopped")
 
     def on_motors_started(self, state):
         print(" -- motors started %s" % (state))
+        self.lm393.start()
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors started")
 

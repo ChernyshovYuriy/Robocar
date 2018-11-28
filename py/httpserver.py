@@ -117,5 +117,5 @@ class HttpServer:
 class HttpServerData:
 
     def __init__(self):
-        print("Init http server data")
+        print("Init  http server data")
         self.echo = ""
