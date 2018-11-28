@@ -42,8 +42,8 @@ class LM393:
         self.is_run = False
         self.thread = None
 
-    def calculate_elapse(channel):
-        print("Callback")
+    def calculate_elapse(self, channel):
+        print("Callback %d" % (channel))
 
     # Handle distance measurement.
     def runnable(self):
