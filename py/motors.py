@@ -3,7 +3,6 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-from py.echo import Echo
 import py.config
 from enum import Enum
 
@@ -156,7 +155,7 @@ class Motors:
         """
         Find max move vector and decide where to go
         """
-        #TODO: Check whether peaks are on both sides of vector (in 1 or 2 and in 4 or 5) - potential corner
+        # TODO: Check whether peaks are on both sides of vector (in 1 or 2 and in 4 or 5) - potential corner
         max_idx = max(weights)
         if max_idx != 1:
             move_idx = weights.index(max_idx)
