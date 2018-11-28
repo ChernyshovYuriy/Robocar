@@ -12,13 +12,15 @@ if py.config.CONFIG is py.config.Platform.PI:
 # Manager of the GPIO and its pins.
 class GPIOManager:
 
-    LM393 = 12
+    LM393_R = 12
+    LM393_L = 13
 
     @staticmethod
     def init():
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.setmode(GPIO.BCM)
-            GPIO.setup(GPIOManager.LM393, GPIO.IN)
+            GPIO.setup(GPIOManager.LM393_R, GPIO.IN)
+            GPIO.setup(GPIOManager.LM393_L, GPIO.IN)
             print("GPIO Manager initialized")
 
     @staticmethod

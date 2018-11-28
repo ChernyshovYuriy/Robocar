@@ -45,23 +45,25 @@ class LM393:
     # Handle distance measurement.
     def runnable(self):
         while self.is_run:
-            self.on_value_int(self.get_value())
+            left = self.get_value(GPIOManager.LM393_L)
+            right = self.get_value(GPIOManager.LM393_R)
+            self.on_value_int(left, right)
 
     @staticmethod
-    def get_value():
+    def get_value(pin):
         count = 0
 
         # Output on the pin for
-        GPIO.setup(GPIOManager.LM393, GPIO.OUT)
-        GPIO.output(GPIOManager.LM393, GPIO.LOW)
+        GPIO.setup(pin, GPIO.OUT)
+        GPIO.output(pin, GPIO.LOW)
         sleep(0.1)
 
         # Change the pin back to input
-        GPIO.setup(GPIOManager.LM393, GPIO.IN)
+        GPIO.setup(pin, GPIO.IN)
 
         c = 0
         # Count until the pin goes high
-        while GPIO.input(GPIOManager.LM393) == GPIO.LOW:
+        while GPIO.input(pin) == GPIO.LOW:
             count += 1
             c += 1
             if c == LM393_MAX_COUNTER:

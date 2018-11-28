@@ -111,8 +111,8 @@ class Controller:
             self.echo.stop()
 
     # Callback function to LM393 class
-    def on_lm393_value(self, value):
-        print("LM393 value is %d" % value)
+    def on_lm393_value(self, value_l, value_r):
+        print("LM393 l:%d r:%d" % (value_l, value_r))
         # self.motors.set_lm393_value(value)
 
     # Callback function to echo class
