@@ -45,7 +45,7 @@ class LM393:
     # Handle distance measurement.
     def runnable(self):
         while self.is_run:
-            left = self.get_value(GPIOManager.LM393_L)
+            left = 0
             right = self.get_value(GPIOManager.LM393_R)
             self.on_value_int(left, right)
 
