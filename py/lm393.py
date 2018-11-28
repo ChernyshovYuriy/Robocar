@@ -42,12 +42,17 @@ class LM393:
         self.is_run = False
         self.thread = None
 
+    def calculate_elapse(channel):
+        print("Callback")
+
     # Handle distance measurement.
     def runnable(self):
-        while self.is_run:
+        # while self.is_run:
             left = 0
-            right = self.get_value(GPIOManager.LM393_R)
-            self.on_value_int(left, right)
+            # right = self.get_value(GPIOManager.LM393_R)
+            # self.on_value_int(left, right)
+            GPIO.add_event_detect(GPIOManager.LM393_R, GPIO.FALLING, callback=self.calculate_elapse, bouncetime=20)
+            # sleep(0.1)
 
     @staticmethod
     def get_value(pin):
