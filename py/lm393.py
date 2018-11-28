@@ -24,7 +24,7 @@ class LM393:
         self.thread = None
         self.on_value_int = on_value
 
-        self.r_cm = 0.8
+        self.r_cm = 0.5
         self.dist_meas = [0.00, 0.00]
         self.km_per_hour = [0, 0]
         self.rpm = [0, 0]
