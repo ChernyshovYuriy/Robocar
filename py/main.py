@@ -28,11 +28,11 @@ class Controller:
         self.motors_prompt_ref = motors_prompt_in
         self.echo = Echo(self.on_echo, self.echo_error_callback)
         # self.echo_servo = EchoServo()
+        self.lm393 = LM393(self.on_lm393_value)
         self.motors = Motors(
-            self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
+            self.lm393, self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
         self.p = None
-        self.lm393 = LM393(self.on_lm393_value)
         # self.camera = Camera()
         self.server_data = HttpServerData()
         # self.server = HttpServer(self.server_data)
@@ -47,7 +47,6 @@ class Controller:
 
         print("Start controller")
         self.echo.start()
-        self.lm393.start()
         # self.camera.start()
         # self.server.start()
         # self.echo_servo.start()
@@ -65,7 +64,6 @@ class Controller:
     # Force stop controller
     def force_stop(self):
         self.is_run = False
-        self.lm393.stop()
         self.motors.stop()
         self.echo.stop()
         # self.camera.stop()
