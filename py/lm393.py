@@ -53,6 +53,7 @@ class LM393:
 
     # Handle distance measurement.
     def runnable(self):
+        print("ENTER")
         GPIO.add_event_detect(GPIOManager.LM393_R, GPIO.FALLING, callback=self.right_sensor_callback, bouncetime=20)
         GPIO.add_event_detect(GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=20)
         print("EXIT")

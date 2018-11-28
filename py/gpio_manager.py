@@ -20,6 +20,7 @@ class GPIOManager:
         if py.config.CONFIG is py.config.Platform.PI:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(GPIOManager.LM393_R, GPIO.IN, GPIO.PUD_UP)
+            GPIO.setup(GPIOManager.LM393_L, GPIO.IN, GPIO.PUD_UP)
             print("GPIO Manager initialized")
 
     @staticmethod
