@@ -7,6 +7,7 @@ from time import sleep
 from py.gpio_manager import GPIOManager
 from threading import Thread
 import py.config
+
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
 
@@ -42,38 +43,16 @@ class LM393:
         self.is_run = False
         self.thread = None
 
-    def calculate_elapse(self, channel):
-        print("Callback %d" % (channel))
+    @staticmethod
+    def right_sensor_callback(channel):
+        print("Callback R")
+
+    @staticmethod
+    def left_sensor_callback(channel):
+        print("Callback L")
 
     # Handle distance measurement.
     def runnable(self):
-        # while self.is_run:
-            left = 0
-            # right = self.get_value(GPIOManager.LM393_R)
-            # self.on_value_int(left, right)
-            GPIO.add_event_detect(GPIOManager.LM393_R, GPIO.FALLING, callback=self.calculate_elapse, bouncetime=20)
-            # sleep(0.1)
-
-    @staticmethod
-    def get_value(pin):
-        # print("\n-- start")
-        count = 0
-
-        # Output on the pin for
-        GPIO.setup(pin, GPIO.OUT)
-        GPIO.output(pin, GPIO.LOW)
-        sleep(0.1)
-
-        # Change the pin back to input
-        GPIO.setup(pin, GPIO.IN)
-
-        c = 0
-        # Count until the pin goes high
-        while count == 0 or GPIO.input(pin) == GPIO.LOW:
-            count += 1
-            c += 1
-            if c == LM393_MAX_COUNTER:
-                print("Brake lm393 loop")
-                break
-        # print("-- stop")
-        return count
+        GPIO.add_event_detect(GPIOManager.LM393_R, GPIO.FALLING, callback=self.right_sensor_callback, bouncetime=20)
+        GPIO.add_event_detect(GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=20)
+        print("EXIT")
