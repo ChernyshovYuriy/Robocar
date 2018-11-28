@@ -113,14 +113,14 @@ class Motors:
             return
         print("Start motors")
         self.is_run = True
-        # self.lm393.start()
+        self.lm393.start()
 
     def stop(self):
         if not self.is_run:
             return
         print("Stop  motors")
         self.is_run = False
-        # self.lm393.stop()
+        self.lm393.stop()
         self.stop_motors()
 
     def on_echo(self, distance, weights):
