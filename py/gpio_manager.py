@@ -14,6 +14,9 @@ class GPIOManager:
     LM393_R = 12
     LM393_L = 13
 
+    """
+    Workaround for the segmentation fault when remove events
+    """
     IS_LM393_CALLBACK_REGISTERED = False
 
     @staticmethod
