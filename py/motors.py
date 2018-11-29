@@ -1,4 +1,5 @@
 import sys
+import threading
 from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
@@ -116,11 +117,12 @@ class Motors:
     def stop(self):
         if not self.is_run:
             return
-        print("Stop  motors")
+        print("Stop  motors %d" % threading.get_ident())
         self.is_run = False
         self.stop_motors()
 
     def on_echo(self, distance, weights):
+        print("ECHO %d" % threading.get_ident())
         if not self.is_run:
             new_state = MotorsState.STOP
         else:
