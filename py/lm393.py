@@ -29,6 +29,7 @@ class LM393:
         r_cm = 0.2                           # should be radius of wheel
         circ_cm = (2 * math.pi) * r_cm       # calculate wheel circumference in cm
         self.dist_km = circ_cm / 100000      # convert cm to km
+        print("Wheel circumference %d" % self.dist_km)
 
         self.dist_meas = [0.00] * LM393.NUM_OF_SENSORS
         self.km_per_hour = [0] * LM393.NUM_OF_SENSORS

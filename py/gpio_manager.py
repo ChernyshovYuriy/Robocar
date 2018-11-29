@@ -7,6 +7,7 @@ import py.config
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
 
+
 # Manager of the GPIO and its pins.
 class GPIOManager:
 
