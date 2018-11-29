@@ -1,3 +1,9 @@
 https://humanwhocodes.com/blog/2010/05/25/cross-domain-ajax-with-cross-origin-resource-sharing/
 https://electrosome.com/hc-sr04-ultrasonic-sensor-raspberry-pi
 https://learn.adafruit.com/mcp230xx-gpio-expander-on-the-raspberry-pi/using-the-library
+
+Dependencies:
+
+- RPi.GPIO (https://pypi.org/project/RPi.GPIO/)
+- mpu6050 (https://github.com/Tijndagamer/mpu6050)
+- smbus (sudo apt-get install python3-smbus)
