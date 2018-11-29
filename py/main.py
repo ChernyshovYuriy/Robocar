@@ -142,6 +142,7 @@ class Controller:
 
     def on_motors_turning(self, state):
         print(" -- motors turning %s" % state)
+        self.lm393.start()
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors Turning")
 
