@@ -4,10 +4,8 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 from py.octasonic import Octasonic
-import time
 from threading import Thread
 from time import sleep
-import RPi.GPIO as GPIO
 
 
 # Ultra sonic locator.
@@ -39,7 +37,6 @@ class Echo:
         firmware_version = self.octasonic.get_firmware_version()
         print("Octasonic protocol v%s firmware v%s" % (protocol_version, firmware_version))
         self.octasonic.set_sensor_count(Echo.SENSORS_NUM)
-        print("Octasonic sensor count: %s" % self.octasonic.get_sensor_count())
 
     # Whether echo is running
     def is_active(self):
@@ -108,44 +105,3 @@ class Echo:
                 weights[1] += (1 - weights[i])
             if i == 6:
                 weights[0] += (1 - weights[i])
-
-
-    # Get distance from sensor.
-    @staticmethod
-    def distance(trigger, echo):
-        """
-        The PING is triggered by a HIGH pulse of 10 or more microseconds.
-        Give a short LOW pulse beforehand to ensure a clean HIGH pulse.
-        """
-        GPIO.output(trigger, GPIO.LOW)
-        time.sleep(Echo.TWO_MICROSEC)
-        GPIO.output(trigger, GPIO.HIGH)
-        time.sleep(Echo.TWELVE_MICROSEC)
-        GPIO.output(trigger, GPIO.LOW)
-
-        start_time = time.time()
-        stop_time = time.time()
-
-        """ Save the time of signal emitted """
-        c = 0
-        while GPIO.input(echo) == 0:
-            start_time = time.time()
-            c += 1
-            if c == Echo.MAX_COUNTER:
-                print("Brake echo 0 loop")
-                break
-
-        """ Save the time of signal received """
-        c = 0
-        while GPIO.input(echo) == 1:
-            stop_time = time.time()
-            c += 1
-            if c == Echo.MAX_COUNTER:
-                print("Brake echo 1 loop")
-                stop_time = start_time = 0
-                break
-
-        """ Time difference between emitted and received signal """
-        time_elapsed = stop_time - start_time
-        """ Multiply with the speed of sound and divide by two (distance to and from object) """
-        return int((time_elapsed * Echo.SOUND_SPEED) / 2)
