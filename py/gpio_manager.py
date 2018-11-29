@@ -4,10 +4,9 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
-from py.lm393 import LM393
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
-
+from py.lm393 import LM393
 
 # Manager of the GPIO and its pins.
 class GPIOManager:
