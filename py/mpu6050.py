@@ -11,7 +11,7 @@ from time import sleep
 # MPU-6050 sensor.
 class MPU6050:
 
-    def __init__(self, on_echo, echo_error_callback):
+    def __init__(self):
         print("Init  echo")
         self.is_run = False
         self.thread = None

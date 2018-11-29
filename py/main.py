@@ -28,7 +28,7 @@ class Controller:
         self.motors_prompt_ref = motors_prompt_in
         self.echo = Echo(self.on_echo, self.echo_error_callback)
         # self.echo_servo = EchoServo()
-        self.mpu6050 = MPU6050
+        self.mpu6050 = MPU6050()
         self.lm393 = LM393(self.on_lm393_values)
         self.motors = Motors(
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
