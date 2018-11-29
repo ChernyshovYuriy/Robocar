@@ -51,5 +51,5 @@ class MPU6050:
                 "MPU-6050 temp:%d accel(x:%d,\ty:%d,\tz%d)\tgyro(x:%d,\ty:%d,\tz%d)"
                 % (temp, accel['x'], accel['y'], accel['z'], gyro['x'], gyro['y'], gyro['z'])
             )
-            sleep(0.5)
+            sleep(0.05)
 
