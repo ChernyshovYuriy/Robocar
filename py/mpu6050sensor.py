@@ -6,6 +6,7 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 from mpu6050 import mpu6050
 from threading import Thread
 from time import sleep
+import math
 
 
 # MPU-6050 sensor.
@@ -47,10 +48,12 @@ class MPU6050:
             accel = self.sensor.get_accel_data(True)
             # Gets and returns the X, Y and Z values from the gyroscope.
             gyro = self.sensor.get_gyro_data()
+            roll = math.atan2(accel['y'], accel['z']) * 180 / math.pi
+            pitch = math.atan2(-accel['x'], math.sqrt(accel['y'] * accel['y'] + accel['z'] * accel['z'])) * 180 / math.pi
             # Use gyro Z to detect rotate left/right (positive/negative)
             print(
-                "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f)\tgyro(x:%d,\ty:%d,\tz:%d)"
-                % (temp, accel['x'], accel['y'], accel['z'], gyro['x'], gyro['y'], gyro['z'])
+                "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f,\troll:%f,\tpitch:%f)\tgyro(x:%d,\ty:%d,\tz:%d)"
+                % (temp, accel['x'], accel['y'], accel['z'], roll, pitch, gyro['x'], gyro['y'], gyro['z'])
             )
             sleep(0.05)
 
