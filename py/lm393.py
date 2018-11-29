@@ -44,6 +44,8 @@ class LM393:
             self.dist_meas[i] = 0.00
             self.km_per_hour[i] = 0
             self.start_timer[i] = time.time()
+        GPIO.add_event_detect(GPIOManager.LM393_R, GPIO.FALLING)
+        GPIO.add_event_detect(GPIOManager.LM393_L, GPIO.FALLING)
         GPIO.add_event_callback(GPIOManager.LM393_R, callback=self.right_sensor_callback)
         GPIO.add_event_callback(GPIOManager.LM393_L, callback=self.left_sensor_callback)
 
