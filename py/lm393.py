@@ -25,7 +25,7 @@ class LM393:
         self.thread = None
         self.on_value_int = on_value
 
-        self.wheel_circumference_cm = 21
+        self.r_cm = 0.2
         self.dist_meas = [0.00] * LM393.NUM_OF_SENSORS
         self.km_per_hour = [0] * LM393.NUM_OF_SENSORS
         self.rpm = [0] * LM393.NUM_OF_SENSORS
@@ -44,10 +44,8 @@ class LM393:
             self.dist_meas[i] = 0.00
             self.km_per_hour[i] = 0
             self.start_timer[i] = time.time()
-        GPIO.add_event_detect(GPIOManager.LM393_R, GPIO.FALLING)
-        GPIO.add_event_detect(GPIOManager.LM393_L, GPIO.FALLING)
-        GPIO.add_event_callback(GPIOManager.LM393_R, callback=self.right_sensor_callback)
-        GPIO.add_event_callback(GPIOManager.LM393_L, callback=self.left_sensor_callback)
+        GPIO.add_event_detect(GPIOManager.LM393_R, GPIO.FALLING, callback=self.right_sensor_callback, bouncetime=20)
+        GPIO.add_event_detect(GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=20)
 
     def stop(self):
         print("Stop  LM393")
@@ -61,14 +59,11 @@ class LM393:
     def calculate(self, elapse, sensor_id):
         if elapse != 0:  # to avoid DivisionByZero error
             self.rpm[sensor_id] = 1 / elapse * 60
-            # convert cm to km
-            wheel_circumference_km = self.wheel_circumference_cm / 100000
-            # calculate KM/sec
-            km_per_sec = wheel_circumference_km / elapse  # calculate KM/sec
-            # calculate KM/h
-            self.km_per_hour[sensor_id] = km_per_sec * 3600
-            # measure distance traverse in meter
-            self.dist_meas[sensor_id] = (wheel_circumference_km * self.pulse[sensor_id]) * 1000
+            circ_cm = (2 * math.pi) * self.r_cm  # calculate wheel circumference in CM
+            dist_km = circ_cm / 100000  # convert cm to km
+            km_per_sec = dist_km / elapse  # calculate KM/sec
+            self.km_per_hour[sensor_id] = km_per_sec * 3600  # calculate KM/h
+            self.dist_meas[sensor_id] = (dist_km * self.pulse[sensor_id]) * 1000  # measure distance traverse in meter
             print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
                 self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             )
