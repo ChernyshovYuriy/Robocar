@@ -3,12 +3,13 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-from py.gpio_manager import GPIOManager
 import py.config
 import time, math
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
+
+from py.gpio_manager import GPIOManager
 
 
 class LM393:
