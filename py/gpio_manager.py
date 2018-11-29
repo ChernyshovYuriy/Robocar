@@ -6,13 +6,14 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 import py.config
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
-from py.lm393 import LM393
 
 # Manager of the GPIO and its pins.
 class GPIOManager:
 
     LM393_R = 12
     LM393_L = 13
+
+    IS_LM393_CALLBACK_REGISTERED = False
 
     @staticmethod
     def init():
@@ -25,7 +26,7 @@ class GPIOManager:
     @staticmethod
     def cleanup():
         if py.config.CONFIG is py.config.Platform.PI:
-            if LM393.IS_CALLBACK_REGISTERED:
+            if GPIOManager.IS_LM393_CALLBACK_REGISTERED:
                 GPIO.remove_event_detect(GPIOManager.LM393_R)
                 GPIO.remove_event_detect(GPIOManager.LM393_L)
                 print("GPIO Manager clean LM393 callbacks")
