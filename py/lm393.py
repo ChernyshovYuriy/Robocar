@@ -18,6 +18,8 @@ class LM393:
     RIGHT_SENSOR_ID = 1
     SENSORS = [LEFT_SENSOR_ID, RIGHT_SENSOR_ID]
 
+    IS_CALLBACK_REGISTERED = False
+
     def __init__(self, on_value):
         print("Init  LM393")
         self.is_run = False
@@ -47,8 +49,13 @@ class LM393:
             self.dist_meas[i] = 0.00
             self.km_per_hour[i] = 0
             self.start_timer[i] = time.time()
-        GPIO.add_event_detect(GPIOManager.LM393_R, GPIO.FALLING, callback=self.right_sensor_callback, bouncetime=20)
-        GPIO.add_event_detect(GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=20)
+        """
+        Workaround for the segmentation fault when remove events
+        """
+        if not LM393.IS_CALLBACK_REGISTERED:
+            GPIO.add_event_detect(GPIOManager.LM393_R, GPIO.FALLING, callback=self.right_sensor_callback, bouncetime=20)
+            GPIO.add_event_detect(GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=20)
+            LM393.IS_CALLBACK_REGISTERED = True
 
     def stop(self):
         print("Stop  LM393")
@@ -56,8 +63,11 @@ class LM393:
             return
 
         self.is_run = False
-        GPIO.remove_event_detect(GPIOManager.LM393_R)
-        GPIO.remove_event_detect(GPIOManager.LM393_L)
+        """
+        Workaround for the segmentation fault when remove events
+        """
+        # GPIO.remove_event_detect(GPIOManager.LM393_R)
+        # GPIO.remove_event_detect(GPIOManager.LM393_L)
 
     def calculate(self, elapse, sensor_id):
         if elapse != 0:  # to avoid DivisionByZero error
@@ -73,6 +83,8 @@ class LM393:
             )
 
     def handle_callback(self, sensor_id):
+        if not self.is_run:
+            return
         # increase pulse by 1 whenever interrupt occurred
         self.pulse[sensor_id] += 1
         # elapse for every 1 complete rotation made

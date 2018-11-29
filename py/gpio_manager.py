@@ -4,7 +4,7 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
-
+from py.lm393 import LM393
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
 
@@ -26,5 +26,9 @@ class GPIOManager:
     @staticmethod
     def cleanup():
         if py.config.CONFIG is py.config.Platform.PI:
+            if LM393.IS_CALLBACK_REGISTERED:
+                GPIO.remove_event_detect(GPIOManager.LM393_R)
+                GPIO.remove_event_detect(GPIOManager.LM393_L)
+                print("GPIO Manager clean LM393 callbacks")
             GPIO.cleanup()
             print("GPIO Manager cleaned up")
