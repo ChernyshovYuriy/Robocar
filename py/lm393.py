@@ -55,8 +55,8 @@ class LM393:
             return
 
         self.is_run = False
-        GPIO.remove_event_callback(GPIOManager.LM393_R)
-        GPIO.remove_event_callback(GPIOManager.LM393_L)
+        GPIO.remove_event_detect(GPIOManager.LM393_R)
+        GPIO.remove_event_detect(GPIOManager.LM393_L)
 
     def calculate(self, elapse, sensor_id):
         if elapse != 0:  # to avoid DivisionByZero error
