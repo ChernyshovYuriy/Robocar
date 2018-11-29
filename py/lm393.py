@@ -25,7 +25,10 @@ class LM393:
         self.thread = None
         self.on_value_int = on_value
 
-        self.r_cm = 0.2
+        r_cm = 0.2                           # should be radius of wheel
+        circ_cm = (2 * math.pi) * r_cm       # calculate wheel circumference in cm
+        self.dist_km = circ_cm / 100000      # convert cm to km
+
         self.dist_meas = [0.00] * LM393.NUM_OF_SENSORS
         self.km_per_hour = [0] * LM393.NUM_OF_SENSORS
         self.rpm = [0] * LM393.NUM_OF_SENSORS
@@ -59,12 +62,9 @@ class LM393:
     def calculate(self, elapse, sensor_id):
         if elapse != 0:  # to avoid DivisionByZero error
             self.rpm[sensor_id] = 1 / elapse * 60
-            circ_cm = (2 * math.pi) * self.r_cm  # calculate wheel circumference in CM
-            print("TRACE:%d" % circ_cm)
-            dist_km = circ_cm / 100000  # convert cm to km
-            km_per_sec = dist_km / elapse  # calculate KM/sec
+            km_per_sec = self.dist_km / elapse  # calculate KM/sec
             self.km_per_hour[sensor_id] = km_per_sec * 3600  # calculate KM/h
-            self.dist_meas[sensor_id] = (dist_km * self.pulse[sensor_id]) * 1000  # measure distance traverse in meter
+            self.dist_meas[sensor_id] = (self.dist_km * self.pulse[sensor_id]) * 1000  # measure distance traverse in meter
             print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
                 self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             )
