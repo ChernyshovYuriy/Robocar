@@ -47,6 +47,6 @@ class MPU6050:
             accel_x, accel_y, accel_z = self.sensor.get_accel_data()
             # Gets and returns the X, Y and Z values from the gyroscope.
             gyro_x, gyro_y, gyro_z = self.sensor.get_gyro_data()
-            print("MPU-6050 temp:%d" % (temp))
+            print("MPU-6050 temp:%d gyro(x:%d, y:%d, z%d)" % (temp, gyro_x, gyro_y, gyro_z))
             sleep(0.5)
 
