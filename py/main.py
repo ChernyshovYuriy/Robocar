@@ -10,7 +10,7 @@ from py.ui_commander import UiCommander
 from py.cmd_commander import CmdCommander
 from tkinter import StringVar, Tk
 from py.echo import Echo
-from py.mpu6050 import MPU6050
+from py.mpu6050sensor import MPU6050
 # from py.echo_servo import EchoServo
 from py.motors import Motors, MotorsState
 from py.gpio_manager import GPIOManager
@@ -28,7 +28,7 @@ class Controller:
         self.motors_prompt_ref = motors_prompt_in
         self.echo = Echo(self.on_echo, self.echo_error_callback)
         # self.echo_servo = EchoServo()
-        self.mpu6050 = MPU6050()
+        self.mpu6050sensor = MPU6050()
         self.lm393 = LM393(self.on_lm393_values)
         self.motors = Motors(
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
@@ -47,7 +47,7 @@ class Controller:
             return
 
         print("Start controller")
-        self.mpu6050.start()
+        self.mpu6050sensor.start()
         self.echo.start()
         # self.camera.start()
         # self.server.start()
@@ -66,7 +66,7 @@ class Controller:
     # Force stop controller
     def force_stop(self):
         self.is_run = False
-        self.mpu6050.start()
+        self.mpu6050sensor.stop()
         self.motors.stop()
         self.echo.stop()
         # self.camera.stop()
