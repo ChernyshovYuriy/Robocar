@@ -147,7 +147,7 @@ class Controller:
 
 
 if __name__ == "__main__":
-    print("Robocar started on %s, commander is %s, GPIO %d" % (py.config.CONFIG, config.COMMANDER, GPIO.VERSION))
+    print("Robocar started on %s, commander is %s, GPIO %s" % (py.config.CONFIG, config.COMMANDER, GPIO.VERSION))
     GPIOManager.init()
     I2CManager.init()
 
