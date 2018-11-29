@@ -70,6 +70,7 @@ class LM393:
             )
 
     def handle_callback(self, sensor_id):
+        print("CALLBACK:%d" % sensor_id)
         # increase pulse by 1 whenever interrupt occurred
         self.pulse[sensor_id] += 1
         # elapse for every 1 complete rotation made
