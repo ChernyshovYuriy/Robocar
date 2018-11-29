@@ -44,12 +44,15 @@ class MPU6050:
             # Reads the temperature from the onboard temperature sensor of the MPU-6050
             temp = self.sensor.get_temp()
             # Gets and returns the X, Y and Z values from the accelerometer
-            accel = self.sensor.get_accel_data()
+            # accel = self.sensor.get_accel_data()
             # Gets and returns the X, Y and Z values from the gyroscope.
             gyro = self.sensor.get_gyro_data()
+            # print(
+            #     "MPU-6050 temp:%d accel(x:%d,\ty:%d,\tz%d)\tgyro(x:%d,\ty:%d,\tz%d)"
+            #     % (temp, accel['x'], accel['y'], accel['z'], gyro['x'], gyro['y'], gyro['z'])
+            # )
             print(
-                "MPU-6050 temp:%d accel(x:%d,\ty:%d,\tz%d)\tgyro(x:%d,\ty:%d,\tz%d)"
-                % (temp, accel['x'], accel['y'], accel['z'], gyro['x'], gyro['y'], gyro['z'])
+                "MPU-6050 T:%d °C\tgyro(x:%d,\ty:%d,\tz%d)" % (temp, gyro['x'], gyro['y'], gyro['z'])
             )
             sleep(0.05)
 
