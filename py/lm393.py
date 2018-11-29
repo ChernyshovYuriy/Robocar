@@ -29,7 +29,6 @@ class LM393:
         r_cm = 0.2                           # should be radius of wheel
         circ_cm = (2.0 * math.pi) * r_cm       # calculate wheel circumference in cm
         self.dist_km = circ_cm / 100000.0    # convert cm to km
-        print("Wheel circumference %f" % self.dist_km)
 
         self.dist_meas = [0.00] * LM393.NUM_OF_SENSORS
         self.km_per_hour = [0] * LM393.NUM_OF_SENSORS
@@ -70,6 +69,7 @@ class LM393:
         # GPIO.remove_event_detect(GPIOManager.LM393_L)
 
     def calculate(self, elapse, sensor_id):
+        print("TRACE:%f" % elapse)
         if elapse != 0:  # to avoid DivisionByZero error
             self.rpm[sensor_id] = 1 / elapse * 60
             # calculate Km/Sec
