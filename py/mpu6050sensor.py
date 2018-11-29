@@ -49,7 +49,7 @@ class MPU6050:
             gyro = self.sensor.get_gyro_data()
             # Use gyro Z to detect rotate left/right (positive/negative)
             print(
-                "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz%f)\tgyro(x:%d,\ty:%d,\tz%d)"
+                "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f)\tgyro(x:%d,\ty:%d,\tz:%d)"
                 % (temp, accel['x'], accel['y'], accel['z'], gyro['x'], gyro['y'], gyro['z'])
             )
             sleep(0.05)
