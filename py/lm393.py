@@ -60,6 +60,7 @@ class LM393:
         if elapse != 0:  # to avoid DivisionByZero error
             self.rpm[sensor_id] = 1 / elapse * 60
             circ_cm = (2 * math.pi) * self.r_cm  # calculate wheel circumference in CM
+            print("TRACE:%d" % circ_cm)
             dist_km = circ_cm / 100000  # convert cm to km
             km_per_sec = dist_km / elapse  # calculate KM/sec
             self.km_per_hour[sensor_id] = km_per_sec * 3600  # calculate KM/h
