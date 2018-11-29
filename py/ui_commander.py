@@ -3,7 +3,6 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-import py.config
 from tkinter import Button, Label
 
 
@@ -11,7 +10,7 @@ from tkinter import Button, Label
 class UiCommander:
 
     def __init__(self, controller_in, root_in, distance_prompt_in, motors_prompt_in):
-        print("Init  ui commander on %s" % py.config.CONFIG)
+        print("Init  ui commander")
         self.controller_ref = controller_in
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in

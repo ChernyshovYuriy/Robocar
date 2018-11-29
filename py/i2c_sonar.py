@@ -4,11 +4,8 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import time
-import py.config
-
 #http://abyz.co.uk/rpi/pigpio/python.html
-if py.config.CONFIG is py.config.Platform.PI:
-    import pigpio
+import pigpio
 
 #!/usr/bin/env python
 

@@ -4,12 +4,9 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 from py.gpio_manager import GPIOManager
-import py.config
 from threading import Thread
 import time
-
-if py.config.CONFIG is py.config.Platform.PI:
-    import pigpio
+import pigpio
 
 
 #
@@ -19,7 +16,7 @@ class EchoServo:
     STEPS = [500, 833, 1166, 1500, 1833, 2166, 2500]
 
     def __init__(self):
-        print("Init servo echo on ", py.config.CONFIG)
+        print("Init servo echo")
         self.is_run = False
         self.thread = None
         self.pi = None

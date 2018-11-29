@@ -3,12 +3,8 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-import py.config
 import time, math
-
-if py.config.CONFIG is py.config.Platform.PI:
-    import RPi.GPIO as GPIO
-
+import RPi.GPIO as GPIO
 from py.gpio_manager import GPIOManager
 
 
@@ -100,6 +96,3 @@ class LM393:
     def left_sensor_callback(self, channel):
         self.handle_callback(LM393.LEFT_SENSOR_ID)
 
-    @staticmethod
-    def print_values(rpm):
-        print("RPM \t%d \t%d" % (rpm[LM393.LEFT_SENSOR_ID], rpm[LM393.RIGHT_SENSOR_ID]))

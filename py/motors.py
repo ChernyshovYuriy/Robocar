@@ -3,13 +3,10 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-import py.config
 from enum import Enum
 from py.lm393 import LM393
-
-if py.config.CONFIG is py.config.Platform.PI:
-    import RPi.GPIO as GPIO
-    from py.i2c_manager import I2CManager
+import RPi.GPIO as GPIO
+from py.i2c_manager import I2CManager
 
 
 # Enumeration of the motors states.
@@ -41,9 +38,8 @@ class StartFwdCmd(Command):
 
     def execute(self, reference):
         print("Motor - Started fwd command")
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
-            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
         reference.on_motors_started_ref(reference.get_state())
 
 
@@ -52,9 +48,8 @@ class StartBwdCmd(Command):
 
     def execute(self, reference):
         print("Motor - Started bwd command")
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
-            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
         reference.on_motors_started_ref(reference.get_state())
 
 
@@ -73,9 +68,8 @@ class TurnLeftCmd(TurnAbcCmd):
 
     def execute(self, reference):
         print("Motor - Turning l command")
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
-            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
         reference.on_motors_turning_ref(reference.get_state())
 
 
@@ -84,9 +78,8 @@ class TurnRightCmd(TurnAbcCmd):
 
     def execute(self, reference):
         print("Motor - Turning r command")
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
-            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
         reference.on_motors_turning_ref(reference.get_state())
 
 
@@ -94,7 +87,7 @@ class TurnRightCmd(TurnAbcCmd):
 class Motors:
 
     def __init__(self, on_motors_stopped_in, on_motors_started_in, on_motors_turning_in):
-        print("Init  motors on %s" % py.config.CONFIG)
+        print("Init  motors")
         self.state = MotorsState.STOP
         self.is_run = False
         self.commands = {
@@ -149,11 +142,10 @@ class Motors:
         return self.state
 
     def stop_motors(self):
-        if py.config.CONFIG is py.config.Platform.PI:
-            I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
-            I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
-            I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
-            I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
         self.on_motors_stopped_ref()
 
     @staticmethod

@@ -5,14 +5,9 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 
 from py.octasonic import Octasonic
 import time
-import py.config
 from threading import Thread
 from time import sleep
-
-if py.config.CONFIG is py.config.Platform.PI:
-    import RPi.GPIO as GPIO
-    from py.gpio_manager import GPIOManager
-    # from py.i2c_sonar import SonarSensor
+import RPi.GPIO as GPIO
 
 
 # Ultra sonic locator.
@@ -32,13 +27,12 @@ class Echo:
     SENSORS_NUM = 7
 
     def __init__(self, on_echo, echo_error_callback):
-        print("Init  echo on ", py.config.CONFIG)
+        print("Init  echo")
         self.is_run = False
         self.default_distance = 0
         self.thread = None
         self.on_echo = on_echo
         self.echo_error_callback = echo_error_callback
-        self.distance_prev = [0] * Echo.SENSORS_NUM
         self.norm_weights = [2, 7, 12, 15, 12, 7, 2]
         self.octasonic = Octasonic(0)
         protocol_version = self.octasonic.get_protocol_version()
@@ -46,9 +40,6 @@ class Echo:
         print("Octasonic protocol v%s firmware v%s" % (protocol_version, firmware_version))
         self.octasonic.set_sensor_count(Echo.SENSORS_NUM)
         print("Octasonic sensor count: %s" % self.octasonic.get_sensor_count())
-        # Connect to local Pi.
-        # self.pi = pigpio.pi()
-        # self.sonar_sensor = SonarSensor(self.pi)
 
     # Whether echo is running
     def is_active(self):
@@ -76,23 +67,15 @@ class Echo:
         self.octasonic.toggle_led()
         self.is_run = False
         self.thread = None
-        # self.sonar_sensor.cancel()
-        # self.pi.stop()
 
     # Handle distance measurement.
     def runnable(self):
-        num_of_sensors = len(self.distance_prev)
         while self.is_run:
             distance = [0] * Echo.SENSORS_NUM
             weights = [0] * Echo.SENSORS_NUM
-            if py.config.CONFIG is py.config.Platform.PI:
-                for i in range(num_of_sensors):
-                    distance[i] = self.octasonic.get_sensor_reading(i)
-                    if distance[i] != 0:
-                        self.distance_prev[i] = distance[i]
-                    if distance[i] == 0 and self.distance_prev[i] != 0:
-                        distance[i] = self.distance_prev[i]
-                    weights[i] = distance[i]
+            for i in range(Echo.SENSORS_NUM):
+                distance[i] = self.octasonic.get_sensor_reading(i)
+                weights[i] = distance[i]
             self.calculate_weights(weights)
             self.on_echo(distance, weights)
             sleep(0.05)

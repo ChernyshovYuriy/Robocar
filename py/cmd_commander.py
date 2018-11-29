@@ -5,7 +5,6 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 
 import contextlib
 import termios
-import py.config
 
 # w
 ENG_FWD = 119
@@ -31,7 +30,7 @@ QUIT = 27
 class CmdCommander:
 
     def __init__(self, controller_in):
-        print("Init  cmd commander on %s" % py.config.CONFIG)
+        print("Init  cmd commander")
         self.controller_ref = controller_in
 
         with self.raw_mode(sys.stdin):

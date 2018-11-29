@@ -3,7 +3,6 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-import py.config
 from py.httpserver import HttpServer, HttpServerData
 from py import config
 from py.config import Commander
@@ -22,7 +21,7 @@ from py.lm393 import LM393
 class Controller:
 
     def __init__(self, distance_prompt_in, motors_prompt_in):
-        print("Init  controller on %s" % py.config.CONFIG)
+        print("Init  controller")
         self.is_run = False
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
@@ -112,7 +111,6 @@ class Controller:
 
     # Callback function to LM393 class
     def on_lm393_values(self, rpm):
-        self.lm393.print_values(rpm)
         self.motors.on_rpm(rpm)
 
     # Callback function to echo class
@@ -145,7 +143,7 @@ class Controller:
 
 
 if __name__ == "__main__":
-    print("Robocar started on %s, commander is %s" % (py.config.CONFIG, config.COMMANDER))
+    print("Robocar started, commander is %s" % config.COMMANDER)
     GPIOManager.init()
     I2CManager.init()
 
