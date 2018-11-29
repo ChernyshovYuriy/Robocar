@@ -22,6 +22,8 @@ START = 10
 STOP = 32
 # Print echo
 TRIGGER_PRINT_ECHO = 101
+# Print data from gyro
+TRIGGER_PRINT_GYRO_DATA = 103
 # Esc
 QUIT = 27
 
@@ -54,6 +56,8 @@ class CmdCommander:
                         self.controller_ref.eng_stop()
                     if not ch or ord(ch) == TRIGGER_PRINT_ECHO:
                         self.controller_ref.trigger_print_echo()
+                    if not ch or ord(ch) == TRIGGER_PRINT_GYRO_DATA:
+                        self.controller_ref.trigger_print_gyro_data()
                     if not ch or ord(ch) == QUIT:
                         self.controller_ref.stop()
                         break

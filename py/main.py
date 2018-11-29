@@ -111,6 +111,13 @@ class Controller:
         else:
             self.echo.stop()
 
+    # Run print gyro data
+    def trigger_print_gyro_data(self):
+        if not self.mpu6050sensor.is_run:
+            self.mpu6050sensor.start()
+        else:
+            self.mpu6050sensor.stop()
+
     # Callback function to LM393 class
     def on_lm393_values(self, rpm):
         self.motors.on_rpm(rpm)
