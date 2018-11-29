@@ -28,7 +28,7 @@ class Controller:
         self.motors_prompt_ref = motors_prompt_in
         self.echo = Echo(self.on_echo, self.echo_error_callback)
         # self.echo_servo = EchoServo()
-        self.lm393 = LM393(self.on_lm393_value)
+        self.lm393 = LM393(self.on_lm393_values)
         self.motors = Motors(
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
@@ -111,9 +111,9 @@ class Controller:
             self.echo.stop()
 
     # Callback function to LM393 class
-    def on_lm393_value(self, value_l, value_r):
-        print("LM393 l:%d r:%d" % (value_l, value_r))
-        # self.motors.set_lm393_value(value)
+    def on_lm393_values(self, rpm):
+        self.lm393.print_values(rpm)
+        self.motors.on_rpm(rpm)
 
     # Callback function to echo class
     def on_echo(self, distance, weights):

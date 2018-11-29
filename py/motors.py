@@ -1,11 +1,11 @@
 import sys
-import threading
 from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
 from enum import Enum
+from py.lm393 import LM393
 
 if py.config.CONFIG is py.config.Platform.PI:
     import RPi.GPIO as GPIO
@@ -107,6 +107,7 @@ class Motors:
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
+        self.rpm = [0] * LM393.NUM_OF_SENSORS
 
     def start(self):
         if self.is_run:
@@ -120,6 +121,10 @@ class Motors:
         print("Stop  motors")
         self.is_run = False
         self.stop_motors()
+
+    def on_rpm(self, rpm):
+        for i in range(LM393.NUM_OF_SENSORS):
+            self.rpm[i] = rpm[i]
 
     def on_echo(self, distance, weights):
         if not self.is_run:

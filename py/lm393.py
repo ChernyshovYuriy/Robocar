@@ -19,12 +19,12 @@ class LM393:
     RIGHT_SENSOR_ID = 1
     SENSORS = [LEFT_SENSOR_ID, RIGHT_SENSOR_ID]
 
-    def __init__(self, on_value):
+    def __init__(self, on_values):
         print("Init  LM393")
         self.is_run = False
         self.value = 0
         self.thread = None
-        self.on_value_int = on_value
+        self.on_values_internal = on_values
 
         r_cm = 0.2                           # should be radius of wheel or distance between two
                                              # pulse-holes in case of sensor read multi-holes trigger
@@ -82,6 +82,7 @@ class LM393:
             print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
                 self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             )
+            self.on_values_internal(self.rpm)
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
@@ -98,3 +99,7 @@ class LM393:
 
     def left_sensor_callback(self, channel):
         self.handle_callback(LM393.LEFT_SENSOR_ID)
+
+    @staticmethod
+    def print_values(rpm):
+        print("RPM \t%d \t%d" % (rpm[LM393.LEFT_SENSOR_ID], rpm[LM393.RIGHT_SENSOR_ID]))
