@@ -21,7 +21,7 @@ class GPIOManager:
             GPIO.setmode(GPIO.BCM)
             GPIO.setup(GPIOManager.LM393_R, GPIO.IN, GPIO.PUD_UP)
             GPIO.setup(GPIOManager.LM393_L, GPIO.IN, GPIO.PUD_UP)
-            print("GPIO Manager initialized, ver. %d" % GPIO.VERSION)
+            print("GPIO Manager initialized, ver. %s" % GPIO.VERSION)
 
     @staticmethod
     def cleanup():
