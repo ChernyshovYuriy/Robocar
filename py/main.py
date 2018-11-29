@@ -47,7 +47,6 @@ class Controller:
             return
 
         print("Start controller")
-        self.mpu6050sensor.start()
         self.echo.start()
         # self.camera.start()
         # self.server.start()
@@ -66,7 +65,6 @@ class Controller:
     # Force stop controller
     def force_stop(self):
         self.is_run = False
-        self.mpu6050sensor.stop()
         self.motors.stop()
         self.echo.stop()
         # self.camera.stop()
@@ -129,6 +127,7 @@ class Controller:
     def on_motors_stopped(self):
         print(" -- motors stopped")
         self.lm393.stop()
+        self.mpu6050sensor.stop()
         """ Reset drove distance here, any reference must be obtained prior to this line """
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors stopped")
@@ -136,12 +135,14 @@ class Controller:
     def on_motors_started(self, state):
         print(" -- motors started %s" % (state))
         self.lm393.start()
+        self.mpu6050sensor.start()
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors started")
 
     def on_motors_turning(self, state):
         print(" -- motors turning %s" % state)
         self.lm393.start()
+        self.mpu6050sensor.stop()
         if config.COMMANDER is Commander.UI:
             self.motors_prompt_ref.set("Motors Turning")
 
