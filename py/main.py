@@ -4,6 +4,9 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
+if py.config.CONFIG is py.config.Platform.PI:
+    import RPi.GPIO as GPIO
+import py.config
 from py.httpserver import HttpServer, HttpServerData
 from py import config
 from py.config import Commander
@@ -144,7 +147,7 @@ class Controller:
 
 
 if __name__ == "__main__":
-    print("Robocar started on %s, commander is %s" % (py.config.CONFIG, config.COMMANDER))
+    print("Robocar started on %s, commander is %s, GPIO %d" % (py.config.CONFIG, config.COMMANDER, GPIO.VERSION))
     GPIOManager.init()
     I2CManager.init()
 
