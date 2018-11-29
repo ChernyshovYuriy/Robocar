@@ -3,7 +3,7 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-# from mpu6050 import mpu6050
+from mpu6050 import mpu6050
 from threading import Thread
 from time import sleep
 
