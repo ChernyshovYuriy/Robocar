@@ -4,9 +4,6 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import py.config
-if py.config.CONFIG is py.config.Platform.PI:
-    import RPi.GPIO as GPIO
-import py.config
 from py.httpserver import HttpServer, HttpServerData
 from py import config
 from py.config import Commander
