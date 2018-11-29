@@ -69,15 +69,14 @@ class LM393:
         # GPIO.remove_event_detect(GPIOManager.LM393_L)
 
     def calculate(self, elapse, sensor_id):
-        print("TRACE:%f" % elapse)
         if elapse != 0:  # to avoid DivisionByZero error
-            self.rpm[sensor_id] = 1 / elapse * 60
+            self.rpm[sensor_id] = 1.0 / elapse * 60.0
             # calculate Km/Sec
             km_per_sec = self.dist_km / elapse
             # calculate Km/H
-            self.km_per_hour[sensor_id] = km_per_sec * 3600
+            self.km_per_hour[sensor_id] = km_per_sec * 3600.0
             # measure distance traverse in Meter
-            self.dist_meas[sensor_id] = (self.dist_km * self.pulse[sensor_id]) * 1000
+            self.dist_meas[sensor_id] = (self.dist_km * self.pulse[sensor_id]) * 1000.0
             print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
                 self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             )
