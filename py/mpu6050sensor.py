@@ -81,7 +81,7 @@ class MPU6050:
                 self.i = 0
                 accel_2d_avg = numpy.mean(self.accel_2d_array)
                 gyro_z_avg = numpy.mean(self.gyro_z_array)
-                print("MPU-6050 accel:%.2f\tgyro z:%d" % (awwwccel_2d_avg, gyro_z_avg))
+                print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d_avg, gyro_z_avg))
                 self.on_mpu6050_values_int(accel_2d_avg, gyro_z_avg)
                 for j in range(self.num_of_iterations):
                     self.accel_2d_array[j] = 0.00
