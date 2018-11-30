@@ -56,11 +56,12 @@ class MPU6050:
             gyro = self.sensor.get_gyro_data()
             # roll = math.atan2(accel['y'], accel['z']) * 180 / math.pi
             # pitch = math.atan2(-accel['x'], math.sqrt(accel['y'] * accel['y'] + accel['z'] * accel['z'])) * 180 / math.pi
-            acceleration = math.sqrt(accel_x ** 2 + accel_y ** 2)
+            accel_2d = math.sqrt(accel_x ** 2 + accel_y ** 2)
+            accel_2d = float("%0.2f" % accel_2d)
             # Use gyro Z to detect rotate left/right (positive/negative)
             print(
                 "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f,\tval:%f)\tgyro(x:%d,\ty:%d,\tz:%d)"
-                % (temp, accel_x, accel_y, accel_z, acceleration, gyro['x'], gyro['y'], gyro['z'])
+                % (temp, accel_x, accel_y, accel_z, accel_2d, gyro['x'], gyro['y'], gyro['z'])
             )
             sleep(0.05)
 
