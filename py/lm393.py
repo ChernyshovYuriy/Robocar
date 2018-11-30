@@ -21,8 +21,9 @@ class LM393:
         self.value = 0
         self.thread = None
         self.on_values_internal = on_values
+        self.time_stamp = time.time()
 
-        r_cm = 0.17                         # should be radius of wheel or distance between two
+        r_cm = 0.17                          # should be radius of wheel or distance between two
                                              # pulse-holes in case of sensor read multi-holes trigger
                                              # (need better description).
         circ_cm = (2.0 * math.pi) * r_cm     # calculate wheel circumference in cm
@@ -46,6 +47,7 @@ class LM393:
             self.dist_meas[i] = 0.00
             self.km_per_hour[i] = 0
             self.start_timer[i] = time.time()
+        self.time_stamp = time.time()
         """
         Workaround for the segmentation fault when remove events
         """
@@ -82,7 +84,10 @@ class LM393:
             print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
                 self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             )
-            self.on_values_internal(self.rpm)
+            # dispatch event once in 500 ms
+            if time.time() - self.time_stamp >= 500:
+                self.time_stamp = time.time()
+                self.on_values_internal(self.rpm)
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
