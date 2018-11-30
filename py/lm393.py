@@ -81,12 +81,11 @@ class LM393:
             self.km_per_hour[sensor_id] = km_per_sec * 3600.0
             # measure distance traverse in Meter
             self.dist_meas[sensor_id] = (self.dist_km * self.pulse[sensor_id]) * 1000.0
-            print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
-                self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
-            )
             # dispatch event once in 1 sec
             if time.time() - self.time_stamp >= 1:
-                print("TRACE")
+                print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
+                    self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
+                )
                 self.on_values_internal(self.rpm)
             self.time_stamp = time.time()
 
