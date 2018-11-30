@@ -87,7 +87,7 @@ class LM393:
                     self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
                 )
                 self.on_values_internal(self.rpm)
-            self.time_stamp = time.time()
+                self.time_stamp = time.time()
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
