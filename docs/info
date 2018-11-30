@@ -7,3 +7,4 @@ Dependencies:
 - RPi.GPIO (https://pypi.org/project/RPi.GPIO/)
 - mpu6050 (https://github.com/Tijndagamer/mpu6050)
 - smbus (sudo apt-get install python3-smbus)
+- numpy (sudo apt-get install python3-numpy)
