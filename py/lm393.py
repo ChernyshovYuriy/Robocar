@@ -87,8 +87,8 @@ class LM393:
             # dispatch event once in 1 sec
             if time.time() - self.time_stamp >= 1:
                 print("TRACE")
-                self.time_stamp = time.time()
                 self.on_values_internal(self.rpm)
+            self.time_stamp = time.time()
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
