@@ -17,6 +17,8 @@ class MPU6050:
         self.is_run = False
         self.thread = None
         self.sensor = mpu6050(0x68)
+        accel_range = self.sensor.read_accel_range()
+        print("Accel range:%d" % accel_range)
 
     # Start data fetch.
     def start(self):
@@ -49,10 +51,6 @@ class MPU6050:
             accel_x = accel['x']
             accel_y = accel['y']
             accel_z = accel['z']
-
-            accel_x = accel_x * 0.244 / 1000
-            accel_y = accel_y * 0.244 / 1000
-            accel_z = accel_z * 0.244 / 1000
             # Gets and returns the X, Y and Z values from the gyroscope.
             gyro = self.sensor.get_gyro_data()
             # roll = math.atan2(accel['y'], accel['z']) * 180 / math.pi
