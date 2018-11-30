@@ -34,6 +34,8 @@ class LM393:
         self.rpm = [0] * LM393.NUM_OF_SENSORS
         self.pulse = [0] * LM393.NUM_OF_SENSORS
         self.start_timer = [time.time()] * LM393.NUM_OF_SENSORS
+        # Delta time between events, in seconds
+        self.event_delta = 0.5
 
     def start(self):
         print("Start LM393")
@@ -82,7 +84,7 @@ class LM393:
             # measure distance traverse in Meter
             self.dist_meas[sensor_id] = (self.dist_km * self.pulse[sensor_id]) * 1000.0
             # dispatch event once in 0.5 sec
-            if time.time() - self.time_stamp >= 0.5:
+            if time.time() - self.time_stamp >= self.event_delta:
                 print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
                     self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
                 )

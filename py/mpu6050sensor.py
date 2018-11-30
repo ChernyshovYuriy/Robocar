@@ -45,6 +45,9 @@ class MPU6050:
 
     # Handle data fetch.
     def runnable(self):
+        accel_2d_array = [0.00] * 4
+        gyro_z_array = [0] * 4
+        i = 0
         while self.is_run:
             # Reads the temperature from the onboard temperature sensor of the MPU-6050
             # temp = self.sensor.get_temp()
@@ -65,7 +68,16 @@ class MPU6050:
             #     "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f,\tval:%.2f)\tgyro(x:%d,\ty:%d,\tz:%d)"
             #     % (temp, accel_x, accel_y, accel_z, accel_2d, gyro['x'], gyro['y'], gyro['z'])
             # )
-            print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d, gyro_z))
-            self.on_mpu6050_values_int(accel_2d, gyro_z)
+            # print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d, gyro_z))
+            # self.on_mpu6050_values_int(accel_2d, gyro_z)
             sleep(0.1)
+            accel_2d_array[i] = accel_2d
+            gyro_z_array[i] = gyro_z
+            i += 1
+            if i == 4:
+                i = 0
+                accel_2d_avg = numpy.mean(accel_2d_array)
+                gyro_z_avg = numpy.mean(gyro_z_array)
+                print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d_avg, gyro_z_avg))
+                self.on_mpu6050_values_int(accel_2d_avg, gyro_z_avg)
 
