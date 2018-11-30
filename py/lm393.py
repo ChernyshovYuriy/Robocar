@@ -88,6 +88,8 @@ class LM393:
             if time.time() - self.time_stamp >= 1000:
                 self.time_stamp = time.time()
                 self.on_values_internal(self.rpm)
+            else:
+                print("SKIP")
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
