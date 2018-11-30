@@ -12,10 +12,11 @@ import math
 # MPU-6050 sensor.
 class MPU6050:
 
-    def __init__(self):
+    def __init__(self, on_mpu6050_values):
         print("Init  MPU6050")
         self.is_run = False
         self.thread = None
+        self.on_mpu6050_values_int = on_mpu6050_values
         self.sensor = mpu6050(0x68)
         accel_range = self.sensor.read_accel_range()
         gyro_range = self.sensor.read_gyro_range()
@@ -46,22 +47,25 @@ class MPU6050:
     def runnable(self):
         while self.is_run:
             # Reads the temperature from the onboard temperature sensor of the MPU-6050
-            temp = self.sensor.get_temp()
+            # temp = self.sensor.get_temp()
             # Gets and returns the X, Y and Z values from the accelerometer
             accel = self.sensor.get_accel_data(True)
             accel_x = accel['x']
             accel_y = accel['y']
-            accel_z = accel['z']
+            # accel_z = accel['z']
             # Gets and returns the X, Y and Z values from the gyroscope.
             gyro = self.sensor.get_gyro_data()
+            gyro_z = gyro['z']
             # roll = math.atan2(accel['y'], accel['z']) * 180 / math.pi
             # pitch = math.atan2(-accel['x'], math.sqrt(accel['y'] * accel['y'] + accel['z'] * accel['z'])) * 180 / math.pi
             accel_2d = math.sqrt(accel_x ** 2 + accel_y ** 2)
             accel_2d = float("%0.2f" % accel_2d)
             # Use gyro Z to detect rotate left/right (positive/negative)
-            print(
-                "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f,\tval:%.2f)\tgyro(x:%d,\ty:%d,\tz:%d)"
-                % (temp, accel_x, accel_y, accel_z, accel_2d, gyro['x'], gyro['y'], gyro['z'])
-            )
-            sleep(0.05)
+            # print(
+            #     "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f,\tval:%.2f)\tgyro(x:%d,\ty:%d,\tz:%d)"
+            #     % (temp, accel_x, accel_y, accel_z, accel_2d, gyro['x'], gyro['y'], gyro['z'])
+            # )
+            print("MPU-6050 accel:%.2f)\tgyro z:%d)" % (accel_2d, gyro_z))
+            self.on_mpu6050_values_int(accel_2d, gyro_z)
+            sleep(0.1)
 

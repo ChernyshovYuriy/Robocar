@@ -122,6 +122,10 @@ class Controller:
     def on_lm393_values(self, rpm):
         self.motors.on_rpm(rpm)
 
+    def on_mpu6050_values(self, accel, gyro_z):
+
+        pass
+
     # Callback function to echo class
     def on_echo(self, distance, weights):
         print(" -- echo   : %s" % distance)
