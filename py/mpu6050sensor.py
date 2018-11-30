@@ -7,7 +7,7 @@ from mpu6050 import mpu6050
 from threading import Thread
 from time import sleep
 import math
-import numpy
+# import numpy
 
 
 # MPU-6050 sensor.
