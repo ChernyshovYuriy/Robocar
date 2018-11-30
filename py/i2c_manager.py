@@ -3,7 +3,7 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-from py.Adafruit_MCP230xx import Adafruit_MCP230XX
+from py.ref.Adafruit_MCP230xx import Adafruit_MCP230XX
 
 
 """
