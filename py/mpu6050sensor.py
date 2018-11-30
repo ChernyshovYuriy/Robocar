@@ -60,7 +60,7 @@ class MPU6050:
             accel_2d = float("%0.2f" % accel_2d)
             # Use gyro Z to detect rotate left/right (positive/negative)
             print(
-                "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f,\tval:%f)\tgyro(x:%d,\ty:%d,\tz:%d)"
+                "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f,\tval:%.2f)\tgyro(x:%d,\ty:%d,\tz:%d)"
                 % (temp, accel_x, accel_y, accel_z, accel_2d, gyro['x'], gyro['y'], gyro['z'])
             )
             sleep(0.05)
