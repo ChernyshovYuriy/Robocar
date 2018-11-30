@@ -31,7 +31,8 @@ class Echo:
         self.thread = None
         self.on_echo = on_echo
         self.echo_error_callback = echo_error_callback
-        self.norm_weights = [2, 7, 12, 15, 12, 7, 2]
+        factor = 1
+        self.norm_weights = [2 * factor, 7 * factor, 12 * factor, 15 * factor, 12 * factor, 7 * factor, 2 * factor]
         self.octasonic = Octasonic(0)
         protocol_version = self.octasonic.get_protocol_version()
         firmware_version = self.octasonic.get_firmware_version()
