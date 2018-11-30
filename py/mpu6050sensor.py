@@ -13,12 +13,13 @@ import math
 class MPU6050:
 
     def __init__(self):
-        print("Init  echo")
+        print("Init  MPU6050")
         self.is_run = False
         self.thread = None
         self.sensor = mpu6050(0x68)
         accel_range = self.sensor.read_accel_range()
-        print("Accel range:%d" % accel_range)
+        gyro_range = self.sensor.read_gyro_range()
+        print("Accel range:%d Gyro range:%d" % (accel_range, gyro_range))
 
     # Start data fetch.
     def start(self):
