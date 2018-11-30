@@ -22,7 +22,7 @@ class LM393:
         self.thread = None
         self.on_values_internal = on_values
 
-        r_cm = 0.175                         # should be radius of wheel or distance between two
+        r_cm = 0.17                         # should be radius of wheel or distance between two
                                              # pulse-holes in case of sensor read multi-holes trigger
                                              # (need better description).
         circ_cm = (2.0 * math.pi) * r_cm     # calculate wheel circumference in cm
