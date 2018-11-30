@@ -84,8 +84,8 @@ class LM393:
             print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
                 self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             )
-            # dispatch event once in 500 ms
-            if time.time() - self.time_stamp >= 500:
+            # dispatch event once in 1000 ms
+            if time.time() - self.time_stamp >= 1000:
                 self.time_stamp = time.time()
                 self.on_values_internal(self.rpm)
 

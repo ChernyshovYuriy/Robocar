@@ -65,7 +65,7 @@ class MPU6050:
             #     "MPU-6050 T:%d °C\taccel(x:%f,\ty:%f,\tz:%f,\tval:%.2f)\tgyro(x:%d,\ty:%d,\tz:%d)"
             #     % (temp, accel_x, accel_y, accel_z, accel_2d, gyro['x'], gyro['y'], gyro['z'])
             # )
-            print("MPU-6050 accel:%.2f)\tgyro z:%d)" % (accel_2d, gyro_z))
+            print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d, gyro_z))
             self.on_mpu6050_values_int(accel_2d, gyro_z)
             sleep(0.1)
 
