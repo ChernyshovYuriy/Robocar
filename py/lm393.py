@@ -44,9 +44,9 @@ class LM393:
         self.event_delta = 0.5
 
     def start(self):
-        print("Start LM393")
         if self.is_run is True:
             return
+        print("Start LM393")
 
         self.is_run = True
         for i in range(LM393.NUM_OF_SENSORS):
@@ -69,9 +69,9 @@ class LM393:
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
 
     def stop(self):
-        print("Stop  LM393")
         if self.is_run is False:
             return
+        print("Stop  LM393")
 
         self.is_run = False
         """
