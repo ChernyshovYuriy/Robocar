@@ -89,7 +89,7 @@ class LM393:
             self.dist_meas[sensor_id] = self.wheel_circumference_m * self.pulse[sensor_id]
             # dispatch event once in 0.5 sec
             if time.time() - self.time_stamp >= self.event_delta:
-                print('RPM:{0:.0f} Speed:{1:.0f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
+                print('RPM:{0:.0f} Speed:{1:.2f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
                     self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
                 )
                 self.on_values_internal(self.rpm)
