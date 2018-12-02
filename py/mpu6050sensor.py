@@ -18,7 +18,7 @@ class MPU6050:
         self.is_run = False
         self.thread = None
         self.i = 0
-        self.num_of_iterations = 3
+        self.num_of_iterations = 1
         self.accel_2d_array = [0.00] * self.num_of_iterations
         self.gyro_z_array = [0] * self.num_of_iterations
         self.on_mpu6050_values_int = on_mpu6050_values
@@ -73,7 +73,7 @@ class MPU6050:
             # )
             # print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d, gyro_z))
             # self.on_mpu6050_values_int(accel_2d, gyro_z)
-            sleep(0.2)
+            sleep(1)
             self.accel_2d_array[self.i] = accel_2d
             self.gyro_z_array[self.i] = gyro_z
             self.i += 1
