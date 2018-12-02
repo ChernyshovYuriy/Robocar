@@ -18,7 +18,7 @@ class MPU6050:
         self.is_run = False
         self.thread = None
         self.i = 0
-        self.num_of_iterations = 4
+        self.num_of_iterations = 5
         self.accel_2d_array = [0.00] * self.num_of_iterations
         self.gyro_z_array = [0] * self.num_of_iterations
         self.on_mpu6050_values_int = on_mpu6050_values
