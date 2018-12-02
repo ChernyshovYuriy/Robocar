@@ -23,14 +23,19 @@ class LM393:
         self.on_values_internal = on_values
         self.time_stamp = time.time()
 
-        r_cm = 0.17                          # should be radius of wheel or distance between two
-                                             # pulse-holes in case of sensor read multi-holes trigger
-                                             # (need better description).
-        circ_cm = (2.0 * math.pi) * r_cm     # calculate wheel circumference in cm
-        self.dist_km = circ_cm / 100000.0    # convert cm to km
-
+        r_cm = 0.17                                               # should be radius of wheel or distance between two
+                                                                  # pulse-holes in case of sensor read multi-holes trigger
+                                                                  # (need better description).
+        wheel_circumference_cm = (2.0 * math.pi) * r_cm           # calculate wheel circumference in cm
+        self.wheel_circumference_m = wheel_circumference_cm / 100 # convert cm to m
+        """
+        Distance, in meters (m)
+        """
         self.dist_meas = [0.00] * LM393.NUM_OF_SENSORS
-        self.km_per_hour = [0] * LM393.NUM_OF_SENSORS
+        """
+        Speed, in meters per second (m/s)
+        """
+        self.speed = [0] * LM393.NUM_OF_SENSORS
         self.rpm = [0] * LM393.NUM_OF_SENSORS
         self.pulse = [0] * LM393.NUM_OF_SENSORS
         self.start_timer = [time.time()] * LM393.NUM_OF_SENSORS
@@ -47,7 +52,7 @@ class LM393:
             self.rpm[i] = 0
             self.pulse[i] = 0
             self.dist_meas[i] = 0.00
-            self.km_per_hour[i] = 0
+            self.speed[i] = 0
             self.start_timer[i] = time.time()
         self.time_stamp = time.time()
         """
@@ -76,17 +81,15 @@ class LM393:
 
     def calculate(self, elapse, sensor_id):
         if elapse != 0:  # to avoid DivisionByZero error
-            self.rpm[sensor_id] = 1.0 / elapse * 60.0
-            # calculate Km/Sec
-            km_per_sec = self.dist_km / elapse
-            # calculate Km/H
-            self.km_per_hour[sensor_id] = km_per_sec * 3600.0
-            # measure distance traverse in Meter
-            self.dist_meas[sensor_id] = (self.dist_km * self.pulse[sensor_id]) * 1000.0
+            self.rpm[sensor_id] = 1 / elapse * 60
+            # calculate m/sec
+            self.speed[sensor_id] = self.wheel_circumference_m / elapse
+            # measure distance traverse in meters
+            self.dist_meas[sensor_id] = self.wheel_circumference_m * self.pulse[sensor_id]
             # dispatch event once in 0.5 sec
             if time.time() - self.time_stamp >= self.event_delta:
-                print('RPM:{0:.0f} Speed:{1:.0f} Km/H Distance:{2:.2f}m Pulse:{3}'.format(
-                    self.rpm[sensor_id], self.km_per_hour[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
+                print('RPM:{0:.0f} Speed:{1:.0f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
+                    self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
                 )
                 self.on_values_internal(self.rpm)
                 self.time_stamp = time.time()
