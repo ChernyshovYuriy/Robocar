@@ -28,6 +28,7 @@ class LM393:
                                                                   # (need better description).
         wheel_circumference_cm = (2.0 * math.pi) * r_cm           # calculate wheel circumference in cm
         self.wheel_circumference_m = wheel_circumference_cm / 100 # convert cm to m
+        print("Wheel circumference %f" % self.wheel_circumference_m)
         """
         Distance, in meters (m)
         """
