@@ -32,10 +32,7 @@ class StopCmd(Command):
 
     def execute(self, reference):
         print("Motor - Stopped command")
-        I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
-        I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
-        I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
-        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
+        reference.do_stop_internal()
         reference.on_motors_stopped_ref()
 
 
@@ -63,8 +60,8 @@ class GoBackCmd(Command):
 
     def execute(self, reference):
         print("Motor - Go back command")
-        reference.commands[MotorsState.STOP].execute(reference)
-        reference.commands[MotorsState.START_BWD].execute(reference)
+        reference.do_stop_internal()
+        reference.do_backward_internal()
         sleep(1)
         reference.set_state(MotorsState.TURN_L)
 
@@ -160,6 +157,18 @@ class Motors:
 
     def get_state(self):
         return self.state
+
+    @staticmethod
+    def do_stop_internal():
+        I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
+
+    @staticmethod
+    def do_backward_internal():
+        I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
 
     def calculate_state(self, weights):
         """
