@@ -118,12 +118,15 @@ class Motors:
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
         self.rpm = [0] * LM393.NUM_OF_SENSORS
+        self.rpm_fail_count = 0
+        self.rpm_fail_count_max = 3
 
     def start(self):
         if self.is_run:
             return
         print("Start motors")
         self.is_run = True
+        self.rpm_fail_count = 0
 
     def stop(self):
         if not self.is_run:
@@ -140,7 +143,7 @@ class Motors:
         if not self.is_run:
             new_state = MotorsState.STOP
         else:
-            new_state = self.calculate_state(weights, self.rpm)
+            new_state = self.calculate_state(weights)
 
         print("Motor state - new %s | current %s" % (new_state, self.get_state()))
         if new_state != self.get_state():
@@ -158,8 +161,7 @@ class Motors:
     def get_state(self):
         return self.state
 
-    @staticmethod
-    def calculate_state(weights, rpm):
+    def calculate_state(self, weights):
         """
         Find max move vector and decide where to go
         """
@@ -179,7 +181,11 @@ class Motors:
             new_state = MotorsState.START_FWD
 
         if new_state != MotorsState.STOP:
-            if (rpm[0] and rpm[1]) <= 100:
-                new_state = MotorsState.GO_BACK
+            if (self.rpm[0] and self.rpm[1]) <= 100:
+                if self.rpm_fail_count >= self.rpm_fail_count_max:
+                    new_state = MotorsState.GO_BACK
+                    self.rpm_fail_count = 0
+                else:
+                    self.rpm_fail_count += 1
 
         return new_state
