@@ -54,10 +54,10 @@ class LM393:
         """
         if not GPIOManager.IS_LM393_CALLBACK_REGISTERED:
             GPIO.add_event_detect(
-                GPIOManager.LM393_R, GPIO.RISING, callback=self.right_sensor_callback, bouncetime=100
+                GPIOManager.LM393_R, GPIO.RISING, callback=self.right_sensor_callback, bouncetime=200
             )
             GPIO.add_event_detect(
-                GPIOManager.LM393_L, GPIO.RISING, callback=self.left_sensor_callback, bouncetime=100
+                GPIOManager.LM393_L, GPIO.RISING, callback=self.left_sensor_callback, bouncetime=200
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
 
