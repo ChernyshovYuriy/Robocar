@@ -95,7 +95,7 @@ class LM393:
             self.dist_meas[i] = 0.00
 
     def calculate(self, elapse, sensor_id):
-        print("TRACE:%d" % elapse)
+        print("TRACE:%.2f" % elapse)
         if elapse != 0:  # to avoid DivisionByZero error
             self.rpm[sensor_id] = 1 / elapse * 60
             # calculate m/sec
