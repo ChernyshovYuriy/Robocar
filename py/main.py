@@ -118,6 +118,13 @@ class Controller:
         else:
             self.mpu6050sensor.stop()
 
+    # Run print LM393 data
+    def trigger_print_lm393_data(self):
+        if not self.lm393.is_run:
+            self.lm393.start()
+        else:
+            self.lm393.stop()
+
     # Callback function to LM393 class
     def on_lm393_values(self, rpm):
         self.motors.on_rpm(rpm)

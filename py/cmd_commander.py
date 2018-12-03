@@ -24,6 +24,8 @@ STOP = 32
 TRIGGER_PRINT_ECHO = 101
 # Print data from gyro
 TRIGGER_PRINT_GYRO_DATA = 103
+# Print data from LM393
+TRIGGER_PRINT_LM393_DATA = 108
 # Esc
 QUIT = 27
 
@@ -58,6 +60,8 @@ class CmdCommander:
                         self.controller_ref.trigger_print_echo()
                     if not ch or ord(ch) == TRIGGER_PRINT_GYRO_DATA:
                         self.controller_ref.trigger_print_gyro_data()
+                    if not ch or ord(ch) == TRIGGER_PRINT_LM393_DATA:
+                        self.controller_ref.trigger_print_lm393_data()
                     if not ch or ord(ch) == QUIT:
                         self.controller_ref.stop()
                         break
