@@ -16,6 +16,7 @@ class MotorsState(Enum):
     START_BWD = 3
     TURN_L = 4
     TURN_R = 5
+    GO_BACK = 6
 
 
 # Interface
@@ -51,6 +52,12 @@ class StartBwdCmd(Command):
         I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
         I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
         reference.on_motors_started_ref(reference.get_state())
+
+class GoBackCmd(Command):
+
+    def execute(self, reference):
+        print("Motor - Go back command")
+
 
 
 # Abstraction of turn motors command
@@ -96,6 +103,7 @@ class Motors:
             MotorsState.START_BWD: StartBwdCmd(),
             MotorsState.TURN_L: TurnLeftCmd(),
             MotorsState.TURN_R: TurnRightCmd(),
+            MotorsState.GO_BACK: GoBackCmd()
         }
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
@@ -170,6 +178,6 @@ class Motors:
 
         if new_state is not MotorsState.STOP:
             if rpm[0] and rpm[1] <= 100:
-                new_state = MotorsState.START_BWD
+                new_state = MotorsState.GO_BACK
 
         return new_state
