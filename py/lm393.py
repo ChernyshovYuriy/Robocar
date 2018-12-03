@@ -39,7 +39,7 @@ class LM393:
         self.rpm = [0] * LM393.NUM_OF_SENSORS
         self.pulse = [0] * LM393.NUM_OF_SENSORS
         self.start_timer = [time.time()] * LM393.NUM_OF_SENSORS
-        self.timer = threading.Timer(0.5, self.handle_timer)
+        self.timer = None
 
     def start(self):
         if self.is_run is True:
@@ -87,6 +87,7 @@ class LM393:
                 self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
             )
         self.on_values_internal(self.rpm)
+        self.timer = threading.Timer(0.5, self.handle_timer)
         self.timer.start()
         for i in range(LM393.NUM_OF_SENSORS):
             self.rpm[i] = 0
