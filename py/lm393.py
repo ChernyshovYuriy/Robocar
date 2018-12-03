@@ -60,7 +60,7 @@ class LM393:
                 GPIOManager.LM393_L, GPIO.RISING, callback=self.left_sensor_callback, bouncetime=100
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
-        self.handle_timer()
+            self.handle_timer()
 
     def stop(self):
         if self.is_run is False:
@@ -91,7 +91,6 @@ class LM393:
             self.dist_meas[i] = 0.00
 
     def calculate(self, elapse, sensor_id):
-        print("TRACE:%.2f" % elapse)
         if elapse != 0:  # to avoid DivisionByZero error
             self.rpm[sensor_id] = 1 / elapse * 60
             # calculate m/sec
@@ -113,9 +112,7 @@ class LM393:
         self.calculate(elapse, sensor_id)
 
     def right_sensor_callback(self, channel):
-        print("ChannelR%d" % channel)
         self.handle_callback(LM393.RIGHT_SENSOR_ID)
 
     def left_sensor_callback(self, channel):
-        print("ChannelL%d" % channel)
         self.handle_callback(LM393.LEFT_SENSOR_ID)
