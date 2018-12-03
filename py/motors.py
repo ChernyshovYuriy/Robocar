@@ -63,8 +63,8 @@ class GoBackCmd(Command):
 
     def execute(self, reference):
         print("Motor - Go back command")
-        reference.commands[MotorsState.STOP].execute(self)
-        reference.commands[MotorsState.START_BWD].execute(self)
+        reference.commands[MotorsState.STOP].execute(reference)
+        reference.commands[MotorsState.START_BWD].execute(reference)
         sleep(1)
         reference.set_state(MotorsState.TURN_L)
 
