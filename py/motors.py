@@ -123,7 +123,7 @@ class Motors:
         if not self.is_run:
             new_state = MotorsState.STOP
         else:
-            new_state = self.calculate_state(weights)
+            new_state = self.calculate_state(weights, self.rpm)
 
         print("Motor state - new %s | current %s" % (new_state, self.get_state()))
         if new_state != self.get_state():
@@ -149,7 +149,7 @@ class Motors:
         self.on_motors_stopped_ref()
 
     @staticmethod
-    def calculate_state(weights):
+    def calculate_state(weights, rpm):
         """
         Find max move vector and decide where to go
         """
@@ -167,5 +167,9 @@ class Motors:
             new_state = MotorsState.TURN_R
         else:
             new_state = MotorsState.START_FWD
+
+        if new_state is not MotorsState.STOP:
+            if rpm[0] and rpm[1] <= 100:
+                new_state = MotorsState.START_BWD
 
         return new_state
