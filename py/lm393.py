@@ -87,7 +87,7 @@ class LM393:
                 self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
             )
         self.on_values_internal(self.rpm)
-        self.timer = threading.Timer(0.5, self.handle_timer)
+        self.timer = threading.Timer(1, self.handle_timer)
         self.timer.start()
         for i in range(LM393.NUM_OF_SENSORS):
             self.rpm[i] = 0
@@ -101,9 +101,9 @@ class LM393:
             self.speed[sensor_id] = self.wheel_circumference_m / elapse
             # measure distance traverse in meters
             self.dist_meas[sensor_id] = self.wheel_circumference_m * self.pulse[sensor_id]
-            print('----RPM:{0:.0f} Speed:{1:.2f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
-                self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
-            )
+            # print('RPM:{0:.0f} Speed:{1:.2f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
+            #     self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
+            # )
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
