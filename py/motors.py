@@ -1,5 +1,6 @@
 import sys
 from os.path import dirname, abspath
+from time import sleep
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
@@ -31,7 +32,11 @@ class StopCmd(Command):
 
     def execute(self, reference):
         print("Motor - Stopped command")
-        reference.stop_motors()
+        I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
+        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
+        reference.on_motors_stopped_ref()
 
 
 # Start motors forward command
@@ -53,11 +58,15 @@ class StartBwdCmd(Command):
         I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
         reference.on_motors_started_ref(reference.get_state())
 
+
 class GoBackCmd(Command):
 
     def execute(self, reference):
         print("Motor - Go back command")
-
+        reference.commands[MotorsState.STOP].execute(self)
+        reference.commands[MotorsState.START_BWD].execute(self)
+        sleep(1)
+        reference.set_state(MotorsState.TURN_L)
 
 
 # Abstraction of turn motors command
@@ -121,7 +130,7 @@ class Motors:
             return
         print("Stop  motors")
         self.is_run = False
-        self.stop_motors()
+        self.commands[MotorsState.STOP].execute(self)
 
     def on_rpm(self, rpm):
         for i in range(LM393.NUM_OF_SENSORS):
@@ -135,7 +144,7 @@ class Motors:
 
         print("Motor state - new %s | current %s" % (new_state, self.get_state()))
         if new_state != self.get_state():
-            self.stop_motors()
+            self.commands[MotorsState.STOP].execute(self)
             self.set_state(new_state)
 
         self.exec_cmd()
@@ -148,13 +157,6 @@ class Motors:
 
     def get_state(self):
         return self.state
-
-    def stop_motors(self):
-        I2CManager.output(I2CManager.MOTOR_R_F, GPIO.LOW)
-        I2CManager.output(I2CManager.MOTOR_L_F, GPIO.LOW)
-        I2CManager.output(I2CManager.MOTOR_R_B, GPIO.LOW)
-        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.LOW)
-        self.on_motors_stopped_ref()
 
     @staticmethod
     def calculate_state(weights, rpm):
@@ -177,7 +179,6 @@ class Motors:
             new_state = MotorsState.START_FWD
 
         if new_state != MotorsState.STOP:
-            print("TRACE %s %d %d" % (new_state, rpm[0], rpm[1]))
             if (rpm[0] and rpm[1]) <= 100:
                 new_state = MotorsState.GO_BACK
 
