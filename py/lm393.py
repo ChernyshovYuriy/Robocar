@@ -67,7 +67,7 @@ class LM393:
         print("Stop  LM393")
 
         self.is_run = False
-        self.timer.cancel()
+        # self.timer.cancel()
         """
         Workaround for the segmentation fault when remove events
         """
@@ -82,8 +82,8 @@ class LM393:
                 self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
             )
         self.on_values_internal(self.rpm)
-        self.timer = threading.Timer(1, self.handle_timer)
-        self.timer.start()
+        # self.timer = threading.Timer(1, self.handle_timer)
+        # self.timer.start()
         for i in range(LM393.NUM_OF_SENSORS):
             self.rpm[i] = 0
             self.speed[i] = 0
