@@ -3,13 +3,12 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-import time, math
+import time, math, threading
 import RPi.GPIO as GPIO
 from py.gpio_manager import GPIOManager
 
 
 class LM393:
-
     NUM_OF_SENSORS = 2
     LEFT_SENSOR_ID = 0
     RIGHT_SENSOR_ID = 1
@@ -21,13 +20,13 @@ class LM393:
         self.value = 0
         self.thread = None
         self.on_values_internal = on_values
-        self.time_stamp = time.time()
 
-        r_cm = 0.17                                               # should be radius of wheel or distance between two
-                                                                  # pulse-holes in case of sensor read multi-holes trigger
-                                                                  # (need better description).
-        wheel_circumference_cm = (2.0 * math.pi) * r_cm           # calculate wheel circumference in cm
-        self.wheel_circumference_m = wheel_circumference_cm / 100 # convert cm to m
+        # should be radius of wheel or distance between two
+        # pulse-holes in case of sensor read multi-holes trigger
+        # (need better description).
+        r_cm = 0.17
+        wheel_circumference_cm = (2.0 * math.pi) * r_cm  # calculate wheel circumference in cm
+        self.wheel_circumference_m = wheel_circumference_cm / 100  # convert cm to m
         print("Wheel circumference %f" % self.wheel_circumference_m)
         """
         Distance, in meters (m)
@@ -40,8 +39,7 @@ class LM393:
         self.rpm = [0] * LM393.NUM_OF_SENSORS
         self.pulse = [0] * LM393.NUM_OF_SENSORS
         self.start_timer = [time.time()] * LM393.NUM_OF_SENSORS
-        # Delta time between events, in seconds
-        self.event_delta = 0.5
+        self.timer = threading.Timer(0.5, self.handle_timer)
 
     def start(self):
         if self.is_run is True:
@@ -55,7 +53,6 @@ class LM393:
             self.dist_meas[i] = 0.00
             self.speed[i] = 0
             self.start_timer[i] = time.time()
-        self.time_stamp = time.time()
         """
         Workaround for the segmentation fault when remove events
         """
@@ -67,6 +64,7 @@ class LM393:
                 GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=20
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
+        self.handle_timer()
 
     def stop(self):
         if self.is_run is False:
@@ -74,11 +72,26 @@ class LM393:
         print("Stop  LM393")
 
         self.is_run = False
+        self.timer.cancel()
         """
         Workaround for the segmentation fault when remove events
         """
         # GPIO.remove_event_detect(GPIOManager.LM393_R)
         # GPIO.remove_event_detect(GPIOManager.LM393_L)
+
+    def handle_timer(self):
+        if not self.is_run:
+            return
+        for i in range(LM393.NUM_OF_SENSORS):
+            print('RPM:{0:.0f} Speed:{1:.2f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
+                self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
+            )
+        self.on_values_internal(self.rpm)
+        self.timer.start()
+        for i in range(LM393.NUM_OF_SENSORS):
+            self.rpm[i] = 0
+            self.speed[i] = 0
+            self.dist_meas[i] = 0.00
 
     def calculate(self, elapse, sensor_id):
         if elapse != 0:  # to avoid DivisionByZero error
@@ -87,13 +100,9 @@ class LM393:
             self.speed[sensor_id] = self.wheel_circumference_m / elapse
             # measure distance traverse in meters
             self.dist_meas[sensor_id] = self.wheel_circumference_m * self.pulse[sensor_id]
-            # dispatch event once in 0.5 sec
-            if time.time() - self.time_stamp >= self.event_delta:
-                print('RPM:{0:.0f} Speed:{1:.2f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
-                    self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
-                )
-                self.on_values_internal(self.rpm)
-                self.time_stamp = time.time()
+            # print('RPM:{0:.0f} Speed:{1:.2f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
+            #     self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
+            # )
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
@@ -110,4 +119,3 @@ class LM393:
 
     def left_sensor_callback(self, channel):
         self.handle_callback(LM393.LEFT_SENSOR_ID)
-
