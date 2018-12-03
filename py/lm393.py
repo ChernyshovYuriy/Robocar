@@ -21,9 +21,7 @@ class LM393:
         self.thread = None
         self.on_values_internal = on_values
 
-        # Radius of wheel
-        # r_cm = 2.5
-        wheel_circumference_cm = 21.5  # calculate wheel circumference in cm
+        wheel_circumference_cm = 21.5  # Wheel circumference in cm
         self.wheel_circumference_m = wheel_circumference_cm / 100  # convert cm to m
         print("Wheel circumference %f" % self.wheel_circumference_m)
         """
