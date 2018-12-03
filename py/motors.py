@@ -178,7 +178,7 @@ class Motors:
 
         if new_state != MotorsState.STOP:
             print("TRACE %s %d %d" % (new_state, rpm[0], rpm[1]))
-            if rpm[0] and rpm[1] <= 100:
+            if (rpm[0] and rpm[1]) <= 100:
                 new_state = MotorsState.GO_BACK
 
         return new_state
