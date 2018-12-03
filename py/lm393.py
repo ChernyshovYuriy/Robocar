@@ -54,10 +54,10 @@ class LM393:
         """
         if not GPIOManager.IS_LM393_CALLBACK_REGISTERED:
             GPIO.add_event_detect(
-                GPIOManager.LM393_R, GPIO.FALLING, callback=self.right_sensor_callback, bouncetime=100
+                GPIOManager.LM393_R, GPIO.RISING, callback=self.right_sensor_callback, bouncetime=100
             )
             GPIO.add_event_detect(
-                GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=100
+                GPIOManager.LM393_L, GPIO.RISING, callback=self.left_sensor_callback, bouncetime=100
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
         self.handle_timer()
@@ -113,7 +113,9 @@ class LM393:
         self.calculate(elapse, sensor_id)
 
     def right_sensor_callback(self, channel):
+        print("ChannelR%d" % channel)
         self.handle_callback(LM393.RIGHT_SENSOR_ID)
 
     def left_sensor_callback(self, channel):
+        print("ChannelL%d" % channel)
         self.handle_callback(LM393.LEFT_SENSOR_ID)
