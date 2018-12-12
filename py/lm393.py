@@ -60,7 +60,7 @@ class LM393:
                 GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=100
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
-        self.handle_timer()
+        self.handle_timer(True)
 
     def stop(self):
         if self.is_run is False:
@@ -75,20 +75,24 @@ class LM393:
         # GPIO.remove_event_detect(GPIOManager.LM393_R)
         # GPIO.remove_event_detect(GPIOManager.LM393_L)
 
-    def handle_timer(self):
+    def handle_timer(self, init=False):
         if not self.is_run:
             return
-        for i in range(LM393.NUM_OF_SENSORS):
-            print('RPM:{0:.0f} Speed:{1:.2f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
-                self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
-            )
-        self.on_values_internal(self.rpm)
+        if not init:
+            self.report_event()
         self.timer = threading.Timer(1, self.handle_timer)
         self.timer.start()
         for i in range(LM393.NUM_OF_SENSORS):
             self.rpm[i] = 0
             self.speed[i] = 0
             self.dist_meas[i] = 0.00
+
+    def report_event(self):
+        for i in range(LM393.NUM_OF_SENSORS):
+            print('RPM:{0:.0f} Speed:{1:.2f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
+                self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
+            )
+        self.on_values_internal(self.rpm)
 
     def calculate(self, elapse, sensor_id):
         if elapse != 0:  # to avoid DivisionByZero error
@@ -100,6 +104,7 @@ class LM393:
             # print('*** original *** RPM:{0:.0f} Speed:{1:.2f} m/sec Distance:{2:.2f}m Pulse:{3}'.format(
             #     self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             # )
+            self.report_event()
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
