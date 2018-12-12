@@ -83,7 +83,7 @@ class LM393:
         # self.timer = threading.Timer(1, self.handle_timer)
         # self.timer.start()
         for i in range(LM393.NUM_OF_SENSORS):
-            # self.rpm[i] = 0
+            self.rpm[i] = 0
             self.speed[i] = 0
             self.dist_meas[i] = 0.00
 
@@ -112,7 +112,7 @@ class LM393:
         if not self.is_run:
             return
         # increase pulse by 1 whenever interrupt occurred
-        self.pulse[sensor_id] += 1
+        self.pulse[sensor_id] = self.pulse[sensor_id] + 1
         # elapse for every 1 complete rotation made
         elapse = time.time() - self.start_timer[sensor_id]
         self.start_timer[sensor_id] = time.time()
