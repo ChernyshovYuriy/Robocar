@@ -107,9 +107,12 @@ class LM393:
             # print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
             #     sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             # )
+            """
+            Do not report event until both sensors got first update
+            """
             for i in range(LM393.NUM_OF_SENSORS):
                 if self.pulse[i] == 0:
-                    return 
+                    return
             self.report_event()
 
     def handle_callback(self, sensor_id):
