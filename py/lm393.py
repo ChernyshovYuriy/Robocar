@@ -36,6 +36,7 @@ class LM393:
         self.pulse = [0] * LM393.NUM_OF_SENSORS
         self.start_timer = [time.time()] * LM393.NUM_OF_SENSORS
         self.timer = None
+        self.lock = threading.Lock()
 
     def start(self):
         if self.is_run is True:
@@ -119,7 +120,11 @@ class LM393:
         self.calculate(elapse, sensor_id)
 
     def right_sensor_callback(self, channel):
+        self.lock.acquire()
         self.handle_callback(LM393.RIGHT_SENSOR_ID)
+        self.lock.release()
 
     def left_sensor_callback(self, channel):
+        self.lock.acquire()
         self.handle_callback(LM393.LEFT_SENSOR_ID)
+        self.lock.release()
