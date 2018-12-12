@@ -36,7 +36,6 @@ class LM393:
         self.pulse = [0] * LM393.NUM_OF_SENSORS
         self.start_timer = [time.time()] * LM393.NUM_OF_SENSORS
         self.timer = None
-        self.lock = threading.Lock()
 
     def start(self):
         if self.is_run is True:
@@ -108,13 +107,13 @@ class LM393:
             # print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
             #     sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             # )
+            for i in range(LM393.NUM_OF_SENSORS):
+                if self.pulse[i] == 0:
+                    return 
             self.report_event()
 
     def handle_callback(self, sensor_id):
-        self.lock.acquire()
         if not self.is_run:
-            self.lock.release()
-            print("TRACE:::")
             return
         # increase pulse by 1 whenever interrupt occurred
         self.pulse[sensor_id] = self.pulse[sensor_id] + 1
@@ -127,7 +126,6 @@ class LM393:
             self.timer = None
         else:
             self.handle_timer(True)
-        self.lock.release()
 
     def right_sensor_callback(self, channel):
         self.handle_callback(LM393.RIGHT_SENSOR_ID)
