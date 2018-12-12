@@ -77,14 +77,15 @@ class LM393:
         # GPIO.remove_event_detect(GPIOManager.LM393_R)
         # GPIO.remove_event_detect(GPIOManager.LM393_L)
 
-    def handle_timer(self):
+    def handle_timer(self, init=False):
         if not self.is_run:
             return
-        for i in range(LM393.NUM_OF_SENSORS):
-            self.rpm[i] = 0
-            self.speed[i] = 0
-            self.dist_meas[i] = 0.00
-        self.report_event()
+        if not init:
+            for i in range(LM393.NUM_OF_SENSORS):
+                self.rpm[i] = 0
+                self.speed[i] = 0
+                self.dist_meas[i] = 0.00
+            self.report_event()
         self.timer = threading.Timer(1, self.handle_timer)
         self.timer.start()
 
@@ -124,7 +125,7 @@ class LM393:
             self.timer.cancel()
             self.timer = None
         else:
-            self.handle_timer()
+            self.handle_timer(True)
         self.lock.release()
 
     def right_sensor_callback(self, channel):
