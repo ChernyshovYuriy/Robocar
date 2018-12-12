@@ -61,6 +61,7 @@ class LM393:
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
             print("Start LM393 listening")
+            self.handle_timer(True)
 
     def stop(self):
         if self.is_run is False:
