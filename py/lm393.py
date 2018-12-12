@@ -61,7 +61,7 @@ class LM393:
                 GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=100
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
-        # self.handle_timer(True)
+        self.handle_timer(True)
 
     def stop(self):
         if self.is_run is False:
@@ -69,7 +69,7 @@ class LM393:
         print("Stop  LM393")
 
         self.is_run = False
-        # self.timer.cancel()
+        self.timer.cancel()
         """
         Workaround for the segmentation fault when remove events
         """
@@ -81,8 +81,8 @@ class LM393:
             return
         if not init:
             self.report_event()
-        # self.timer = threading.Timer(1, self.handle_timer)
-        # self.timer.start()
+        self.timer = threading.Timer(1, self.handle_timer)
+        self.timer.start()
         for i in range(LM393.NUM_OF_SENSORS):
             self.rpm[i] = 0
             self.speed[i] = 0
@@ -104,10 +104,10 @@ class LM393:
             self.speed[sensor_id] = self.wheel_circumference_m / elapse
             # measure distance traverse in meters
             self.dist_meas[sensor_id] = self.wheel_circumference_m * self.pulse[sensor_id]
-            print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
-                sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
-            )
-            # self.report_event()
+            # print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
+            #     sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
+            # )
+            self.report_event()
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
