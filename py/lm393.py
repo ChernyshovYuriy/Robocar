@@ -61,7 +61,6 @@ class LM393:
                 GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=100
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
-        self.handle_timer(True)
 
     def stop(self):
         if self.is_run is False:
@@ -69,24 +68,25 @@ class LM393:
         print("Stop  LM393")
 
         self.is_run = False
-        self.timer.cancel()
+        if self.timer is not None:
+            self.timer.cancel()
+            self.timer = None
         """
         Workaround for the segmentation fault when remove events
         """
         # GPIO.remove_event_detect(GPIOManager.LM393_R)
         # GPIO.remove_event_detect(GPIOManager.LM393_L)
 
-    def handle_timer(self, init=False):
+    def handle_timer(self):
         if not self.is_run:
             return
-        if not init:
-            self.report_event()
-        self.timer = threading.Timer(1, self.handle_timer)
-        self.timer.start()
         for i in range(LM393.NUM_OF_SENSORS):
             self.rpm[i] = 0
             self.speed[i] = 0
             self.dist_meas[i] = 0.00
+        self.report_event()
+        self.timer = threading.Timer(1, self.handle_timer)
+        self.timer.start()
 
     def report_event(self):
         rpm = [0] * 2
@@ -110,7 +110,9 @@ class LM393:
             self.report_event()
 
     def handle_callback(self, sensor_id):
+        self.lock.acquire()
         if not self.is_run:
+            self.lock.release()
             return
         # increase pulse by 1 whenever interrupt occurred
         self.pulse[sensor_id] = self.pulse[sensor_id] + 1
@@ -118,13 +120,15 @@ class LM393:
         elapse = time.time() - self.start_timer[sensor_id]
         self.start_timer[sensor_id] = time.time()
         self.calculate(elapse, sensor_id)
+        if self.timer is not None:
+            self.timer.cancel()
+            self.timer = None
+        else:
+            self.handle_timer()
+        self.lock.release()
 
     def right_sensor_callback(self, channel):
-        self.lock.acquire()
         self.handle_callback(LM393.RIGHT_SENSOR_ID)
-        self.lock.release()
 
     def left_sensor_callback(self, channel):
-        self.lock.acquire()
         self.handle_callback(LM393.LEFT_SENSOR_ID)
-        self.lock.release()
