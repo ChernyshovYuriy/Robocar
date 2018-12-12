@@ -145,6 +145,7 @@ class Motors:
         print("Motor state - new %s | current %s" % (new_state, self.get_state()))
         if new_state != self.get_state():
             self.commands[MotorsState.STOP].execute(self)
+            sleep(1)
             self.set_state(new_state)
 
         self.exec_cmd()
