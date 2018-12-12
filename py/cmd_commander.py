@@ -20,11 +20,11 @@ ENG_OFF = 115
 START = 10
 # Space
 STOP = 32
-# Print echo
+# e
 TRIGGER_PRINT_ECHO = 101
-# Print data from gyro
+# g
 TRIGGER_PRINT_GYRO_DATA = 103
-# Print data from LM393
+# l
 TRIGGER_PRINT_LM393_DATA = 108
 # Esc
 QUIT = 27
