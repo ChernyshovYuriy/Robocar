@@ -93,7 +93,7 @@ class LM393:
     def report_event(self):
         rpm = [0] * 2
         for i in range(LM393.NUM_OF_SENSORS):
-            print('{0} - RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
+            print('LM393-{0} : RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
                 i, self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
             )
             rpm[i] = self.rpm[i]
