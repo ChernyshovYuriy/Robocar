@@ -76,7 +76,7 @@ class Echo:
                 weights[i] = distance[i]
             self.calculate_weights(weights)
             self.on_echo(distance, weights)
-            sleep(0.05)
+            sleep(0.1)
 
     def calculate_weights(self, weights):
         """
