@@ -3,6 +3,7 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
+import numpy
 from py.octasonic import Octasonic
 from threading import Thread
 from time import sleep
@@ -72,9 +73,11 @@ class Echo:
             distance = [0] * Echo.SENSORS_NUM
             weights = [0] * Echo.SENSORS_NUM
             for i in range(Echo.SENSORS_NUM):
-                distance[i] = self.octasonic.get_sensor_reading(i)
+                d = [0] * 3
+                for j in range(0, 3):
+                    d[j] = self.octasonic.get_sensor_reading(i)
+                distance[i] = numpy.mean(d)
                 weights[i] = distance[i]
-                sleep(0.05)
             self.calculate_weights(weights)
             self.on_echo(distance, weights)
             sleep(0.05)
