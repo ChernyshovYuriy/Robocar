@@ -72,7 +72,7 @@ class Echo:
         while self.is_run:
             sleep(0.05)
             distance = [0] * Echo.SENSORS_NUM
-            weights = [0] * Echo.SENSORS_NUM
+            weights = [0.0] * Echo.SENSORS_NUM
             for i in range(Echo.SENSORS_NUM):
                 distance[i] = self.octasonic.get_sensor_reading(i)
                 weights[i] = distance[i]
