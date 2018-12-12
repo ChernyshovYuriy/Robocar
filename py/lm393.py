@@ -60,7 +60,7 @@ class LM393:
                 GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=100
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
-        self.handle_timer(True)
+        # self.handle_timer(True)
 
     def stop(self):
         if self.is_run is False:
