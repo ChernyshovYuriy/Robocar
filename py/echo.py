@@ -73,8 +73,8 @@ class Echo:
             distance = [0] * Echo.SENSORS_NUM
             weights = [0] * Echo.SENSORS_NUM
             for i in range(Echo.SENSORS_NUM):
-                d = [0] * 3
-                for j in range(0, 3):
+                d = [0] * 5
+                for j in range(0, 5):
                     d[j] = self.octasonic.get_sensor_reading(i)
                 distance[i] = int(numpy.mean(d))
                 weights[i] = distance[i]
