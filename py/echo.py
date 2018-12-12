@@ -74,9 +74,10 @@ class Echo:
             for i in range(Echo.SENSORS_NUM):
                 distance[i] = self.octasonic.get_sensor_reading(i)
                 weights[i] = distance[i]
+                sleep(0.05)
             self.calculate_weights(weights)
             self.on_echo(distance, weights)
-            sleep(0.1)
+            sleep(0.05)
 
     def calculate_weights(self, weights):
         """
