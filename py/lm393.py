@@ -85,14 +85,13 @@ class LM393:
                 self.rpm[i] = 0
                 self.speed[i] = 0
                 self.dist_meas[i] = 0.00
-            self.report_event("timer")
+            self.report_event()
         self.timer = threading.Timer(1, self.handle_timer)
         self.timer.start()
 
-    def report_event(self, name):
+    def report_event(self):
         rpm = [0] * 2
         for i in range(LM393.NUM_OF_SENSORS):
-            print("Name:%s" % name)
             print('{0} - RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
                 i, self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
             )
@@ -109,12 +108,13 @@ class LM393:
             # print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
             #     sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             # )
-            self.report_event("sensor")
+            self.report_event()
 
     def handle_callback(self, sensor_id):
         self.lock.acquire()
         if not self.is_run:
             self.lock.release()
+            print("TRACE:::")
             return
         # increase pulse by 1 whenever interrupt occurred
         self.pulse[sensor_id] = self.pulse[sensor_id] + 1
