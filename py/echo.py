@@ -85,7 +85,7 @@ class Echo:
         """
         for i in range(len(weights)):
             if weights[i] >= self.norm_weights[i]:
-                weights[i] = 1
+                weights[i] = 1.0
             else:
                 v = weights[i] / self.norm_weights[i]
                 weights[i] = int(v * 10) / 10.0
