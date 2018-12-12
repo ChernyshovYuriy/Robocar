@@ -76,7 +76,7 @@ class Echo:
                 d = [0] * 3
                 for j in range(0, 3):
                     d[j] = self.octasonic.get_sensor_reading(i)
-                    sleep(0.05)
+                    sleep(0.01)
                 distance[i] = int(numpy.mean(d))
                 # print("\nArray %s, mean %d" % (d, distance[i]))
                 weights[i] = distance[i]
