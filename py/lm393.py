@@ -83,7 +83,7 @@ class LM393:
         self.timer = threading.Timer(1, self.handle_timer)
         self.timer.start()
         for i in range(LM393.NUM_OF_SENSORS):
-            self.rpm[i] = 0
+            # self.rpm[i] = 0
             self.speed[i] = 0
             self.dist_meas[i] = 0.00
 
