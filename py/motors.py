@@ -190,7 +190,7 @@ class Motors:
         else:
             new_state = MotorsState.START_FWD
 
-        if new_state != MotorsState.STOP:
+        if new_state == MotorsState.START_FWD:
             if (self.rpm[0] and self.rpm[1]) <= 10:
                 if self.rpm_fail_count >= self.rpm_fail_count_max:
                     new_state = MotorsState.GO_BACK
