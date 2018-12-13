@@ -100,7 +100,7 @@ class LM393:
         rpm_max = max(rpm)
         for i in range(LM393.NUM_OF_SENSORS):
             rpm[i] = rpm_max
-        print("LM393 : RPM:{0.0f}".format(rpm_max))
+        print("LM393 : RPM:{0}".format(rpm_max))
         self.on_values_internal(rpm)
 
     def calculate(self, elapse, sensor_id):
