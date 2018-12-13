@@ -3,7 +3,7 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-import time, math, threading
+import time, threading
 import RPi.GPIO as GPIO
 from py.gpio_manager import GPIOManager
 
@@ -82,6 +82,9 @@ class LM393:
         if not self.is_run:
             return
         if not init:
+            """
+            Drop values and report zeroes in case of timer elapsed but not the first time timer initialized.
+            """
             for i in range(LM393.NUM_OF_SENSORS):
                 self.rpm[i] = 0
                 self.speed[i] = 0
@@ -97,6 +100,9 @@ class LM393:
                 i, self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
             )
             rpm[i] = self.rpm[i]
+        """
+        Get the max value from two sensors and report it.
+        """
         rpm_max = max(rpm)
         for i in range(LM393.NUM_OF_SENSORS):
             rpm[i] = rpm_max
@@ -110,9 +116,9 @@ class LM393:
             self.speed[sensor_id] = self.wheel_circumference_m / elapse
             # measure distance traverse in meters
             self.dist_meas[sensor_id] = self.wheel_circumference_m * self.pulse[sensor_id]
-            print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
-                sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
-            )
+            # print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
+            #     sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
+            # )
             self.report_event()
 
     def handle_callback(self, sensor_id):

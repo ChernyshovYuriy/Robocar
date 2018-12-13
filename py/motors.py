@@ -173,9 +173,9 @@ class Motors:
 
     def calculate_state(self, weights):
         """
-        Find max move vector and decide where to go
+        Find max move vector and decide where to go.
+        //TODO: Check whether peaks are on both sides of vector (in 1 or 2 and in 4 or 5) - potential corner
         """
-        # TODO: Check whether peaks are on both sides of vector (in 1 or 2 and in 4 or 5) - potential corner
         max_idx = max(weights)
         if max_idx != 1:
             move_idx = weights.index(max_idx)
@@ -190,6 +190,10 @@ class Motors:
         else:
             new_state = MotorsState.START_FWD
 
+        """
+        In case of vehicle stacked forward, for instance hit the wall, do back up move.
+        //TODO: Use gyro to track stack in case of turn
+        """
         if new_state == MotorsState.START_FWD:
             if (self.rpm[0] and self.rpm[1]) <= 10:
                 if self.rpm_fail_count >= self.rpm_fail_count_max:
