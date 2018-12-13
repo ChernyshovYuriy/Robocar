@@ -106,9 +106,9 @@ class LM393:
             self.speed[sensor_id] = self.wheel_circumference_m / elapse
             # measure distance traverse in meters
             self.dist_meas[sensor_id] = self.wheel_circumference_m * self.pulse[sensor_id]
-            # print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
-            #     sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
-            # )
+            print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
+                sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
+            )
             """
             Do not report event until both sensors got first update
             """
