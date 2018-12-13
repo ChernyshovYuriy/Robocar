@@ -51,8 +51,7 @@ class StartBwdCmd(Command):
 
     def execute(self, reference):
         print("Motor - Started bwd command")
-        I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
-        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
+        reference.do_backward_internal()
         reference.on_motors_started_ref(reference.get_state())
 
 
@@ -99,6 +98,9 @@ class TurnRightCmd(TurnAbcCmd):
 # Manager of the motors.
 class Motors:
 
+    RPM_MAX_FAIL_COUNT = 5
+    RPM_MIN_VALUE = 10
+
     def __init__(self, on_motors_stopped_in, on_motors_started_in, on_motors_turning_in):
         print("Init  motors")
         self.state = MotorsState.STOP
@@ -116,7 +118,6 @@ class Motors:
         self.on_motors_turning_ref = on_motors_turning_in
         self.rpm = [0] * LM393.NUM_OF_SENSORS
         self.rpm_fail_count = 0
-        self.rpm_fail_count_max = 5
 
     def start(self):
         if self.is_run:
@@ -150,6 +151,7 @@ class Motors:
 
         self.exec_cmd()
 
+    # This method introduced only for debugging purposes.
     def exec_cmd(self):
         self.commands[self.get_state()].execute(self)
 
@@ -175,8 +177,12 @@ class Motors:
         """
         Find max move vector and decide where to go.
         //TODO: Check whether peaks are on both sides of vector (in 1 or 2 and in 4 or 5) - potential corner
+                Overall, not a best solution ...
         """
         max_idx = max(weights)
+        """
+        Assume if max is 1 then all weights are equals, means no abstraction detected.
+        """
         if max_idx != 1:
             move_idx = weights.index(max_idx)
         else:
@@ -195,8 +201,8 @@ class Motors:
         //TODO: Use gyro to track stack in case of turn
         """
         if new_state == MotorsState.START_FWD:
-            if (self.rpm[0] and self.rpm[1]) <= 10:
-                if self.rpm_fail_count >= self.rpm_fail_count_max:
+            if (self.rpm[0] and self.rpm[1]) <= Motors.RPM_MIN_VALUE:
+                if self.rpm_fail_count >= Motors.RPM_MAX_FAIL_COUNT:
                     new_state = MotorsState.GO_BACK
                     self.rpm_fail_count = 0
                 else:
