@@ -97,6 +97,10 @@ class LM393:
                 i, self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
             )
             rpm[i] = self.rpm[i]
+        rpm_max = max(rpm)
+        for i in range(LM393.NUM_OF_SENSORS):
+            rpm[i] = rpm_max
+        print("LM393 : RPM:{0.0f}".format(rpm_max))
         self.on_values_internal(rpm)
 
     def calculate(self, elapse, sensor_id):
@@ -109,12 +113,6 @@ class LM393:
             print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
                 sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             )
-            """
-            Do not report event until both sensors got first update
-            """
-            for i in range(LM393.NUM_OF_SENSORS):
-                if self.pulse[i] == 0:
-                    return
             self.report_event()
 
     def handle_callback(self, sensor_id):
