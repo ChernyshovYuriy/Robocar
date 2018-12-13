@@ -41,6 +41,7 @@ class StartFwdCmd(Command):
 
     def execute(self, reference):
         print("Motor - Started fwd command")
+        reference.do_stop_internal()
         I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
         I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
         reference.on_motors_started_ref(reference.get_state())
@@ -51,6 +52,7 @@ class StartBwdCmd(Command):
 
     def execute(self, reference):
         print("Motor - Started bwd command")
+        reference.do_stop_internal()
         reference.do_backward_internal()
         reference.on_motors_started_ref(reference.get_state())
 
@@ -80,6 +82,7 @@ class TurnLeftCmd(TurnAbcCmd):
 
     def execute(self, reference):
         print("Motor - Turning l command")
+        reference.do_stop_internal()
         I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
         I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
         reference.on_motors_turning_ref(reference.get_state())
@@ -90,6 +93,7 @@ class TurnRightCmd(TurnAbcCmd):
 
     def execute(self, reference):
         print("Motor - Turning r command")
+        reference.do_stop_internal()
         I2CManager.output(I2CManager.MOTOR_L_F, GPIO.HIGH)
         I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
         reference.on_motors_turning_ref(reference.get_state())
@@ -138,21 +142,18 @@ class Motors:
             self.rpm[i] = rpm[i]
 
     def on_echo(self, distance, weights):
-        if not self.is_run:
-            new_state = MotorsState.STOP
-        else:
-            new_state = self.calculate_state(weights)
-
-        print("Motor state - new %s | current %s" % (new_state, self.get_state()))
-        if new_state != self.get_state():
-            self.commands[MotorsState.STOP].execute(self)
-            sleep(0.1)
-            self.set_state(new_state)
+        state = self.calculate_state(weights)
+        print("Motor state - new %s | current %s" % (state, self.get_state()))
+        if state != self.get_state():
+            self.set_state(state)
 
         self.exec_cmd()
 
-    # This method introduced only for debugging purposes.
     def exec_cmd(self):
+        """
+        This method introduced only for debugging purposes.
+        :return:
+        """
         self.commands[self.get_state()].execute(self)
 
     def set_state(self, state):
@@ -174,6 +175,13 @@ class Motors:
         I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
 
     def calculate_state(self, weights):
+        """
+        Calculate state of the Motors based on array of weights received from Echo module.
+        :param weights: Incoming array of weights associated with distance scanned by Echo module.
+        :return: MotorsState to process by the Motors command.
+        """
+        if not self.is_run:
+            return MotorsState.STOP
         """
         Find max move vector and decide where to go.
         //TODO: Check whether peaks are on both sides of vector (in 1 or 2 and in 4 or 5) - potential corner
