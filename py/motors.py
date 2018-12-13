@@ -116,7 +116,7 @@ class Motors:
         self.on_motors_turning_ref = on_motors_turning_in
         self.rpm = [0] * LM393.NUM_OF_SENSORS
         self.rpm_fail_count = 0
-        self.rpm_fail_count_max = 3
+        self.rpm_fail_count_max = 5
 
     def start(self):
         if self.is_run:
