@@ -81,7 +81,7 @@ class LM393:
     def handle_timer(self, init=False):
         if not self.is_run:
             return
-        if init:
+        if not init:
             """
             Drop values and report zeroes in case of timer elapsed but not the first time timer initialized.
             """
@@ -130,6 +130,7 @@ class LM393:
         if self.timer is not None:
             self.timer.cancel()
             self.timer = None
+            self.handle_timer(True)
 
     def right_sensor_callback(self, channel):
         self.handle_callback(LM393.RIGHT_SENSOR_ID)
