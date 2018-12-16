@@ -81,7 +81,7 @@ class LM393:
     def handle_timer(self, init=False):
         if not self.is_run:
             return
-        if not init:
+        if init:
             """
             Drop values and report zeroes in case of timer elapsed but not the first time timer initialized.
             """
