@@ -225,6 +225,9 @@ class Motors:
         """
         if not self.is_run:
             return MotorsState.STOP
+
+        if weights[3] < 1:
+            return MotorsState.STOP
         """
         Find max move vector and decide where to go.
         //TODO: Check whether peaks are on both sides of vector (in 1 or 2 and in 4 or 5) - potential corner
