@@ -32,7 +32,7 @@ class Echo:
         self.thread = None
         self.on_echo = on_echo
         self.echo_error_callback = echo_error_callback
-        factor = 1.3
+        factor = 1.5
         self.norm_weights = [1 * factor, 5 * factor, 12 * factor, 15 * factor, 12 * factor, 5 * factor, 1 * factor]
         self.octasonic = Octasonic(0)
         protocol_version = self.octasonic.get_protocol_version()
@@ -70,7 +70,7 @@ class Echo:
     # Handle distance measurement.
     def runnable(self):
         while self.is_run:
-            sleep(0.1)
+            sleep(0.08)
             distance = [0] * Echo.SENSORS_NUM
             weights = [0.0] * Echo.SENSORS_NUM
             for i in range(Echo.SENSORS_NUM):
