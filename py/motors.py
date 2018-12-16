@@ -10,8 +10,11 @@ import RPi.GPIO as GPIO
 from py.i2c_manager import I2CManager
 
 
-# Enumeration of the motors states.
 class MotorsState(Enum):
+    """
+    Enumeration of the motors states.
+    """
+
     STOP = 1
     START_FWD = 2
     START_BWD = 3
@@ -20,15 +23,24 @@ class MotorsState(Enum):
     GO_BACK = 6
 
 
-# Interface
 class Command:
+    """
+    Command interface to control motors
+    """
 
     def execute(self, listener):
+        """
+        Execute single command
+        :param listener: Reference to enclosing class
+        :return:
+        """
         raise NotImplementedError()
 
 
-# Stop motors command
 class StopCmd(Command):
+    """
+    Stop motors command.
+    """
 
     def execute(self, reference):
         print("Motor - Stopped command")
@@ -36,8 +48,10 @@ class StopCmd(Command):
         reference.on_motors_stopped_ref()
 
 
-# Start motors forward command
 class StartFwdCmd(Command):
+    """
+    Start motors forward command.
+    """
 
     def execute(self, reference):
         print("Motor - Started fwd command")
@@ -47,8 +61,10 @@ class StartFwdCmd(Command):
         reference.on_motors_started_ref(reference.get_state())
 
 
-# Start motors backward command
 class StartBwdCmd(Command):
+    """
+    Start motors backward command.
+    """
 
     def execute(self, reference):
         print("Motor - Started bwd command")
@@ -58,6 +74,9 @@ class StartBwdCmd(Command):
 
 
 class GoBackCmd(Command):
+    """
+    Start "go back" command, in case robot stacked with wall or obstacle.
+    """
 
     def execute(self, reference):
         print("Motor - Go back command")
@@ -67,18 +86,10 @@ class GoBackCmd(Command):
         reference.set_state(MotorsState.TURN_L)
 
 
-# Abstraction of turn motors command
-class TurnAbcCmd(Command):
-
-    def __init__(self):
-        pass
-
-    def execute(self, listener):
-        pass
-
-
-# Turn motors left command
-class TurnLeftCmd(TurnAbcCmd):
+class TurnLeftCmd(Command):
+    """
+    Turn motors left command.
+    """
 
     def execute(self, reference):
         print("Motor - Turning l command")
@@ -88,8 +99,10 @@ class TurnLeftCmd(TurnAbcCmd):
         reference.on_motors_turning_ref(reference.get_state())
 
 
-# Turn motors right command
-class TurnRightCmd(TurnAbcCmd):
+class TurnRightCmd(Command):
+    """
+    Turn motors right command.
+    """
 
     def execute(self, reference):
         print("Motor - Turning r command")
@@ -99,8 +112,10 @@ class TurnRightCmd(TurnAbcCmd):
         reference.on_motors_turning_ref(reference.get_state())
 
 
-# Manager of the motors.
 class Motors:
+    """
+    Manager of the motors.
+    """
 
     RPM_MAX_FAIL_COUNT = 5
     RPM_MIN_VALUE = 10
@@ -120,7 +135,7 @@ class Motors:
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
-        self.rpm = [0] * LM393.NUM_OF_SENSORS
+        self.rpm = 0
         self.rpm_fail_count = 0
 
     def start(self):
@@ -138,8 +153,7 @@ class Motors:
         self.commands[MotorsState.STOP].execute(self)
 
     def on_rpm(self, rpm):
-        for i in range(LM393.NUM_OF_SENSORS):
-            self.rpm[i] = rpm[i]
+        self.rpm = rpm
 
     def on_echo(self, distance, weights):
         state = self.calculate_state(weights)
@@ -209,7 +223,7 @@ class Motors:
         //TODO: Use gyro to track stack in case of turn
         """
         if new_state == MotorsState.START_FWD:
-            if (self.rpm[0] and self.rpm[1]) <= Motors.RPM_MIN_VALUE:
+            if self.rpm <= Motors.RPM_MIN_VALUE:
                 if self.rpm_fail_count >= Motors.RPM_MAX_FAIL_COUNT:
                     new_state = MotorsState.GO_BACK
                     self.rpm_fail_count = 0

@@ -94,20 +94,16 @@ class LM393:
         self.timer.start()
 
     def report_event(self):
-        rpm = [0] * 2
         for i in range(LM393.NUM_OF_SENSORS):
             print('LM393-{0} : RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
                 i, self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
             )
-            rpm[i] = self.rpm[i]
         """
         Get the max value from two sensors and report it.
         """
-        rpm_max = max(rpm)
-        for i in range(LM393.NUM_OF_SENSORS):
-            rpm[i] = rpm_max
+        rpm_max = max(self.rpm)
         print("LM393 : RPM:{0}".format(rpm_max))
-        self.on_values_internal(rpm)
+        self.on_values_internal(rpm_max)
 
     def calculate(self, elapse, sensor_id):
         if elapse != 0:  # to avoid DivisionByZero error
