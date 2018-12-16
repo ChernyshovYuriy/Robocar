@@ -117,7 +117,7 @@ class Motors:
     Manager of the motors.
     """
 
-    RPM_MAX_FAIL_COUNT = 5
+    RPM_MAX_FAIL_COUNT = 3
     RPM_MIN_VALUE = 10
 
     def __init__(self, on_motors_stopped_in, on_motors_started_in, on_motors_turning_in):
