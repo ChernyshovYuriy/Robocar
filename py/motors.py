@@ -223,6 +223,7 @@ class Motors:
         //TODO: Use gyro to track stack in case of turn
         """
         if new_state == MotorsState.START_FWD:
+            print("::TRACE::%d %d" % (self.rpm_fail_count, self.rpm))
             if self.rpm <= Motors.RPM_MIN_VALUE:
                 if self.rpm_fail_count >= Motors.RPM_MAX_FAIL_COUNT:
                     new_state = MotorsState.GO_BACK
