@@ -84,6 +84,7 @@ class GoBackCmd(Command):
         reference.do_stop_internal()
         reference.do_backward_internal()
         sleep(1)
+        reference.do_stop_internal()
         reference.do_left_internal()
         sleep(1)
 
@@ -225,7 +226,9 @@ class Motors:
         """
         if not self.is_run:
             return MotorsState.STOP
-
+        """
+        Handle middle sensor
+        """
         if weights[3] < 1:
             return MotorsState.LONG_TURN
         """
