@@ -1,4 +1,5 @@
 import sys
+import time
 from os.path import dirname, abspath
 from time import sleep
 
@@ -20,6 +21,7 @@ class MotorsState(Enum):
     TURN_L = 4
     TURN_R = 5
     GO_BACK = 6
+    LONG_TURN = 7
 
 
 class Command:
@@ -111,6 +113,15 @@ class TurnRightCmd(Command):
         reference.on_motors_turning_ref(reference.get_state())
 
 
+class LongTurnCmd(Command):
+
+    def execute(self, reference):
+        print("Motor - Long turn command")
+        reference.do_stop_internal()
+        reference.do_left_internal()
+        sleep(3)
+
+
 class Motors:
     """
     Manager of the motors.
@@ -129,13 +140,15 @@ class Motors:
             MotorsState.START_BWD: StartBwdCmd(),
             MotorsState.TURN_L: TurnLeftCmd(),
             MotorsState.TURN_R: TurnRightCmd(),
-            MotorsState.GO_BACK: GoBackCmd()
+            MotorsState.GO_BACK: GoBackCmd(),
+            MotorsState.LONG_TURN: LongTurnCmd()
         }
         self.on_motors_stopped_ref = on_motors_stopped_in
         self.on_motors_started_ref = on_motors_started_in
         self.on_motors_turning_ref = on_motors_turning_in
         self.rpm = 0
         self.rpm_fail_count = 0
+        self.turn_changed_time = 0
 
     def start(self):
         if self.is_run:
@@ -158,6 +171,7 @@ class Motors:
         state = self.calculate_state(weights)
         print("Motor state - new %s | current %s" % (state, self.get_state()))
         if state != self.get_state():
+            state = self.handle_turns_changes(self.get_state(), state)
             self.set_state(state)
         self.exec_cmd()
 
@@ -173,6 +187,18 @@ class Motors:
 
     def get_state(self):
         return self.state
+
+    def handle_turns_changes(self, old_state, new_state):
+        if (new_state == MotorsState.TURN_L or new_state == MotorsState.TURN_R) \
+                and (old_state == MotorsState.TURN_L or old_state == MotorsState.TURN_R) \
+                and new_state != old_state:
+            if self.turn_changed_time == 0:
+                self.turn_changed_time = time.time()
+            if time.time() - self.turn_changed_time >= 4:
+                return MotorsState.LONG_TURN
+        else:
+            self.turn_changed_time = 0
+        return new_state
 
     @staticmethod
     def do_stop_internal():
@@ -236,6 +262,10 @@ class Motors:
             else:
                 self.rpm_fail_count = 0
 
+        """
+        This is the case when robot drive near a wall almost parallel. If all sensors are 1 except any left most
+        or right most - move forward
+        """
         if new_state == MotorsState.TURN_L or new_state == MotorsState.TURN_R:
             if weights[1] == 1 and weights[2] == 1 and weights[3] == 1 and weights[4] == 1 and weights[5] == 1:
                 new_state = MotorsState.START_FWD
