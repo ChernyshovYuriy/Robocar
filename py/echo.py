@@ -70,7 +70,7 @@ class Echo:
     # Handle distance measurement.
     def runnable(self):
         while self.is_run:
-            sleep(0.05)
+            sleep(0.1)
             distance = [0] * Echo.SENSORS_NUM
             weights = [0.0] * Echo.SENSORS_NUM
             for i in range(Echo.SENSORS_NUM):
