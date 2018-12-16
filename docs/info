@@ -2,6 +2,9 @@ https://humanwhocodes.com/blog/2010/05/25/cross-domain-ajax-with-cross-origin-re
 https://electrosome.com/hc-sr04-ultrasonic-sensor-raspberry-pi
 https://learn.adafruit.com/mcp230xx-gpio-expander-on-the-raspberry-pi/using-the-library
 
+Laser scanners:
+https://www.robotshop.com/ca/en/ydlidar-x4-360-laser-scanner.html
+
 Dependencies:
 
 - RPi.GPIO (https://pypi.org/project/RPi.GPIO/)
