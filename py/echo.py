@@ -101,6 +101,8 @@ class Echo:
                 weights[5] += (1 - weights[i])
             if i == 2:
                 weights[4] += (1 - weights[i])
+            if i == 3:
+                weights[3] += 1
             if i == 4:
                 weights[2] += (1 - weights[i])
             if i == 5:
