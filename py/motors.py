@@ -237,8 +237,7 @@ class Motors:
                 self.rpm_fail_count = 0
 
         if new_state == MotorsState.TURN_L or new_state == MotorsState.TURN_R:
-            if weights[1] == 1 and weights[2] == 1 and weights[3] == 1 and weights[4] == 1 and weights[5] == 1 and \
-                    weights[6] == 1:
+            if weights[1] == 1 and weights[2] == 1 and weights[3] == 1 and weights[4] == 1 and weights[5] == 1:
                 new_state = MotorsState.START_FWD
 
         return new_state
