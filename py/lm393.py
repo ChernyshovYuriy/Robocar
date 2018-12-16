@@ -126,10 +126,10 @@ class LM393:
         elapse = time.time() - self.start_timer[sensor_id]
         self.start_timer[sensor_id] = time.time()
         self.calculate(elapse, sensor_id)
+        self.report_event()
         if self.timer is not None:
             self.timer.cancel()
             self.timer = None
-        self.report_event()
 
     def right_sensor_callback(self, channel):
         self.handle_callback(LM393.RIGHT_SENSOR_ID)
