@@ -4,7 +4,7 @@ This is prototype of a robot which is based on vehicle-like chassis and which is
 The goal of this project is to link together different types of sensors and try to manage those through software.
 Obtained experience can be applied to different tasks of everyday life, for instance house keeping or garden keeping robots, robots which can handle factory related tasks, suach as load or unload cargo, etc ...
 
-Computational unit is based on Raspberry Pi 3, programming language is Python.
+Computational unit is based on Raspberry Pi 3, programming language is Python 3.
 
 Robocar consists of:
 
@@ -15,14 +15,15 @@ Robocar consists of:
 5. 2 DC motors, 5V.
 6. [L298N Dual H Bridge DC Motor Driver Controller](https://www.ebay.ca/sch/sis.html?_nkw=L298N+Dual+H+Bridge+DC+stepper+Motor+Driver+Controller+module+Board+for+ArduiCeV&_id=272998220971&&_trksid=p2057872.m2749.l2658).
 7. [Port expander, I/O extension module, MCP23017 board, I2C](https://www.ebay.ca/sch/sis.html?_nkw=Port+expander%2C+I%2FO+extension+module%2C+MCP23017+board%2C+I2C%2C+Arduino%2CRaspberry-EU&_id=232073040811&&_trksid=p2057872.m2749.l2658) to expand GPIO ports in order to get more I/O.
-8. Two power blocks. One is for the Raspberi Pi iteslf, another one is for motors.
+8. [Gyroscope chip](https://www.ebay.ca/sch/sis.html?_nkw=High+Quality+GY-521+MPU-6050+Module+3-Axis+Acceleration+Gyro+Module+Arduino+CA&_id=292383350169&&_trksid=p2057872.m2749.l2658) to measure distance and movement which could help to build internal offline map of the area.
+9. [LM393 Optocoupler Detection Sensor Module](https://www.ebay.ca/sch/sis.html?_nkw=LM393+Speed+Optocoupler+Detection+Sensor+Module+for+Arduino+Raspberry+Pi&_id=391323881559&&_trksid=p2057872.m2749.l2658) to track wheel pulse , for instance to detect speed.
+10. Two power blocks. One is for the Raspberi Pi itself, another one is for motors.
 
 TODO list:
 
-1. Use [Gyroscope chip](https://www.ebay.ca/sch/sis.html?_nkw=High+Quality+GY-521+MPU-6050+Module+3-Axis+Acceleration+Gyro+Module+Arduino+CA&_id=292383350169&&_trksid=p2057872.m2749.l2658) to measure distance and movement which could help to build internal offline map of the area.
-2. Equip with different sensors in order to process surrounded environment.
+1. Equip with different sensors in order to process surrounded environment.
 
-View of the prototype (not annotated, annotation is coming):
+View of the prototype:
 
 ![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar1.jpg)
 
