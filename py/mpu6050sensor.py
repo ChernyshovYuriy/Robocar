@@ -73,7 +73,7 @@ class MPU6050:
             # )
             # print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d, gyro_z))
             # self.on_mpu6050_values_int(accel_2d, gyro_z)
-            sleep(1)
+            sleep(0.1)
             self.accel_2d_array[self.i] = accel_2d
             self.gyro_z_array[self.i] = gyro_z
             self.i += 1
