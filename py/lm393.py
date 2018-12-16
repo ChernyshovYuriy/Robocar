@@ -116,7 +116,6 @@ class LM393:
             # print('*** {0} *** RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
             #     sensor_id, self.rpm[sensor_id], self.speed[sensor_id], self.dist_meas[sensor_id], self.pulse[sensor_id])
             # )
-            self.report_event()
 
     def handle_callback(self, sensor_id):
         if not self.is_run:
@@ -130,8 +129,7 @@ class LM393:
         if self.timer is not None:
             self.timer.cancel()
             self.timer = None
-        else:
-            self.handle_timer(True)
+        self.report_event()
 
     def right_sensor_callback(self, channel):
         self.handle_callback(LM393.RIGHT_SENSOR_ID)

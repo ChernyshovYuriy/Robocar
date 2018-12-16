@@ -230,5 +230,7 @@ class Motors:
                     self.rpm_fail_count = 0
                 else:
                     self.rpm_fail_count += 1
+            else:
+                self.rpm_fail_count = 0
 
         return new_state
