@@ -160,7 +160,6 @@ class Motors:
         print("Motor state - new %s | current %s" % (state, self.get_state()))
         if state != self.get_state():
             self.set_state(state)
-
         self.exec_cmd()
 
     def exec_cmd(self):
