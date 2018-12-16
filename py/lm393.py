@@ -100,7 +100,9 @@ class LM393:
                 i, self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
             )
             if self.rpm[i] == 0:
-                return 
+                print("LM393 : RPM:{0}".format(0))
+                self.on_values_internal(0)
+                return
         """
         Get the max value from two sensors and report it.
         """
