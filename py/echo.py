@@ -74,7 +74,7 @@ class Echo:
             distance = [0] * Echo.SENSORS_NUM
             weights = [0.0] * Echo.SENSORS_NUM
             for i in range(Echo.SENSORS_NUM):
-                distance[i] = self.octasonic.get_sensor_reading(i)
+                distance[i] = self.octasonic.get_sensor_reading(4)
                 weights[i] = distance[i]
             self.calculate_weights(weights)
             self.on_echo(distance, weights)
