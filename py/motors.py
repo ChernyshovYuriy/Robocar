@@ -83,7 +83,8 @@ class GoBackCmd(Command):
         reference.do_stop_internal()
         reference.do_backward_internal()
         sleep(1)
-        reference.set_state(MotorsState.TURN_L)
+        reference.do_left_internal()
+        sleep(1)
 
 
 class TurnLeftCmd(Command):
@@ -94,8 +95,7 @@ class TurnLeftCmd(Command):
     def execute(self, reference):
         print("Motor - Turning l command")
         reference.do_stop_internal()
-        I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
-        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
+        reference.do_left_internal()
         reference.on_motors_turning_ref(reference.get_state())
 
 
@@ -186,6 +186,11 @@ class Motors:
     @staticmethod
     def do_backward_internal():
         I2CManager.output(I2CManager.MOTOR_R_B, GPIO.HIGH)
+        I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
+
+    @staticmethod
+    def do_left_internal():
+        I2CManager.output(I2CManager.MOTOR_R_F, GPIO.HIGH)
         I2CManager.output(I2CManager.MOTOR_L_B, GPIO.HIGH)
 
     def calculate_state(self, weights):
