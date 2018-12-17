@@ -3,14 +3,15 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-import numpy
 from py.octasonic import Octasonic
 from threading import Thread
 from time import sleep
 
 
-# Ultra sonic locator.
 class Echo:
+    """
+    Ultra sonic locator.
+    """
 
     # Speed of sound, im cm/sec
     # tempAir = 24.0;
@@ -40,12 +41,18 @@ class Echo:
         print("Octasonic protocol v%s firmware v%s" % (protocol_version, firmware_version))
         self.octasonic.set_sensor_count(Echo.SENSORS_NUM)
 
-    # Whether echo is running
     def is_active(self):
+        """
+        Whether or not echo is running.
+        :return:
+        """
         return self.is_run
 
-    # Start echo location.
     def start(self):
+        """
+        Start echo location.
+        :return:
+        """
         if self.is_run is True:
             return
 
@@ -57,8 +64,11 @@ class Echo:
             self.thread = Thread(target=self.runnable)
         self.thread.start()
 
-    # Stop echo location
     def stop(self):
+        """
+        Stop echo location/
+        :return:
+        """
         if self.is_run is False:
             return
 
@@ -67,8 +77,11 @@ class Echo:
         self.is_run = False
         self.thread = None
 
-    # Handle distance measurement.
     def runnable(self):
+        """
+        Handle distance measurement.
+        :return:
+        """
         while self.is_run:
             sleep(0.1)
             distance = [0] * Echo.SENSORS_NUM
@@ -80,6 +93,10 @@ class Echo:
             self.on_echo(distance, weights)
 
     def calculate_weights(self, weights):
+        """
+        Calculate weights for each sensor.
+        """
+
         """
         Normalize
         """
