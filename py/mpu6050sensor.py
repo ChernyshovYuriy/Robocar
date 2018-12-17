@@ -23,9 +23,6 @@ class MPU6050:
         self.gyro_z_array = [0] * self.num_of_iterations
         self.on_mpu6050_values_int = on_mpu6050_values
         self.sensor = mpu6050(0x68)
-        accel_range = self.sensor.read_accel_range()
-        gyro_range = self.sensor.read_gyro_range()
-        print("Accel range:%d Gyro range:%d" % (accel_range, gyro_range))
 
     # Start data fetch.
     def start(self):
