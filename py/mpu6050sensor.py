@@ -22,7 +22,7 @@ class MPU6050:
         self.accel_2d_array = [0.00] * self.num_of_iterations
         self.gyro_z_array = [0] * self.num_of_iterations
         self.on_mpu6050_values_int = on_mpu6050_values
-        self.sensor = mpu6050(0x76)
+        self.sensor = mpu6050(0x68)
 
     # Start data fetch.
     def start(self):
