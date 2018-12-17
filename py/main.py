@@ -9,7 +9,7 @@ from py.config import Commander
 from py.ui_commander import UiCommander
 from py.cmd_commander import CmdCommander
 from tkinter import StringVar, Tk
-from py.echo import Echo
+# from py.echo import Echo
 from py.mpu6050sensor import MPU6050
 # from py.echo_servo import EchoServo
 from py.motors import Motors, MotorsState
@@ -26,7 +26,7 @@ class Controller:
         self.is_run = False
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
-        self.echo = Echo(self.on_echo, self.echo_error_callback)
+        # self.echo = Echo(self.on_echo, self.echo_error_callback)
         # self.echo_servo = EchoServo()
         self.mpu6050sensor = MPU6050(self.on_mpu6050_values)
         self.lm393 = LM393(self.on_lm393_values)
@@ -47,7 +47,7 @@ class Controller:
             return
 
         print("Start controller")
-        self.echo.start()
+        # self.echo.start()
         # self.camera.start()
         # self.server.start()
         # self.echo_servo.start()
@@ -66,7 +66,7 @@ class Controller:
     def force_stop(self):
         self.is_run = False
         self.motors.stop()
-        self.echo.stop()
+        # self.echo.stop()
         # self.camera.stop()
         # self.server.stop()
         # self.echo_servo.stop()
@@ -106,10 +106,11 @@ class Controller:
 
     # Run print echo action
     def trigger_print_echo(self):
-        if not self.echo.is_run:
-            self.echo.start()
-        else:
-            self.echo.stop()
+        # if not self.echo.is_run:
+        #     self.echo.start()
+        # else:
+        #     self.echo.stop()
+        pass
 
     # Run print gyro data
     def trigger_print_gyro_data(self):
