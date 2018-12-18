@@ -76,7 +76,7 @@ class StartBwdCmd(Command):
 
 class GoBackCmd(Command):
     """
-    Start "go back" command, in case robot stacked with wall or obstacle.
+    Perform "go back" command, in case robot stacked with wall or obstacle.
     """
 
     def execute(self, reference):
@@ -115,6 +115,9 @@ class TurnRightCmd(Command):
 
 
 class LongTurnCmd(Command):
+    """
+    Perform long turn, equivalent to 180 degree turn
+    """
 
     def execute(self, reference):
         print("Motor - Long turn command")
@@ -190,6 +193,12 @@ class Motors:
         return self.state
 
     def handle_turns_changes(self, old_state, new_state):
+        """
+        Try to handle a case when robot stacked in a corner, e.g. trying to turn left and right many times
+        :param old_state:
+        :param new_state:
+        :return:
+        """
         if (new_state == MotorsState.TURN_L or new_state == MotorsState.TURN_R) \
                 and (old_state == MotorsState.TURN_L or old_state == MotorsState.TURN_R) \
                 and new_state != old_state:
