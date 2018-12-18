@@ -84,15 +84,15 @@ class Echo:
         """
         while self.is_run:
             sleep(0.1)
-            distance = [0] * Echo.SENSORS_NUM
+            distances = [0] * Echo.SENSORS_NUM
             weights = [0.0] * Echo.SENSORS_NUM
             for i in range(Echo.SENSORS_NUM):
-                distance[i] = self.octasonic.get_sensor_reading(i)
-                weights[i] = distance[i]
-            self.calculate_weights(weights)
-            self.on_echo(distance, weights)
+                distances[i] = self.octasonic.get_sensor_reading(i)
+                weights[i] = distances[i]
+            self.calculate_weights(distances, weights)
+            self.on_echo(distances, weights)
 
-    def calculate_weights(self, weights):
+    def calculate_weights(self, distances, weights):
         """
         Calculate weights for each sensor.
         """
@@ -124,3 +124,18 @@ class Echo:
                 weights[1] += (1 - weights[i])
             if i == 6:
                 weights[0] += (1 - weights[i])
+        """
+        Handle middle sensor separately
+        """
+        front_sensor_weight = weights[3]
+        if front_sensor_weight < 1:
+            weights_max_val = max(weights)
+            weights_max_idx = weights.index(weights_max_val)
+            distances_max_val = max(distances)
+            distances_max_idx = distances.index(distances_max_val)
+            print("Front sensor - max   weight:%.2f, max   weight id:%d" % (weights_max_val, weights_max_idx))
+            print("Front sensor - max distance:%d,   max distance id:%d" % (distances_max_val, distances_max_idx))
+            if weights_max_val == 1:  # No maximum found, all weights are 1 (except middle one)
+                weights[distances_max_idx] += (1 - front_sensor_weight)
+            else:  # Otherwise, add weight to maximum
+                weights[weights_max_idx] += (1 - front_sensor_weight)
