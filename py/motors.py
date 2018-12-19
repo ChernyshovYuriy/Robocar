@@ -133,6 +133,7 @@ class Motors:
 
     RPM_MAX_FAIL_COUNT = 3
     RPM_MIN_VALUE = 10
+    TURNS_CHANGE_TIME_THRESHOLD = 4
 
     def __init__(self, on_motors_stopped_in, on_motors_started_in, on_motors_turning_in):
         print("Init  motors")
@@ -204,8 +205,8 @@ class Motors:
                 and new_state != old_state:
             if self.turn_changed_time == 0:
                 self.turn_changed_time = time.time()
-            if time.time() - self.turn_changed_time >= 4:
-                return MotorsState.LONG_TURN
+            if time.time() - self.turn_changed_time >= Motors.TURNS_CHANGE_TIME_THRESHOLD:
+                return MotorsState.GO_BACK
         else:
             self.turn_changed_time = 0
         return new_state
@@ -262,7 +263,6 @@ class Motors:
         //TODO: Use gyro to track stack in case of turn
         """
         if new_state == MotorsState.START_FWD:
-            print("::TRACE::%d %d" % (self.rpm_fail_count, self.rpm))
             if self.rpm <= Motors.RPM_MIN_VALUE:
                 if self.rpm_fail_count >= Motors.RPM_MAX_FAIL_COUNT:
                     new_state = MotorsState.GO_BACK
