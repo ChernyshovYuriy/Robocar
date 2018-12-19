@@ -138,4 +138,5 @@ class Echo:
             if weights_max_val == 1:  # No maximum found, all weights are 1 (except middle one)
                 weights[distances_max_idx] += (1 - front_sensor_weight)
             else:  # Otherwise, add weight to maximum
-                weights[weights_max_idx] += (1 - front_sensor_weight)
+                # weights[weights_max_idx] += (1 - front_sensor_weight)
+                pass
