@@ -206,6 +206,7 @@ class Motors:
             if self.turn_changed_time == 0:
                 self.turn_changed_time = time.time()
             if time.time() - self.turn_changed_time >= Motors.TURNS_CHANGE_TIME_THRESHOLD:
+                self.turn_changed_time = 0
                 return MotorsState.GO_BACK
         else:
             self.turn_changed_time = 0
