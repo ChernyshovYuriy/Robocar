@@ -205,6 +205,7 @@ class Motors:
                 and new_state != old_state:
             if self.turn_changed_time == 0:
                 self.turn_changed_time = time.time()
+            print("::TRACE:: %d %d " % ((time.time() - self.turn_changed_time), self.turn_changed_time))
             if time.time() - self.turn_changed_time >= Motors.TURNS_CHANGE_TIME_THRESHOLD:
                 self.turn_changed_time = 0
                 return MotorsState.GO_BACK
