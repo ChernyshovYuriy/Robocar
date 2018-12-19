@@ -12,8 +12,10 @@ Use it now as 8 output pins
 mcp = Adafruit_MCP230XX(address=0x20, num_gpios=8)
 
 
-# Manager of the I2C channel.
 class I2CManager:
+    """
+    Manager of the I2C channel.
+    """
 
     MOTOR_L_F = 0
     MOTOR_L_B = 1

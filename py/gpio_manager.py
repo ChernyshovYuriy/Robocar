@@ -6,8 +6,10 @@ sys.path.append(dirname(dirname(abspath(__file__))))
 import RPi.GPIO as GPIO
 
 
-# Manager of the GPIO and its pins.
 class GPIOManager:
+    """
+    Manager of the GPIO and its pins.
+    """
 
     LM393_R = 12
     LM393_L = 13
