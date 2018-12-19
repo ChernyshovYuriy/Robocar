@@ -135,8 +135,8 @@ class Echo:
             distances_max_idx = distances.index(distances_max_val)
             print("Front sensor - max   weight:%.2f, max   weight id:%d" % (weights_max_val, weights_max_idx))
             print("Front sensor - max distance:%d,   max distance id:%d" % (distances_max_val, distances_max_idx))
-            if weights_max_val == 1:  # No maximum found, all weights are 1 (except middle one)
-                weights[distances_max_idx] += (1 - front_sensor_weight)
-            else:  # Otherwise, add weight to maximum
+            # if weights_max_val == 1:  # No maximum found, all weights are 1 (except middle one)
+            #     weights[distances_max_idx] += (1 - front_sensor_weight)
+            # else:  # Otherwise, add weight to maximum
                 # weights[weights_max_idx] += (1 - front_sensor_weight)
-                pass
+            weights[distances_max_idx] += 1
