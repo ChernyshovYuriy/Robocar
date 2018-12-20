@@ -93,7 +93,6 @@ class LM393:
                 self.rpm[i] = 0
                 self.speed[i] = 0
                 self.dist_meas[i] = 0.00
-                print("LM393 cleared")
 
     def report_event(self):
         """
