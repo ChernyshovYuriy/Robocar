@@ -20,6 +20,9 @@ from py.lm393 import LM393
 
 
 class Controller:
+    """
+    Main controller of the Robocar.
+    """
 
     def __init__(self, distance_prompt_in, motors_prompt_in):
         print("Init  controller")
@@ -33,7 +36,6 @@ class Controller:
         self.motors = Motors(
             self.on_motors_stopped, self.on_motors_started, self.on_motors_turning
         )
-        self.p = None
         # self.camera = Camera()
         self.server_data = HttpServerData()
         # self.server = HttpServer(self.server_data)
