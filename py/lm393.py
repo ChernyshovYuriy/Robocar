@@ -9,6 +9,10 @@ from py.gpio_manager import GPIOManager
 
 
 class LM393:
+    """
+    This class handles LM393 sensors.
+    """
+
     NUM_OF_SENSORS = 2
     LEFT_SENSOR_ID = 0
     RIGHT_SENSOR_ID = 1

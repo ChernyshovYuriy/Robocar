@@ -7,20 +7,17 @@ from mpu6050 import mpu6050
 from threading import Thread
 from time import sleep
 import math
-import numpy
 
 
-# MPU-6050 sensor.
 class MPU6050:
+    """
+    This class handles MPU-6050 sensor.
+    """
 
     def __init__(self, on_mpu6050_values):
-        print("Init  MPU6050")
+        print("Init  MPU6050 senor")
         self.is_run = False
         self.thread = None
-        self.i = 0
-        self.num_of_iterations = 1
-        self.accel_2d_array = [0.00] * self.num_of_iterations
-        self.gyro_z_array = [0] * self.num_of_iterations
         self.on_mpu6050_values_int = on_mpu6050_values
         self.sensor = mpu6050(0x68)
 
@@ -33,7 +30,7 @@ class MPU6050:
         self.is_run = True
         """Run echo in separate thread"""
         if self.thread is None:
-            self.thread = Thread(target=self.runnable)
+            self.thread = Thread(target=self.runnable, name="MPU6050-Thread")
         self.thread.start()
 
     # Stop data fetch
@@ -47,8 +44,8 @@ class MPU6050:
 
     # Handle data fetch.
     def runnable(self):
-        self.i = 0
         while self.is_run:
+            sleep(1)
             # Reads the temperature from the onboard temperature sensor of the MPU-6050
             # temp = self.sensor.get_temp()
             # Gets and returns the X, Y and Z values from the accelerometer
@@ -70,17 +67,5 @@ class MPU6050:
             # )
             # print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d, gyro_z))
             # self.on_mpu6050_values_int(accel_2d, gyro_z)
-            sleep(1)
-            self.accel_2d_array[self.i] = accel_2d
-            self.gyro_z_array[self.i] = gyro_z
-            self.i += 1
-            if self.i == self.num_of_iterations:
-                self.i = 0
-                accel_2d_avg = numpy.mean(self.accel_2d_array)
-                gyro_z_avg = numpy.mean(self.gyro_z_array)
-                print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d_avg, gyro_z_avg))
-                self.on_mpu6050_values_int(accel_2d_avg, gyro_z_avg)
-                for j in range(self.num_of_iterations):
-                    self.accel_2d_array[j] = 0.00
-                    self.gyro_z_array[j] = 0
-
+            print("MPU-6050 accel:%.2f\tgyro z:%d" % (accel_2d, gyro_z))
+            self.on_mpu6050_values_int(accel_2d, gyro_z)

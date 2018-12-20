@@ -26,7 +26,7 @@ class Controller:
         self.is_run = False
         self.distance_prompt_ref = distance_prompt_in
         self.motors_prompt_ref = motors_prompt_in
-        self.echo = Echo(self.on_echo, self.echo_error_callback)
+        self.echo = Echo(self.on_echo)
         # self.echo_servo = EchoServo()
         self.mpu6050sensor = MPU6050(self.on_mpu6050_values)
         self.lm393 = LM393(self.on_lm393_values)
@@ -100,9 +100,6 @@ class Controller:
         print("Engine stop")
         self.motors.set_state(MotorsState.STOP)
         self.motors.exec_cmd()
-
-    def echo_error_callback(self):
-        print("Echo error")
 
     # Run print echo action
     def trigger_print_echo(self):

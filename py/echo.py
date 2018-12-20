@@ -16,23 +16,22 @@ class Echo:
     # Speed of sound, im cm/sec
     # tempAir = 24.0;
     # soundSpeed = 331.3 + 0.06 * tempAir; is 332.74 m / s
-    SOUND_SPEED = 33274
+    # SOUND_SPEED = 33274
     # 2 microseconds
-    TWO_MICROSEC = 0.000002
+    # TWO_MICROSEC = 0.000002
     # 12 microseconds
-    TWELVE_MICROSEC = 0.000012
+    # TWELVE_MICROSEC = 0.000012
     # Max counter for the echo back
-    MAX_COUNTER = 10000
+    # MAX_COUNTER = 10000
     # Number of sensors
     SENSORS_NUM = 7
 
-    def __init__(self, on_echo, echo_error_callback):
+    def __init__(self, on_echo):
         print("Init  echo")
         self.is_run = False
         self.default_distance = 0
         self.thread = None
         self.on_echo = on_echo
-        self.echo_error_callback = echo_error_callback
         factor = 2
         self.norm_weights = [2, 3 * factor, 8 * factor, 10 * factor, 8 * factor, 3 * factor, 2]
         self.octasonic = Octasonic(0)
@@ -40,13 +39,6 @@ class Echo:
         firmware_version = self.octasonic.get_firmware_version()
         print("Octasonic protocol v%s firmware v%s" % (protocol_version, firmware_version))
         self.octasonic.set_sensor_count(Echo.SENSORS_NUM)
-
-    def is_active(self):
-        """
-        Whether or not echo is running.
-        :return:
-        """
-        return self.is_run
 
     def start(self):
         """
@@ -61,7 +53,7 @@ class Echo:
         self.is_run = True
         """Run echo in separate thread"""
         if self.thread is None:
-            self.thread = Thread(target=self.runnable)
+            self.thread = Thread(target=self.runnable, name="Echo-Thread")
         self.thread.start()
 
     def stop(self):
@@ -138,5 +130,5 @@ class Echo:
             # if weights_max_val == 1:  # No maximum found, all weights are 1 (except middle one)
             #     weights[distances_max_idx] += (1 - front_sensor_weight)
             # else:  # Otherwise, add weight to maximum
-                # weights[weights_max_idx] += (1 - front_sensor_weight)
+            # weights[weights_max_idx] += (1 - front_sensor_weight)
             weights[distances_max_idx] += 1
