@@ -87,7 +87,7 @@ class LM393:
         :return:
         """
         while self.is_run:
-            sleep(1)
+            sleep(2)
             self.report_event()
             for i in range(LM393.NUM_OF_SENSORS):
                 self.rpm[i] = 0
