@@ -29,7 +29,6 @@ class Echo:
     def __init__(self, on_echo):
         print("Init  echo")
         self.is_run = False
-        self.default_distance = 0
         self.thread = None
         self.on_echo = on_echo
         factor = 2

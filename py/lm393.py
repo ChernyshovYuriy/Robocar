@@ -3,7 +3,9 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
-import time, threading
+import time
+from threading import Thread
+from time import sleep
 import RPi.GPIO as GPIO
 from py.gpio_manager import GPIOManager
 
@@ -21,7 +23,6 @@ class LM393:
     def __init__(self, on_values):
         print("Init  LM393")
         self.is_run = False
-        self.value = 0
         self.thread = None
         self.on_values_internal = on_values
 
@@ -39,7 +40,6 @@ class LM393:
         self.rpm = [0] * LM393.NUM_OF_SENSORS
         self.pulse = [0] * LM393.NUM_OF_SENSORS
         self.start_timer = [time.time()] * LM393.NUM_OF_SENSORS
-        self.timer = None
 
     def start(self):
         if self.is_run is True:
@@ -64,8 +64,9 @@ class LM393:
                 GPIOManager.LM393_L, GPIO.FALLING, callback=self.left_sensor_callback, bouncetime=100
             )
             GPIOManager.IS_LM393_CALLBACK_REGISTERED = True
-        print("Start LM393 listening")
-        self.handle_timer(True)
+        if self.thread is None:
+            self.thread = Thread(target=self.runnable, name="LM393-Thread")
+        self.thread.start()
 
     def stop(self):
         if self.is_run is False:
@@ -73,32 +74,32 @@ class LM393:
         print("Stop  LM393")
 
         self.is_run = False
-        if self.timer is not None:
-            self.timer.cancel()
-            self.timer = None
+        self.thread = None
         """
         Workaround for the segmentation fault when remove events
         """
         # GPIO.remove_event_detect(GPIOManager.LM393_R)
         # GPIO.remove_event_detect(GPIOManager.LM393_L)
 
-    def handle_timer(self, init=False):
-        if not self.is_run:
-            return
-        if not init:
-            """
-            Drop values and report zeroes in case of timer elapsed but not the first time timer initialized.
-            """
+    def runnable(self):
+        """
+        Handle wheels pulse timeout.
+        :return:
+        """
+        while self.is_run:
+            sleep(1)
+            self.report_event()
             for i in range(LM393.NUM_OF_SENSORS):
                 self.rpm[i] = 0
                 self.speed[i] = 0
                 self.dist_meas[i] = 0.00
                 print("LM393 cleared")
-            self.report_event()
-        self.timer = threading.Timer(1, self.handle_timer)
-        self.timer.start()
 
     def report_event(self):
+        """
+        Report data via event.
+        :return:
+        """
         # for i in range(LM393.NUM_OF_SENSORS):
         #     print('LM393-{0} : RPM:{1:.0f} Speed:{2:.2f} m/sec Distance:{3:.2f}m Pulse:{4}'.format(
         #         i, self.rpm[i], self.speed[i], self.dist_meas[i], self.pulse[i])
@@ -131,10 +132,6 @@ class LM393:
         self.start_timer[sensor_id] = time.time()
         self.calculate(elapse, sensor_id)
         self.report_event()
-        if self.timer is not None:
-            self.timer.cancel()
-            self.timer = None
-            self.handle_timer(True)
 
     def right_sensor_callback(self, channel):
         self.handle_callback(LM393.RIGHT_SENSOR_ID)
