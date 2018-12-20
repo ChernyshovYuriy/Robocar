@@ -19,6 +19,11 @@ class LM393:
     LEFT_SENSOR_ID = 0
     RIGHT_SENSOR_ID = 1
     SENSORS = [LEFT_SENSOR_ID, RIGHT_SENSOR_ID]
+    """
+    Timeout of the single wheel rotate completion, sec.
+    Assume that if there is no pulse within timeout the Robocar is stopped.
+    """
+    WHEEL_TURN_TIMEOUT_SEC = 2
 
     def __init__(self, on_values):
         print("Init  LM393")
@@ -87,12 +92,11 @@ class LM393:
         :return:
         """
         while self.is_run:
-            sleep(2)
+            sleep(LM393.WHEEL_TURN_TIMEOUT_SEC)
             self.report_event()
             for i in range(LM393.NUM_OF_SENSORS):
                 self.rpm[i] = 0
                 self.speed[i] = 0
-                self.dist_meas[i] = 0.00
 
     def report_event(self):
         """
