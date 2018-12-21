@@ -21,9 +21,9 @@ Robocar consists of:
 
 TODO list:
 
-1. Equip with different sensors in order to process surrounded environment.
+1. Equip with LIDAR in order to process surrounded environment.
 
-View of the prototype:
+View of the prototype (details are in [Wiki](https://bitbucket.org/ChernyshovYuriy/robocar/wiki/Home)):
 
 ![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/f6376b509c4f85a6c8afbff9bf061661fe4006e8/img/robocar.jpg)
 
