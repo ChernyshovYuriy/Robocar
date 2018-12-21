@@ -36,6 +36,8 @@ class ConnectionHandler(BaseHTTPRequestHandler):
                 self.send_image()
             if self.path.endswith("/echo"):
                 self.send_echo()
+            if self.path.endswith("/battery_level"):
+                self.send_battery_level()
 
             return
         except IOError:
@@ -67,6 +69,17 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
         message = "No echo data available"
+        if self.echo_data is not None and self.echo_data.echo is not "":
+            message = " ".join(str(e) for e in self.echo_data.echo)
+        self.wfile.write(bytes(message, "utf-8"))
+
+    def send_battery_level(self):
+        mime_type = 'text/plain'
+        self.send_response(200)
+        self.send_header('Content-type', mime_type)
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.end_headers()
+        message = "100%"
         if self.echo_data is not None and self.echo_data.echo is not "":
             message = " ".join(str(e) for e in self.echo_data.echo)
         self.wfile.write(bytes(message, "utf-8"))
