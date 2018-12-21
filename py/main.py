@@ -183,6 +183,7 @@ if __name__ == "__main__":
         motors_prompt = StringVar()
         commander = UiCommander(controller, root, distance_prompt, motors_prompt)
 
+    controller.stop()
     GPIOManager.cleanup()
     I2CManager.cleanup()
 
