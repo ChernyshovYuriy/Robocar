@@ -38,7 +38,7 @@ class Controller:
         )
         # self.camera = Camera()
         self.server_data = HttpServerData()
-        self.server = HttpServer(self.server_data)
+        self.server = HttpServer(self.server_data, self)
 
         # self.camera.start()
         self.server.start()

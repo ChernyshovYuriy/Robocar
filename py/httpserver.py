@@ -15,6 +15,7 @@ PORT_NUMBER = 8080
 class ConnectionHandler(BaseHTTPRequestHandler):
 
     echo_data = None
+    controller_in = None
 
     def __init__(self, request, client_address, server):
         super().__init__(request, client_address, server)
@@ -55,10 +56,13 @@ class ConnectionHandler(BaseHTTPRequestHandler):
             # self.send_image()
             pass
         if self.path == "/motors/stop":
+            self.controller_in.eng_stop()
             pass
         if self.path == "/motors/fwd":
+            self.controller_in.eng_fwd()
             pass
         if self.path == "/motors/bwd":
+            self.controller_in.eng_bwd()
             pass
         if self.path == "/motors/turn/left":
             pass
@@ -104,12 +108,13 @@ class HttpServer:
 
     echo_data = ""
 
-    def __init__(self, data):
+    def __init__(self, data, controller_in):
         print("Init  http server")
         # Create a web server and define the handler to manage the
         # incoming request
         self.data = data
         ConnectionHandler.echo_data = self.data
+        ConnectionHandler.controller_in = controller_in
         self.server = HTTPServer(('', PORT_NUMBER), ConnectionHandler)
         self.is_run = False
         self.thread = None
