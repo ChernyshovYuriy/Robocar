@@ -21,22 +21,10 @@ Robocar consists of:
 
 TODO list:
 
-1. Equip with different sensors in order to process surrounded environment.
+1. Equip with LIDAR in order to process surrounded environment.
 
-View of the prototype:
+View of the prototype (details are in [Wiki](https://bitbucket.org/ChernyshovYuriy/robocar/wiki/Home)):
 
-![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar1.jpg)
-
-![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar2.jpg)
-
-![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar3.jpg)
-
-![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar4.jpg)
-
-![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar5.jpg)
-
-![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar6.jpg)
-
-![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/a916fe26800238ad156a932b1e6d7dc3f92f2fd4/py/img/robocar7.jpg)
+![Robocar view](https://bitbucket.org/ChernyshovYuriy/robocar/raw/f6376b509c4f85a6c8afbff9bf061661fe4006e8/img/robocar.jpg)
 
 ---
