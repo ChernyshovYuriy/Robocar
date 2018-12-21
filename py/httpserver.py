@@ -4,6 +4,7 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import shutil
+import psutil
 from threading import Thread
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -79,7 +80,12 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', mime_type)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-        message = "100%"
+
+        battery = psutil.sensors_battery()
+        percent = str(battery.percent)
+
+        message = str(percent) + "%"
+
         if self.echo_data is not None and self.echo_data.echo is not "":
             message = " ".join(str(e) for e in self.echo_data.echo)
         self.wfile.write(bytes(message, "utf-8"))
