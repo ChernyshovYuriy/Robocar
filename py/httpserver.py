@@ -4,7 +4,6 @@ from os.path import dirname, abspath
 sys.path.append(dirname(dirname(abspath(__file__))))
 
 import shutil
-import psutil
 from threading import Thread
 from http.server import BaseHTTPRequestHandler, HTTPServer
 
@@ -37,7 +36,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
                 self.send_image()
             if self.path.endswith("/echo"):
                 self.send_echo()
-            if self.path.endswith("/battery_level"):
+            if self.path.endswith("/battery/level"):
                 self.send_battery_level()
 
             return
@@ -49,6 +48,16 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         print("POST: %s" % self.path)
         if self.path == "/camera":
             # self.send_image()
+            pass
+        if self.path == "/motors/stop":
+            pass
+        if self.path == "/motors/fwd":
+            pass
+        if self.path == "/motors/bwd":
+            pass
+        if self.path == "/motors/turn/left":
+            pass
+        if self.path == "/motors/turn/right":
             pass
 
     def send_image(self):
@@ -69,7 +78,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', mime_type)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-        message = "No echo data available"
+        message = "Robocar greeting you!"
         if self.echo_data is not None and self.echo_data.echo is not "":
             message = " ".join(str(e) for e in self.echo_data.echo)
         self.wfile.write(bytes(message, "utf-8"))
@@ -80,12 +89,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', mime_type)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-
-        battery = psutil.sensors_battery()
-        percent = str(battery.percent)
-
-        message = str(percent) + "%"
-
+        message = "100%"
         if self.echo_data is not None and self.echo_data.echo is not "":
             message = " ".join(str(e) for e in self.echo_data.echo)
         self.wfile.write(bytes(message, "utf-8"))
