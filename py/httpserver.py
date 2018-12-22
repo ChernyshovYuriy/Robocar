@@ -65,8 +65,10 @@ class ConnectionHandler(BaseHTTPRequestHandler):
             self.controller_in.eng_bwd()
             pass
         if self.path == "/motors/turn/left":
+            self.controller_in.eng_turn_l()
             pass
         if self.path == "/motors/turn/right":
+            self.controller_in.eng_turn_r()
             pass
 
     def send_image(self):
