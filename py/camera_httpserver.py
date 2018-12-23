@@ -26,6 +26,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         while ConnectionHandler.is_loop:
             # filename = dirname(dirname(abspath(__file__))) + "/img/camera_image.jpg"
             for filename in os.listdir(Camera.DATA_DIR):
+                print("Try to send image:%s" % filename)
                 try:
                     # Part boundary string
                     self.end_headers()
@@ -39,7 +40,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
                     for chunk in pymjpeg.image(filename):
                         self.wfile.write(chunk)
                 except Exception as e:
-                    pass
+                    print("Can not send image:%s" % e)
         print('Camera http server exit connection')
 
 
