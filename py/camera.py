@@ -51,7 +51,7 @@ class Camera:
         while self.is_run:
             self.camera.capture(Camera.DATA_DIR + "/camera_image_{0}.jpg".format(counter), resize=(320, 240))
             counter += 1
-            if counter == 10:
+            if counter == 100:
                 counter = 0
             # sleep(0.1)
 

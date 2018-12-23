@@ -24,7 +24,6 @@ class ConnectionHandler(BaseHTTPRequestHandler):
             self.send_header(k, v)
             # Multipart content
         while ConnectionHandler.is_loop:
-            # file_name = dirname(dirname(abspath(__file__))) + "/img/camera_image.jpg"
             for file_name in os.listdir(Camera.DATA_DIR):
                 file_path = Camera.DATA_DIR + "/" + file_name
                 print("Try to send image:%s" % file_path)
