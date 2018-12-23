@@ -15,6 +15,7 @@ class Camera:
         print("Init  camera")
         self.is_run = False
         self.thread = None
+        self.base_src = dirname(dirname(abspath(__file__)))
         self.camera = PiCamera()
         print("Init  camera completed")
 
@@ -43,5 +44,5 @@ class Camera:
 
     def runnable(self):
         while self.is_run:
-            self.camera.capture('/home/pi/dev/robocar/py/img/camera_image.jpg')
+            self.camera.capture(self.base_src + "/img/camera_image.jpg")
             sleep(0.1)
