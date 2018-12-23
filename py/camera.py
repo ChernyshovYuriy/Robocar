@@ -46,7 +46,10 @@ class Camera:
         self.is_run = False
         self.thread = None
         # self.camera.stop_preview()
-        self.camera.stop_recording()
+        try:
+            self.camera.stop_recording()
+        except Exception as e:
+            print("Exception while stop recording %s" % e)
 
     def runnable(self):
         server_socket = socket.socket()
