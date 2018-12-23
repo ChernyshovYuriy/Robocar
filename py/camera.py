@@ -30,7 +30,7 @@ class Camera:
         print("Start camera")
         self.is_run = True
         self.camera.resolution = (1024, 768)
-        self.camera.start_preview()
+        # self.camera.start_preview()
         sleep(2)
         """Run camera in separate thread"""
 
@@ -45,7 +45,8 @@ class Camera:
         print("Stop  camera")
         self.is_run = False
         self.thread = None
-        self.camera.stop_preview()
+        # self.camera.stop_preview()
+        self.camera.stop_recording()
 
     def runnable(self):
         server_socket = socket.socket()
@@ -56,14 +57,11 @@ class Camera:
         connection = server_socket.accept()[0].makefile('wb')
         try:
             self.camera.start_recording(connection, format='h264')
-            self.camera.wait_recording(60)
-            self.camera.stop_recording()
+            # self.camera.wait_recording(60)
+            # self.camera.stop_recording()
         finally:
             connection.close()
             server_socket.close()
-        # while self.is_run:
-        #     self.camera.capture(Camera.DATA_DIR + "/camera_image_{0}.jpg".format(counter), resize=(320, 240))
-            # sleep(0.1)
 
     @staticmethod
     def prepare_dir():
