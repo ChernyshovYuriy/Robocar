@@ -62,6 +62,9 @@ class Camera:
             finally:
                 try:
                     connection.close()
+                except Exception as e:
+                    print("Exception while close streaming connection %s" % e)
+                try:
                     server_socket.close()
                 except Exception as e:
-                    print("Exception while close streaming %s" % e)
+                    print("Exception while close streaming socket %s" % e)
