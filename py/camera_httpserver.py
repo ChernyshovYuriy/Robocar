@@ -24,20 +24,21 @@ class ConnectionHandler(BaseHTTPRequestHandler):
             self.send_header(k, v)
             # Multipart content
         while ConnectionHandler.is_loop:
-            # filename = dirname(dirname(abspath(__file__))) + "/img/camera_image.jpg"
-            for filename in os.listdir(Camera.DATA_DIR):
-                print("Try to send image:%s" % filename)
+            # file_name = dirname(dirname(abspath(__file__))) + "/img/camera_image.jpg"
+            for file_name in os.listdir(Camera.DATA_DIR):
+                file_path = Camera.DATA_DIR + "/" + file_name
+                print("Try to send image:%s" % file_path)
                 try:
                     # Part boundary string
                     self.end_headers()
                     self.wfile.write(pymjpeg.boundary.encode())
                     self.end_headers()
                     # Part headers
-                    for k, v in pymjpeg.image_headers(filename).items():
+                    for k, v in pymjpeg.image_headers(file_path).items():
                         self.send_header(k, v)
                     self.end_headers()
                     # Part binary
-                    for chunk in pymjpeg.image(filename):
+                    for chunk in pymjpeg.image(file_path):
                         self.wfile.write(chunk)
                 except Exception as e:
                     print("Can not send image:%s" % e)
