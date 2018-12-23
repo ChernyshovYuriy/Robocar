@@ -53,7 +53,7 @@ class Camera:
             counter += 1
             if counter == 10:
                 counter = 0
-            sleep(0.1)
+            # sleep(0.1)
 
     @staticmethod
     def prepare_dir():
