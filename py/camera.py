@@ -64,8 +64,11 @@ class Camera:
         except Exception as e:
             print("Exception while start recording %s" % e)
         finally:
-            connection.close()
-            server_socket.close()
+            try:
+                connection.close()
+                server_socket.close()
+            except Exception as e:
+                print("Exception while close recording %s" % e)
 
     @staticmethod
     def prepare_dir():
