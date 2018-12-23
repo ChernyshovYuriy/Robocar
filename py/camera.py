@@ -1,4 +1,5 @@
 import os
+import socket
 import sys
 from os.path import dirname, abspath
 
@@ -16,7 +17,7 @@ class Camera:
 
     def __init__(self):
         print("Init  camera")
-        self.prepare_dir()
+        # self.prepare_dir()
         self.is_run = False
         self.thread = None
         self.camera = PiCamera()
@@ -47,12 +48,21 @@ class Camera:
         self.camera.stop_preview()
 
     def runnable(self):
-        counter = 0
-        while self.is_run:
-            self.camera.capture(Camera.DATA_DIR + "/camera_image_{0}.jpg".format(counter), resize=(320, 240))
-            counter += 1
-            if counter == 100:
-                counter = 0
+        server_socket = socket.socket()
+        server_socket.bind(('0.0.0.0', 8000))
+        server_socket.listen(0)
+
+        # Accept a single connection and make a file-like object out of it
+        connection = server_socket.accept()[0].makefile('wb')
+        try:
+            self.camera.start_recording(connection, format='h264')
+            self.camera.wait_recording(60)
+            self.camera.stop_recording()
+        finally:
+            connection.close()
+            server_socket.close()
+        # while self.is_run:
+        #     self.camera.capture(Camera.DATA_DIR + "/camera_image_{0}.jpg".format(counter), resize=(320, 240))
             # sleep(0.1)
 
     @staticmethod
