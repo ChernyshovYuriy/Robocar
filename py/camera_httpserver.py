@@ -10,15 +10,18 @@ from http.server import BaseHTTPRequestHandler, HTTPServer
 PORT_NUMBER = 8001
 
 
-class MyHandler(BaseHTTPRequestHandler):
+class ConnectionHandler(BaseHTTPRequestHandler):
+
+    is_loop = False
 
     def do_GET(self):
+        print("Camera server - get incoming connection")
         self.send_response(200)
         # Response headers (multipart)
         for k, v in pymjpeg.request_headers().items():
             self.send_header(k, v)
             # Multipart content
-        while True:
+        while ConnectionHandler.is_loop:
             filename = dirname(dirname(abspath(__file__))) + "/img/camera_image.jpg"
             # Part boundary string
             self.end_headers()
@@ -37,7 +40,7 @@ class CameraHttpServer:
 
     def __init__(self):
         print("Init  Camera http server")
-        self.server = HTTPServer(('', PORT_NUMBER), MyHandler)
+        self.server = HTTPServer(('', PORT_NUMBER), ConnectionHandler)
         self.is_run = False
         self.thread = None
 
@@ -46,6 +49,7 @@ class CameraHttpServer:
             return
 
         self.is_run = True
+        ConnectionHandler.is_loop = True
         """Run echo in separate thread"""
         if self.thread is None:
             self.thread = Thread(target=self.runnable)
@@ -56,6 +60,7 @@ class CameraHttpServer:
             return
 
         print('Shutting down Camera http server')
+        ConnectionHandler.is_loop = False
         self.is_run = False
         self.server.socket.close()
         self.server.shutdown()
