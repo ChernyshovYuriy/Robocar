@@ -3,6 +3,7 @@ from os.path import dirname, abspath
 
 sys.path.append(dirname(dirname(abspath(__file__))))
 
+from py.camera import Camera
 from py import pymjpeg
 from threading import Thread
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -22,18 +23,22 @@ class ConnectionHandler(BaseHTTPRequestHandler):
             self.send_header(k, v)
             # Multipart content
         while ConnectionHandler.is_loop:
-            filename = dirname(dirname(abspath(__file__))) + "/img/camera_image.jpg"
-            # Part boundary string
-            self.end_headers()
-            self.wfile.write(pymjpeg.boundary.encode())
-            self.end_headers()
-            # Part headers
-            for k, v in pymjpeg.image_headers(filename).items():
-                self.send_header(k, v)
-            self.end_headers()
-            # Part binary
-            for chunk in pymjpeg.image(filename):
-                self.wfile.write(chunk)
+            # filename = dirname(dirname(abspath(__file__))) + "/img/camera_image.jpg"
+            for filename in Camera.DATA_DIR:
+                try:
+                    # Part boundary string
+                    self.end_headers()
+                    self.wfile.write(pymjpeg.boundary.encode())
+                    self.end_headers()
+                    # Part headers
+                    for k, v in pymjpeg.image_headers(filename).items():
+                        self.send_header(k, v)
+                    self.end_headers()
+                    # Part binary
+                    for chunk in pymjpeg.image(filename):
+                        self.wfile.write(chunk)
+                except Exception as e:
+                    pass
         print('Camera http server exit connection')
 
 

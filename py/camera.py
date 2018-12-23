@@ -1,3 +1,4 @@
+import os
 import sys
 from os.path import dirname, abspath
 
@@ -11,11 +12,13 @@ from time import sleep
 # Camera's class.
 class Camera:
 
+    DATA_DIR = dirname(dirname(abspath(__file__))) + "/img/cam"
+
     def __init__(self):
         print("Init  camera")
+        self.prepare_dir()
         self.is_run = False
         self.thread = None
-        self.base_src = dirname(dirname(abspath(__file__)))
         self.camera = PiCamera()
         print("Init  camera completed")
 
@@ -44,6 +47,19 @@ class Camera:
         self.camera.stop_preview()
 
     def runnable(self):
+        counter = 0
         while self.is_run:
-            self.camera.capture(self.base_src + "/img/camera_image.jpg")
+            self.camera.capture(Camera.DATA_DIR + "/camera_image_{0}.jpg".format(counter))
+            counter += 1
+            if counter == 10:
+                counter = 0
             sleep(0.1)
+
+    @staticmethod
+    def prepare_dir():
+        try:
+            os.rmdir(Camera.DATA_DIR)
+        except OSError:
+            print("Deletion of the directory %s failed" % Camera.DATA_DIR)
+        else:
+            print("Successfully deleted the directory %s" % Camera.DATA_DIR)
