@@ -47,20 +47,21 @@ class Camera:
             print("Exception while stop streaming %s" % e)
 
     def runnable(self):
-        server_socket = socket.socket()
-        server_socket.bind(('0.0.0.0', 8000))
-        server_socket.listen(5)
+        while self.is_run:
+            server_socket = socket.socket()
+            server_socket.bind(('0.0.0.0', 8000))
+            server_socket.listen(0)
 
-        # Accept a single connection and make a file-like object out of it
-        connection = server_socket.accept()[0].makefile('wb')
-        try:
-            self.camera.start_recording(connection, format='h264', quality=23)
-            self.camera.wait_recording(36000)
-        except Exception as e:
-            print("Exception while start streaming %s" % e)
-        finally:
+            # Accept a single connection and make a file-like object out of it
+            connection = server_socket.accept()[0].makefile('wb')
             try:
-                connection.close()
-                server_socket.close()
+                self.camera.start_recording(connection, format='h264', quality=23)
+                self.camera.wait_recording(36000)
             except Exception as e:
-                print("Exception while close streaming %s" % e)
+                print("Exception while start streaming %s" % e)
+            finally:
+                try:
+                    connection.close()
+                    server_socket.close()
+                except Exception as e:
+                    print("Exception while close streaming %s" % e)
