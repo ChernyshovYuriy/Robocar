@@ -23,8 +23,9 @@ class Camera:
         if self.is_run is True:
             return
 
-        print("Start camera %s" % dirname(dirname(abspath(__file__))))
+        print("Start camera")
         self.is_run = True
+        self.camera.resolution = (1024, 768)
         self.camera.start_preview()
         sleep(2)
         """Run camera in separate thread"""

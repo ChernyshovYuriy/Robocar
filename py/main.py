@@ -17,6 +17,7 @@ from py.gpio_manager import GPIOManager
 from py.i2c_manager import I2CManager
 from py.lm393 import LM393
 from py.camera import Camera
+from py.camera_httpserver import CameraHttpServer
 
 
 class Controller:
@@ -39,9 +40,11 @@ class Controller:
         self.camera = Camera()
         self.server_data = HttpServerData()
         self.server = HttpServer(self.server_data, self)
+        self.camera_server = CameraHttpServer()
 
         self.camera.start()
         self.server.start()
+        self.camera_server.start()
 
     # Start controller.
     def start(self):
@@ -54,6 +57,7 @@ class Controller:
         self.server.start()
         # self.echo_servo.start()
         self.motors.start()
+        self.camera_server.start()
         self.is_run = True
 
     # Stop controller
@@ -67,6 +71,7 @@ class Controller:
     # Force stop controller
     def force_stop(self):
         self.is_run = False
+        self.camera_server.stop()
         self.motors.stop()
         self.echo.stop()
         self.camera.stop()
