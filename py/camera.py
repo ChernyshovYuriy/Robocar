@@ -57,7 +57,7 @@ class Camera:
         connection = server_socket.accept()[0].makefile('wb')
         try:
             self.camera.start_recording(connection, format='h264')
-            # self.camera.wait_recording(60)
+            self.camera.wait_recording(60)
             # self.camera.stop_recording()
         finally:
             connection.close()
