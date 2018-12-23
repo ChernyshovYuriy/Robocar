@@ -27,6 +27,7 @@ class Camera:
         print("Start camera")
         self.is_run = True
         self.camera.resolution = (1024, 768)
+        self.camera.framerate = 24
         """Run camera in separate thread"""
 
         if self.thread is None:
@@ -53,7 +54,7 @@ class Camera:
         # Accept a single connection and make a file-like object out of it
         connection = server_socket.accept()[0].makefile('wb')
         try:
-            self.camera.start_recording(connection, format='mjpeg')
+            self.camera.start_recording(connection, format='h264', quality=23)
             self.camera.wait_recording(100000000)
         except Exception as e:
             print("Exception while start streaming %s" % e)
