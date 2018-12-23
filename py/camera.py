@@ -22,11 +22,12 @@ class Camera:
         if self.is_run is True:
             return
 
-        print("Start camera")
+        print("Start camera %s" % dirname(dirname(abspath(__file__))))
         self.is_run = True
         self.camera.start_preview()
         sleep(2)
         """Run camera in separate thread"""
+
         if self.thread is None:
             self.thread = Thread(target=self.runnable)
         self.thread.start()
