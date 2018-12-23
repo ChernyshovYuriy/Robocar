@@ -34,6 +34,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
             # Part binary
             for chunk in pymjpeg.image(filename):
                 self.wfile.write(chunk)
+        print('Camera http server exit connection')
 
 
 class CameraHttpServer:
