@@ -58,6 +58,8 @@ class Camera:
         try:
             self.camera.start_recording(connection, format='h264')
             self.camera.wait_recording(100000000)
+        except Exception as e:
+            print("Exception while start recording %s" % e)
         finally:
             connection.close()
             server_socket.close()
