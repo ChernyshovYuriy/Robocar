@@ -1,4 +1,3 @@
-import os
 import socket
 import sys
 from os.path import dirname, abspath
@@ -12,8 +11,6 @@ from time import sleep
 
 # Camera's class.
 class Camera:
-
-    DATA_DIR = dirname(dirname(abspath(__file__))) + "/img/cam"
 
     def __init__(self):
         print("Init  camera")
@@ -29,9 +26,7 @@ class Camera:
 
         print("Start camera")
         self.is_run = True
-        self.camera.resolution = (1024, 768)
-        # self.camera.start_preview()
-        sleep(2)
+        self.camera.resolution = (320, 240)
         """Run camera in separate thread"""
 
         if self.thread is None:
@@ -45,11 +40,10 @@ class Camera:
         print("Stop  camera")
         self.is_run = False
         self.thread = None
-        # self.camera.stop_preview()
         try:
             self.camera.stop_recording()
         except Exception as e:
-            print("Exception while stop recording %s" % e)
+            print("Exception while stop streaming %s" % e)
 
     def runnable(self):
         server_socket = socket.socket()
@@ -62,25 +56,10 @@ class Camera:
             self.camera.start_recording(connection, format='h264')
             self.camera.wait_recording(100000000)
         except Exception as e:
-            print("Exception while start recording %s" % e)
+            print("Exception while start streaming %s" % e)
         finally:
             try:
                 connection.close()
                 server_socket.close()
             except Exception as e:
-                print("Exception while close recording %s" % e)
-
-    @staticmethod
-    def prepare_dir():
-        try:
-            os.rmdir(Camera.DATA_DIR)
-        except OSError:
-            print("Deletion of the directory %s failed" % Camera.DATA_DIR)
-        else:
-            print("Successfully deleted the directory %s" % Camera.DATA_DIR)
-        try:
-            os.mkdir(Camera.DATA_DIR)
-        except OSError:
-            print("Creation of the directory %s failed" % Camera.DATA_DIR)
-        else:
-            print("Successfully created the directory %s " % Camera.DATA_DIR)
+                print("Exception while close streaming %s" % e)
