@@ -37,8 +37,7 @@ class CameraHttpServer:
 
     def __init__(self):
         print("Init  Camera http server")
-        self.server = HTTPServer(('', 8001), MyHandler)
-        self.server.serve_forever()
+        self.server = HTTPServer(('', PORT_NUMBER), MyHandler)
         self.is_run = False
         self.thread = None
 
