@@ -26,7 +26,7 @@ class Camera:
 
         print("Start camera")
         self.is_run = True
-        self.camera.resolution = (1024, 768)
+        self.camera.resolution = (640, 480)
         self.camera.framerate = 24
         """Run camera in separate thread"""
 
