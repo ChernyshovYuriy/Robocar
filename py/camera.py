@@ -63,3 +63,9 @@ class Camera:
             print("Deletion of the directory %s failed" % Camera.DATA_DIR)
         else:
             print("Successfully deleted the directory %s" % Camera.DATA_DIR)
+        try:
+            os.mkdir(Camera.DATA_DIR)
+        except OSError:
+            print("Creation of the directory %s failed" % Camera.DATA_DIR)
+        else:
+            print("Successfully created the directory %s " % Camera.DATA_DIR)
