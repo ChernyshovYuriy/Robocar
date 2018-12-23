@@ -95,7 +95,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', mime_type)
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
-        message = "Robocar greeting you!"
+        message = "-- Robocar greeting you --"
         if self.echo_data is not None and self.echo_data.echo is not "":
             message = " ".join(str(e) for e in self.echo_data.echo)
         self.wfile.write(bytes(message, "utf-8"))
