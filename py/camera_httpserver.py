@@ -1,3 +1,4 @@
+import os
 import sys
 from os.path import dirname, abspath
 
@@ -24,7 +25,7 @@ class ConnectionHandler(BaseHTTPRequestHandler):
             # Multipart content
         while ConnectionHandler.is_loop:
             # filename = dirname(dirname(abspath(__file__))) + "/img/camera_image.jpg"
-            for filename in Camera.DATA_DIR:
+            for filename in os.listdir(Camera.DATA_DIR):
                 try:
                     # Part boundary string
                     self.end_headers()
