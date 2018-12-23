@@ -70,6 +70,12 @@ class ConnectionHandler(BaseHTTPRequestHandler):
         if self.path == "/motors/turn/right":
             self.controller_in.eng_turn_r()
             pass
+        if self.path == "/start":
+            self.controller_in.start()
+            pass
+        if self.path == "/stop":
+            self.controller_in.stop()
+            pass
 
     def send_image(self):
         mime_type = 'image/jpg'
