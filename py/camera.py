@@ -49,7 +49,7 @@ class Camera:
     def runnable(self):
         server_socket = socket.socket()
         server_socket.bind(('0.0.0.0', 8000))
-        server_socket.listen(0)
+        server_socket.listen(5)
 
         # Accept a single connection and make a file-like object out of it
         connection = server_socket.accept()[0].makefile('wb')
