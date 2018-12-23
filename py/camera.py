@@ -53,7 +53,7 @@ class Camera:
         # Accept a single connection and make a file-like object out of it
         connection = server_socket.accept()[0].makefile('wb')
         try:
-            self.camera.start_recording(connection, format='h264')
+            self.camera.start_recording(connection, format='mjpeg')
             self.camera.wait_recording(100000000)
         except Exception as e:
             print("Exception while start streaming %s" % e)
