@@ -40,7 +40,7 @@ class Camera:
         print("Stop  camera")
         self.is_run = False
         self.thread = None
-        self.camera.camera.stop_preview()
+        self.camera.stop_preview()
 
     def runnable(self):
         while self.is_run:
